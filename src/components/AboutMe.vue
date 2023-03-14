@@ -2,43 +2,32 @@
   <div class="about-text">
     <p class="mb-4">
       Наше агенство занимается просмотром, обработкой и размещением заявок от
-      рекламодателей в рекламных изданиях. Цены
+      рекламодателей в рекламных изданиях. Стоимость размещения заявки зависит
+      от выбранных изданий
     </p>
 
     <p>
-      Passionate by web design (UI / UX) and front-end development, I discovered
-      technologies and trends I am actually trying to master as much as I can.
-      Thus, I am always trying to keep in touch with tech news to stay informed.
+      Если у Вас возник вопрос или Вы столкнулись с какой-либо проблемой -
+      свяжитесь с нами. Наша служба поддержки обеспечит Вам оперативную помощь.
+      Контакты для связи указаны ниже:
     </p>
   </div>
 
   <div class="about-text">
     <p>
-      To sum it up, I am working with modern technologies like:
+      Нашими услугами пользуются известные компании и бренды, такие как:
 
       <code>
         <ul class="text-gradient my-4 w-fit">
-          <li>Vue 3</li>
-          <li>Nuxt 3</li>
-          <li>Vite</li>
-          <li>Pinia</li>
-          <li>JavaScript</li>
-          <li>TypeScript (currently learning)</li>
-          <li>Cypress (currently learning)</li>
-          <li>Tailwind CSS</li>
-          <li>SCSS / SASS</li>
-          <li>Git & Github</li>
-          <li>Netlify</li>
-        </ul>
-      </code>
-
-      Also I can work a bit with:
-
-      <code>
-        <ul class="text-gradient my-4 w-fit">
-          <li>Symfony</li>
-          <li>Python 3</li>
-          <li>SQL</li>
+          <li>Apteka.ru</li>
+          <li>Пятерочка</li>
+          <li>Магнит</li>
+          <li>Статойл</li>
+          <li>ГазПром</li>
+          <li>Prada</li>
+          <li>Bershka</li>
+          <li>Влад А4</li>
+          <li>Кобяков</li>
         </ul>
       </code>
     </p>
@@ -46,6 +35,6 @@
 
   <RouterLink to="/contact" class="cta-btn w-fit" title="Contact me">
     <font-awesome-icon icon="fa-solid fa-comment-dots"></font-awesome-icon>
-    Contact me
+    Контакты
   </RouterLink>
 </template>

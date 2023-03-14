@@ -17,7 +17,7 @@ import { RouterLink, RouterView } from "vue-router";
           <span class="nav-link-extension">Главная</span>
         </RouterLink>
 
-        <RouterLink to="/portfolio" class="nav-link" title="Publications">
+        <RouterLink to="/publications" class="nav-link" title="Publications">
           <font-awesome-icon icon="fa-solid fa-film"></font-awesome-icon>
           <span class="nav-link-extension">Издания</span>
         </RouterLink>

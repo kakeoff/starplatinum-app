@@ -15,11 +15,11 @@ import {
   faCommentDots,
   faFilm,
   faHouse,
-  faLink,
+  faLink
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faGoogle, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
-
+import { faMap, faPhone } from "@fortawesome/free-solid-svg-icons";
 /* add icons to the library */
 library.add(
   faHouse,
@@ -29,7 +29,9 @@ library.add(
   faLink,
   faCodeBranch,
   faGoogle,
-  faLinkedinIn
+  faLinkedinIn,
+  faMap,
+  faPhone
 );
 
 import "./index.css";

@@ -1,27 +1,25 @@
 import { defineStore } from "pinia";
 
 export const cardStore = defineStore({
-  id: "portfolio",
+  id: "publications",
   state: () => ({
     cards: {
-      pokedesk: {
-        name: "Pokedesk",
-        preview: "/assets/screenshots/pokedesk_dark_preview.png",
-        description:
-          "A fictional desktop session of the Pokémon's Pr Chen. Imitating a Windows 11 like user interface, the project has been made using Vite, Vue.js, Pinia and Tailwind CSS.",
+      getBrand: {
+        name: "Getbrand",
+        preview: "/assets/screenshots/getbrand.jpeg",
+        description: "GETBRAND создаёт облик новых товаров и компаний, работает над формированием и развитием брендов; разрабатывает элементы корпоративной идентификации, создаёт дизайн упаковки и ключевые изображения для рекламы; занимается оформлением мест продаж.",
         appLink: "",
         prefix: "",
-        repo: "https://github.com/imStav/pokedesk",
+        repo: "",
       },
 
-      rickandmorty: {
-        name: "Tracking Rick & Morty",
-        preview: "/assets/screenshots/tracking-rickandmorty_preview.png",
-        description:
-          "Tracking Rick & Morty is a minimalistic app that aims to track the characters statuses of the TV show Rick & Morty.",
+      russOutDoor: {
+        name: "Russ Outdoor",
+        preview: "/assets/screenshots/russ-outdoor.jpeg",
+        description: "Крупнейший российский оператор наружной рекламы. В рекламной сети Russ Outdoor: билборды стандартных форматов, уличная мебель, рекламоносители больших и сверхбольших форматов, цифровые экраны, реклама в аэропортах, реклама в супермаркетах и торговых центрах.",
         appLink: "tracking-rickandmorty.netlify.app",
         prefix: "https://",
-        repo: "https://github.com/imStav/tracking-rickandmorty",
+        repo: "",
       },
 
       abstract: {
@@ -54,8 +52,8 @@ export const cardStore = defineStore({
         repo: "https://github.com/imStav/popschool-undefined",
       },
 
-      portfolioTemplate: {
-        name: "Portfolio template",
+      publicationsTemplate: {
+        name: "publications template",
         preview: "/assets/screenshots/portfolio-template_dark_preview.png",
         description:
           "A free and open source portfolio template for developers that just look for a ready-to-go and minimal website. Based on VitePress.",

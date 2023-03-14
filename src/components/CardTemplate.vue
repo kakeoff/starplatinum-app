@@ -9,14 +9,15 @@ const getCards = cardStore();
   <div
     v-for="card in getCards.cards"
     :key="card.name"
-    class="portfolio-card"
+    class="publications-card"
     v-motion-pop
   >
-    <h2 class="portfolio-card-heading">{{ card.name }}</h2>
+    <h2 class="publications-card-heading">{{ card.name }}</h2>
 
     <div class="my-5">
       <!-- Generates dynamically the preview pictures and attributes -->
       <img
+        class="h-[250px] w-[300px]"
         v-if="card.preview"
         :src="card.preview"
         :title="`${card.name} preview`"

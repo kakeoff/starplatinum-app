@@ -3,10 +3,10 @@ import CardTemplate from "../components/CardTemplate.vue";
 </script>
 
 <template>
-  <section class="portfolio portfolio-section">
+  <section class="publications publications-section">
     <h2 class="category-heading">Издания</h2>
 
-    <div class="portfolio-grid">
+    <div class="publications-grid">
       <CardTemplate />
     </div>
   </section>

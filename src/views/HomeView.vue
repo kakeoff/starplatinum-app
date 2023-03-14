@@ -14,7 +14,7 @@
       </p>
     </div>
 
-    <RouterLink to="/portfolio" class="cta-btn my-8">
+    <RouterLink to="/publications" class="cta-btn my-8">
       Посмотреть издания
     </RouterLink>
   </main>
