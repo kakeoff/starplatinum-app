@@ -3,74 +3,64 @@ import { defineStore } from "pinia";
 export const cardStore = defineStore({
   id: "publications",
   state: () => ({
-    cards: {
-      getBrand: {
+    cards: [
+      {
         name: "Getbrand",
         preview: "/assets/screenshots/getbrand.jpeg",
         description: "GETBRAND создаёт облик новых товаров и компаний, работает над формированием и развитием брендов; разрабатывает элементы корпоративной идентификации, создаёт дизайн упаковки и ключевые изображения для рекламы; занимается оформлением мест продаж.",
         appLink: "",
         prefix: "",
-        repo: "",
+        repo: "https://www.getbrand.ru",
       },
 
-      russOutDoor: {
+     {
         name: "Russ Outdoor",
         preview: "/assets/screenshots/russ-outdoor.jpeg",
         description: "Крупнейший российский оператор наружной рекламы. В рекламной сети Russ Outdoor: билборды стандартных форматов, уличная мебель, рекламоносители больших и сверхбольших форматов, цифровые экраны, реклама в аэропортах, реклама в супермаркетах и торговых центрах.",
-        appLink: "tracking-rickandmorty.netlify.app",
-        prefix: "https://",
-        repo: "",
+        appLink: "",
+        prefix: "",
+        repo: "https://www.russoutdoor.ru",
       },
 
-      abstract: {
-        name: "Abstract",
-        preview: "/assets/screenshots/abstract_light_preview.png",
+      {
+        name: "Adv Group",
+        preview: "/assets/screenshots/adv-group.jpeg",
         description:
-          "Abtract is a small web app that provides free wallpapers i've made with Figma. This new version is based on Vue 3 and Tailnd CSS.",
-        prefix: "https://",
-        appLink: "abstract-wallpapers.netlify.app",
-        repo: "https://github.com/imStav/abstract",
-      },
-
-      dbz: {
-        name: "DBZ JS",
-        preview: "/assets/screenshots/dbz-js_preview.png",
-        description:
-          "DBZ JS for 'Dragon Ball FighterZ JavaScript', is a simple JS program that takes 2 random fighters, launches a brawl and return the winner by an alert.",
+          "Лидирующая группа маркетинговых коммуникаций в России, предоставляющая широкий спектр компетенций в digtial, медиа, маркетинге, брендинге и PR. Сегодня Группа АДВ объединяет 22 специализированных коммуникационных агентства.",
         prefix: "",
         appLink: "",
-        repo: "https://github.com/imStav/dbz-js",
+        repo: "https://advgroup.ru",
       },
 
-      undefined: {
-        name: "Pop School undefined",
-        preview: "/assets/screenshots/pop-undefined_preview.png",
+      {
+        name: "Public Totem",
+        preview: "/assets/screenshots/public-totem.jpeg",
         description:
-          "A little Vanilla JavaScript project that just aims to introduce my current Pop School class composition. Made using a dedicated API. #undefined",
-        prefix: "https://",
-        appLink: "pop-undefined.netlify.app",
-        repo: "https://github.com/imStav/popschool-undefined",
-      },
-
-      publicationsTemplate: {
-        name: "publications template",
-        preview: "/assets/screenshots/portfolio-template_dark_preview.png",
-        description:
-          "A free and open source portfolio template for developers that just look for a ready-to-go and minimal website. Based on VitePress.",
+          "Рекламно-производственная компания Public Totem производит долгосрочные и краткосрочные промо-конструкции и POS-материалы для выкладки и продвижения товаров в местах продаж.",
         prefix: "",
         appLink: "",
-        repo: "https://github.com/imStav/portfolio-template",
+        repo: "https://www.publictotem.ru",
       },
 
-      // nuxtContentBlog: {
-      //   name: "Nuxt Content Blog template",
-      //   preview: "/assets/screenshots/blog-screenshot-dark.PNG",
-      //   description:
-      //     "A Nuxt Content blog template. Based on Nuxt 3, Nuxt Content v2 and Tailwind CSS (+Tailwind Typography).",
-      //   prefix: "",
-      //   appLink: "",
-      //   repo: "https://github.com/imStav/nuxt-content-blog",
-      // },
-    },
+      {
+        name: "Gallery",
+        preview: "/assets/screenshots/gallery.jpeg",
+        description:
+          "Компания Gallery с 1994 года работает на рынке наружной рекламы и является одним из крупнейших операторов наружной рекламы в России. Gallery осуществляет полный комплекс услуг по созданию, установке и обслуживанию рекламных конструкций: билборды и суперборды, цифровые экраны и конструкции крупного формата, уличная мебель и дорожные указатели.",
+        prefix: "",
+        appLink: "",
+        repo: "https://www.gallerymedia.com",
+      },
+
+      {
+        name: "Mediascope",
+        preview: "/assets/screenshots/mediascope.jpeg",
+        description:
+          "Компания «Медиаскоп» осуществляет полный цикл работ в области медиа-измерений и мониторинга рекламы: измерение аудитории в интернете и прессе, на радио и телевидении; мониторинговые исследования, оценка рекламы и эффективность спонсорства.",
+        prefix: "",
+        appLink: "",
+        repo: "https://mediascope.net",
+      },
+    ],
   }),
 });

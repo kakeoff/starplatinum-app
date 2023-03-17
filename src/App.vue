@@ -9,31 +9,83 @@ import { RouterLink, RouterView } from "vue-router";
     are not displayed in mobile and tablet layout -->
     <section class="fixed-nav">
       <nav class="navbar">
-        <RouterLink to="/" class="nav-link" title="Home">
+        <RouterLink
+          to="/"
+          :class="{
+            'text-cyan-500': this.$route.name === 'home',
+          }"
+          class="nav-link"
+          title="Home"
+        >
           <font-awesome-icon
             icon="fa-solid fa-house"
             class="-text-gradient"
           ></font-awesome-icon>
-          <span class="nav-link-extension">Главная</span>
+          <span
+            :class="{
+              'text-gradient': this.$route.name === 'home',
+            }"
+            class="nav-link-extension"
+            >Главная</span
+          >
         </RouterLink>
 
-        <RouterLink to="/publications" class="nav-link" title="Publications">
+        <RouterLink
+          :class="{
+            'text-cyan-500': this.$route.name === 'publications',
+          }"
+          to="/publications"
+          class="nav-link"
+          title="Publications"
+        >
           <font-awesome-icon icon="fa-solid fa-film"></font-awesome-icon>
-          <span class="nav-link-extension">Издания</span>
+          <span
+            :class="{
+              'text-gradient': this.$route.name === 'publications',
+            }"
+            class="nav-link-extension"
+            >Издания</span
+          >
         </RouterLink>
 
-        <RouterLink to="/about" class="nav-link" title="About me">
+        <RouterLink
+          to="/about"
+          :class="{
+            'text-cyan-500': this.$route.name === 'about',
+          }"
+          class="nav-link"
+          title="About me"
+        >
           <font-awesome-icon
             icon="fa-solid fa-circle-question"
           ></font-awesome-icon>
-          <span class="nav-link-extension">О нас</span>
+          <span
+            :class="{
+              'text-gradient': this.$route.name === 'about',
+            }"
+            class="nav-link-extension"
+            >О нас</span
+          >
         </RouterLink>
 
-        <RouterLink to="/contact" class="nav-link" title="Contact me">
+        <RouterLink
+          to="/contact"
+          :class="{
+            'text-cyan-500': this.$route.name === 'contact',
+          }"
+          class="nav-link"
+          title="Contact me"
+        >
           <font-awesome-icon
             icon="fa-solid fa-comment-dots"
           ></font-awesome-icon>
-          <span class="nav-link-extension">Контакты</span>
+          <span
+            :class="{
+              'text-gradient': this.$route.name === 'contact',
+            }"
+            class="nav-link-extension"
+            >Контакты</span
+          >
         </RouterLink>
       </nav>
     </section>

@@ -44,9 +44,9 @@ const getCards = cardStore();
     </div>
 
     <!-- Generates dynamically the link that leads to the project's repository -->
-    <a :href="card.repo" class="cta-btn font-mono">
-      <font-awesome-icon icon="fa-solid fa-code-branch"></font-awesome-icon>
-      Github repository
+    <a :href="card.repo" target="_blank" class="cta-btn font-mono">
+      <font-awesome-icon icon="fa-solid fa-link"></font-awesome-icon>
+      Перейти на сайт
     </a>
   </div>
 </template>

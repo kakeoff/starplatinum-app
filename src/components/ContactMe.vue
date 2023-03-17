@@ -14,7 +14,7 @@
 
     <div class="contact-text">
       <div class="cta-btn w-fit">
-        <a href="mailto:saprocontact@gmail.com" title="Email me!">
+        <a href="mailto:kakeparake@gmail.com" title="Email me!">
           <font-awesome-icon icon="fa-brands fa-google"></font-awesome-icon>
           Gmail
         </a>

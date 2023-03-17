@@ -17,5 +17,6 @@
     <RouterLink to="/publications" class="cta-btn my-8">
       Посмотреть издания
     </RouterLink>
+    <RouterLink to="/form" class="cta-btn my-8"> Создать заявку </RouterLink>
   </main>
 </template>
