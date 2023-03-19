@@ -13,10 +13,13 @@
         <strong class="text-gradient font-heading">номер 1</strong> в России
       </p>
     </div>
-
-    <RouterLink to="/publications" class="cta-btn my-8">
+    <RouterLink to="/form" class="cta-btn my-8"> Создать заявку </RouterLink>
+    <RouterLink
+      to="/publications"
+      style="transition: all 0.3s ease-in-out"
+      class="dark:hover:text-slate-300 hover:text-black hover:underline"
+    >
       Посмотреть издания
     </RouterLink>
-    <RouterLink to="/form" class="cta-btn my-8"> Создать заявку </RouterLink>
   </main>
 </template>

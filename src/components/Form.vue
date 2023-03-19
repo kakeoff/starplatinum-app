@@ -15,16 +15,11 @@
       />
     </el-form-item>
 
-    <el-form-item
-      v-for="(pub, index) in pubs"
-      :key="pub.name"
-      label="Издание"
-      required
-    >
+    <el-form-item label="Издание" required>
       <el-col :span="11">
-        <el-form-item prop="count">
+        <el-form-item class="max-w-[223px]" prop="count">
           <el-select
-            v-model="selectedPubs[index]"
+            v-model="ruleForm.pub"
             style="width: 100%"
             placeholder="Выберите издание"
           >
@@ -33,7 +28,6 @@
               :key="item.name"
               :label="item.name"
               :value="item.name"
-              @click="selectPub(item.name)"
             />
           </el-select>
         </el-form-item>
@@ -42,9 +36,8 @@
         <span class="text-gray-500">-</span>
       </el-col>
       <el-col :span="11">
-        <el-form-item prop="date">
+        <el-form-item class="max-w-[223px]" prop="date">
           <el-date-picker
-            @click=""
             v-model="ruleForm.date"
             type="date"
             label="Выберите дату"
@@ -54,21 +47,52 @@
         </el-form-item>
       </el-col>
     </el-form-item>
-    <el-form-item label="Activity form" prop="desc">
-      <el-input v-model="ruleForm.desc" type="textarea" />
+    <el-form-item>
+      <el-button class="w-full" type="primary" @click="addPub()">
+        Добавить издание
+      </el-button>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm(ruleFormRef)">
-        Create
-      </el-button>
-      <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
+      <el-table
+        v-if="formPubs.length"
+        :data="formPubs"
+        style="width: 100%"
+        max-height="250"
+      >
+        <el-table-column fixed prop="date" label="Дата" />
+        <el-table-column fixed prop="name" label="Название" />
+        <el-table-column fixed="right" label="Операция">
+          <template #default="scope">
+            <el-button
+              link
+              type="primary"
+              class="mb-[3px]"
+              size="small"
+              @click.prevent="deletePub(scope.$index)"
+            >
+              Удалить
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-form-item>
+    <el-form-item label="Комментарий" prop="desc">
+      <el-input
+        v-model="ruleForm.desc"
+        placeholder="Введите комментарий"
+        type="textarea"
+      />
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="submitForm()"> Создать </el-button>
+      <el-button @click="resetForm(ruleFormRef)">Сбросить</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from "vue";
-import type { FormInstance, FormRules } from "element-plus";
+import { ElNotification, FormInstance, FormRules } from "element-plus";
 import { cardStore } from "../stores/cards.js";
 
 const storeCards = cardStore();
@@ -78,15 +102,14 @@ onMounted(() => {
 });
 
 const formSize = ref("default");
-const selectedPubs = [];
+const formPubs = reactive([]) as any;
 const pubs = storeCards.cards;
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
   name: "",
-  selectedOption: "",
-  count: "",
   date: "",
+  pub: "",
   desc: "",
 });
 
@@ -104,7 +127,7 @@ const rules = reactive<FormRules>({
       trigger: "blur",
     },
   ],
-  selectedOption: [
+  pub: [
     {
       required: true,
       message: "Пожалуйста, выберите издание",
@@ -121,28 +144,54 @@ const rules = reactive<FormRules>({
   ],
 });
 
-const submitForm = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log("submit!");
-    } else {
-      console.log("error submit!", fields);
-    }
-  });
+const submitForm = async () => {
+  const data = {
+    name: ruleForm.name,
+    pubs: formPubs,
+    comment: ruleForm.desc,
+  };
+  if (data.name && data.pubs.length) {
+    ElNotification({
+      title: "Заявка успешно отправлена",
+      type: "success",
+    });
+    resetForm(ruleFormRef.value);
+  } else {
+    ElNotification({
+      title: "Ошибка",
+      message: "Вы ввели не все данные",
+      type: "error",
+    });
+  }
 };
 
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
+  formPubs.splice(0, formPubs.length);
 };
 
-const selectPub = (pub) => {
-  selectedPubs.push(pub);
+const addPub = () => {
+  if (ruleForm.pub === "" || ruleForm.date === "") {
+    ElNotification({
+      title: "Ошибка",
+      message: "Заполните поля перед добавлением",
+      type: "error",
+    });
+    return;
+  }
+
+  const date = new Date(ruleForm.date).toLocaleDateString();
+  const data = {
+    name: ruleForm.pub,
+    date: date,
+  };
+  formPubs.push(data);
+  ruleForm.pub = "";
+  ruleForm.date = "";
 };
 
-// const options = storeCards.cards.map((card) => ({
-//   value: `${card.name}`,
-//   label: `${card.name}`,
-// }));
+const deletePub = (index) => {
+  formPubs.splice(index, 1);
+};
 </script>
