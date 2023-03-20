@@ -5,6 +5,7 @@ export const cardStore = defineStore({
   state: () => ({
     cards: [
       {
+        id: 1,
         name: "Getbrand",
         preview: "/assets/screenshots/getbrand.jpeg",
         description: "GETBRAND создаёт облик новых товаров и компаний, работает над формированием и развитием брендов; разрабатывает элементы корпоративной идентификации, создаёт дизайн упаковки и ключевые изображения для рекламы; занимается оформлением мест продаж.",
@@ -14,6 +15,7 @@ export const cardStore = defineStore({
       },
 
      {
+        id: 2,
         name: "Russ Outdoor",
         preview: "/assets/screenshots/russ-outdoor.jpeg",
         description: "Крупнейший российский оператор наружной рекламы. В рекламной сети Russ Outdoor: билборды стандартных форматов, уличная мебель, рекламоносители больших и сверхбольших форматов, цифровые экраны, реклама в аэропортах, реклама в супермаркетах и торговых центрах.",
@@ -23,6 +25,7 @@ export const cardStore = defineStore({
       },
 
       {
+        id: 3,
         name: "Adv Group",
         preview: "/assets/screenshots/adv-group.jpeg",
         description:
@@ -33,6 +36,7 @@ export const cardStore = defineStore({
       },
 
       {
+        id: 4,
         name: "Public Totem",
         preview: "/assets/screenshots/public-totem.jpeg",
         description:
@@ -43,6 +47,7 @@ export const cardStore = defineStore({
       },
 
       {
+        id: 5,
         name: "Gallery",
         preview: "/assets/screenshots/gallery.jpeg",
         description:
@@ -53,6 +58,7 @@ export const cardStore = defineStore({
       },
 
       {
+        id: 6,
         name: "Mediascope",
         preview: "/assets/screenshots/mediascope.jpeg",
         description:

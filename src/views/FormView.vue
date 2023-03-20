@@ -1,6 +1,6 @@
 <template>
   <section class="form-section" v-motion-pop>
-    <h2 class="category-heading mb-[20px]">Создать заявку</h2>
+    <h2 class="category-heading mb-[20px]">Создание заявки</h2>
     <div class="p-[20px] bg-[#4C2797] bg-opacity-10 rounded-[8px]">
       <Form />
     </div>

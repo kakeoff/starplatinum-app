@@ -13,7 +13,9 @@
         <strong class="text-gradient font-heading">номер 1</strong> в России
       </p>
     </div>
-    <RouterLink to="/form" class="cta-btn my-8"> Создать заявку </RouterLink>
+    <RouterLink to="/form" class="cta-btn text-[20px] mt-8 mb-2">
+      Создать заявку
+    </RouterLink>
     <RouterLink
       to="/publications"
       style="transition: all 0.3s ease-in-out"
