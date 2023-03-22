@@ -195,7 +195,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
 };
 
 const addPub = () => {
-  console.log(storeApplications.applications);
   if (ruleForm.pub === "" || ruleForm.date === "") {
     ElNotification({
       title: "Ошибка",
