@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
+import { Application } from "../types/applicationTypes";
 
 export const applicationsStore = defineStore({
   id: 'applications',
   state: () => ({
-    applications: []
+    applications: [] as Application[]
   }),
   actions: {
     sendApplication(app) {

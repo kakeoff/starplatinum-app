@@ -177,10 +177,8 @@ const submitForm = async () => {
       title: "Заявка успешно отправлена",
       type: "success",
     });
-    nextTick(() => {
-      resetForm(ruleFormRef.value);
-      showCompleteMessage.value = true;
-    });
+    resetForm(ruleFormRef.value);
+    showCompleteMessage.value = true;
   } else {
     ElNotification({
       title: "Ошибка",
@@ -193,10 +191,11 @@ const submitForm = async () => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  formPubs.value.splice(0, formPubs.value.length);
+  formPubs.value = [];
 };
 
 const addPub = () => {
+  console.log(storeApplications.applications);
   if (ruleForm.pub === "" || ruleForm.date === "") {
     ElNotification({
       title: "Ошибка",
