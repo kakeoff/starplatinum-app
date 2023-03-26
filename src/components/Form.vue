@@ -1,103 +1,104 @@
 <template>
-  <el-form
-    v-if="!showCompleteMessage"
-    ref="ruleFormRef"
-    :model="ruleForm"
-    :rules="rules"
-    label-width="120px"
-    class="demo-ruleForm font-[700]"
-    :size="formSize"
-    status-icon
-  >
-    <el-form-item label="Название" prop="name">
-      <el-input
-        placeholder="Например: ООО 'Зеленоглазое такси'"
-        v-model="ruleForm.name"
-      />
-    </el-form-item>
+  <el-card v-if="!showCompleteMessage">
+    <el-form
+      ref="ruleFormRef"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="120px"
+      class="demo-ruleForm font-[700]"
+      :size="formSize"
+      status-icon
+    >
+      <el-form-item label="Название" prop="name">
+        <el-input
+          placeholder="Например: ООО 'Зеленоглазое такси'"
+          v-model="ruleForm.name"
+        />
+      </el-form-item>
 
-    <el-form-item label="Издание" required>
-      <el-col :span="11">
-        <el-form-item class="max-w-[223px]" prop="count">
-          <el-select
-            v-model="ruleForm.pub"
-            style="width: 100%"
-            placeholder="Выберите издание"
-          >
-            <el-option
-              v-for="item in pubs"
-              :key="item.name"
-              :label="item.name"
-              :value="item.name"
+      <el-form-item label="Издание" required>
+        <el-col :span="11">
+          <el-form-item class="max-w-[223px]" prop="count">
+            <el-select
+              v-model="ruleForm.pub"
+              style="width: 100%"
+              placeholder="Выберите издание"
+            >
+              <el-option
+                v-for="item in pubs"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col class="text-center" :span="2">
+          <span class="text-gray-500">-</span>
+        </el-col>
+        <el-col :span="11">
+          <el-form-item class="max-w-[223px]" prop="date">
+            <el-date-picker
+              v-model="ruleForm.date"
+              type="date"
+              label="Выберите дату"
+              placeholder="Выберите дату"
+              style="width: 100%"
             />
-          </el-select>
-        </el-form-item>
-      </el-col>
-      <el-col class="text-center" :span="2">
-        <span class="text-gray-500">-</span>
-      </el-col>
-      <el-col :span="11">
-        <el-form-item class="max-w-[223px]" prop="date">
-          <el-date-picker
-            v-model="ruleForm.date"
-            type="date"
-            label="Выберите дату"
-            placeholder="Выберите дату"
-            style="width: 100%"
-          />
-        </el-form-item>
-      </el-col>
-    </el-form-item>
-    <el-form-item>
-      <el-button class="w-full" type="primary" @click="addPub()">
-        Добавить издание
-      </el-button>
-    </el-form-item>
-    <el-form-item>
-      <div
-        v-if="!formPubs.length"
-        style="background-color: rgb(32, 33, 33)"
-        class="w-full rounded-[8px] border border-[#4C4D4F] p-[10px]"
-      >
-        <el-alert type="info" show-icon :closable="false">
-          <p>Здесь будут отображаться добавленные издания</p>
-        </el-alert>
-      </div>
-      <div
-        v-if="formPubs.length"
-        class="w-full bg-[#141414] rounded-[8px] border border-[#4C4D4F] p-[10px]"
-      >
-        <el-table :data="formPubs" style="width: 100%" max-height="250">
-          <el-table-column fixed prop="date" label="Дата" />
-          <el-table-column fixed prop="name" label="Название" />
-          <el-table-column fixed="right" label="Операция">
-            <template #default="scope">
-              <el-button
-                link
-                type="primary"
-                class="mb-[3px]"
-                size="small"
-                @click.prevent="deletePub(scope.$index)"
-              >
-                Удалить
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-form-item>
-    <el-form-item label="Комментарий" prop="desc">
-      <el-input
-        v-model="ruleForm.desc"
-        placeholder="Введите комментарий"
-        type="textarea"
-      />
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="submitForm()"> Создать </el-button>
-      <el-button @click="resetForm(ruleFormRef)">Сбросить</el-button>
-    </el-form-item>
-  </el-form>
+          </el-form-item>
+        </el-col>
+      </el-form-item>
+      <el-form-item>
+        <el-button class="w-full" type="primary" @click="addPub()">
+          Добавить издание
+        </el-button>
+      </el-form-item>
+      <el-form-item>
+        <div
+          v-if="!formPubs.length"
+          style="background-color: rgb(32, 33, 33)"
+          class="w-full rounded-[8px] border border-[#4C4D4F] p-[10px]"
+        >
+          <el-alert type="info" show-icon :closable="false">
+            <p>Здесь будут отображаться добавленные издания</p>
+          </el-alert>
+        </div>
+        <div
+          v-if="formPubs.length"
+          class="w-full bg-[#141414] rounded-[8px] border border-[#4C4D4F] p-[10px]"
+        >
+          <el-table :data="formPubs" style="width: 100%" max-height="250">
+            <el-table-column fixed prop="date" label="Дата" />
+            <el-table-column fixed prop="name" label="Название" />
+            <el-table-column fixed="right" label="Операция">
+              <template #default="scope">
+                <el-button
+                  link
+                  type="primary"
+                  class="mb-[3px]"
+                  size="small"
+                  @click.prevent="deletePub(scope.$index)"
+                >
+                  Удалить
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-form-item>
+      <el-form-item label="Комментарий" prop="desc">
+        <el-input
+          v-model="ruleForm.desc"
+          placeholder="Введите комментарий"
+          type="textarea"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm()"> Создать </el-button>
+        <el-button @click="resetForm(ruleFormRef)">Сбросить</el-button>
+      </el-form-item>
+    </el-form>
+  </el-card>
   <div class="flex flex-col items-center" v-else>
     <h1 class="text-[20px]">
       Заявка успешно отправлена! Спасибо, что пользуетесь нашими услугами.
@@ -214,7 +215,7 @@ const addPub = () => {
   ruleForm.date = "";
 };
 
-const deletePub = (index) => {
+const deletePub = (index: number) => {
   formPubs.value.splice(index, 1);
 };
 </script>
