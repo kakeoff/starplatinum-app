@@ -87,6 +87,23 @@ import { RouterLink, RouterView } from "vue-router";
             >Контакты</span
           >
         </RouterLink>
+        <RouterLink
+          to="/login"
+          :class="{
+            'text-cyan-500': this.$route.name === 'login',
+          }"
+          class="nav-link"
+          title="AdminPage"
+        >
+          <font-awesome-icon icon="fa-solid fa-user"></font-awesome-icon>
+          <span
+            :class="{
+              'text-gradient': this.$route.name === 'login',
+            }"
+            class="nav-link-extension"
+            >Авторизация</span
+          >
+        </RouterLink>
       </nav>
     </section>
   </header>

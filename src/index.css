@@ -78,6 +78,11 @@
         @apply flex-row sm:flex my-12;
     }
 
+        /**AdminView**/
+    .applications-section {
+        @apply w-10/12 sm:w-3/4 xl:w-full mx-auto min-h-screen;
+    }
+
     /**Categories**/
     .category-heading {
         @apply text-3xl font-heading font-black tracking-widest w-fit text-gradient;

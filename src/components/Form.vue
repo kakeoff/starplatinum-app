@@ -86,6 +86,13 @@
           </el-table>
         </div>
       </el-form-item>
+      <el-form-item label="Email" prop="email">
+        <el-input
+          v-model="ruleForm.email"
+          placeholder="Введите ваш Email"
+          type="input"
+        />
+      </el-form-item>
       <el-form-item label="Комментарий" prop="desc">
         <el-input
           v-model="ruleForm.desc"
@@ -113,7 +120,7 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { ElNotification, FormInstance, FormRules } from "element-plus";
 import { cardStore } from "../stores/cards.js";
 import { applicationsStore } from "../stores/applications.js";
@@ -132,6 +139,7 @@ const ruleForm = reactive({
   name: "",
   date: "",
   pub: "",
+  email: "",
   desc: "",
 });
 
@@ -156,6 +164,13 @@ const rules = reactive<FormRules>({
       trigger: "change",
     },
   ],
+  email: [
+    {
+      required: true,
+      message: "Пожалуйста, введите ваш email",
+      trigger: "change",
+    },
+  ],
   date: [
     {
       type: "date",
@@ -170,9 +185,10 @@ const submitForm = async () => {
   const data = {
     name: ruleForm.name,
     pubs: formPubs.value,
+    email: ruleForm.email,
     comment: ruleForm.desc,
   };
-  if (data.name && data.pubs.length) {
+  if (data.name && data.pubs.length && data.email.length) {
     storeApplications.sendApplication(data);
     ElNotification({
       title: "Заявка успешно отправлена",
