@@ -43,6 +43,7 @@
               type="date"
               label="Выберите дату"
               placeholder="Выберите дату"
+              :disabledDate="disabledDate"
               style="width: 100%"
             />
           </el-form-item>
@@ -203,6 +204,9 @@ const submitForm = async () => {
       type: "error",
     });
   }
+};
+const disabledDate = (time: Date) => {
+  return time.getTime() < Date.now();
 };
 
 const resetForm = (formEl: FormInstance | undefined) => {
