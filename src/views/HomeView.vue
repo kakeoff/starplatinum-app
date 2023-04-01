@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <main class="home home-section" v-motion-pop>
     <div class="-mt-36 text-center">
@@ -25,3 +23,4 @@
     </RouterLink>
   </main>
 </template>
+<script setup></script>

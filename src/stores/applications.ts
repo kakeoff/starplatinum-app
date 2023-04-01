@@ -1,31 +1,41 @@
 import { defineStore } from "pinia";
+import * as Api from '../services/applications.service';
 import { Application } from "../types/applicationTypes";
 
 export const applicationsStore = defineStore({
   id: 'applications',
   state: () => ({
     applications: [
-      {
-        name: 'ООО Зеленоглазое такси',
-        email: 'greenTaxi@gmail.com',
-        comment: 'comment',
-        pubs: [
-          {
-            name: 'GetBrand',
-            date: '26.08.2004'
-          },
-          {
-            name: 'Izdanie2',
-            date: '26.08.2005'
-          }
-        ]
-      }
     ] as Application[]
   }),
   actions: {
-    sendApplication(app) {
-      console.log(app)
-      this.applications.push(app)
+    async sendApplication(app: Application) {
+      const data = {
+        name: app.name,
+        email: app.email,
+        comment: app.comment,
+        pubs: JSON.stringify(app.pubs)
+      }
+      const res = await Api.sendApplication(data)
+      this.applications.push(res.data)
+    },
+  async deleteApplication(applicationId: number) {
+    await Api.deleteApplication(applicationId)
+    const index = this.applications.findIndex((app) => app.id === applicationId)
+    if (index !== -1) {
+      this.applications.splice(index, 1)
     }
+  },
+    async getAllApplications() {
+      const res = await Api.getAllApplications()
+      res.data.forEach((item: Application) => {
+        Array.from(item.pubs)
+      })
+      this.applications = res.data
+      console.log(this.applications)
+
+
+      return res.data
+    },
   }
 })

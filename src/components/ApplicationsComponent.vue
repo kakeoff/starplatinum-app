@@ -20,7 +20,10 @@
       <el-table-column prop="comment" label="Комментарий"></el-table-column>
       <el-table-column label="Действия">
         <template #default="{ row }">
-          <el-button type="danger" size="small" @click="removeApplication(row)"
+          <el-button
+            type="danger"
+            size="small"
+            @click="removeApplication(row.id)"
             >Удалить</el-button
           >
         </template>
@@ -30,41 +33,27 @@
 </template>
 
 <script>
-import { ref } from "vue";
 import { ElTable, ElTableColumn, ElButton } from "element-plus";
 import { applicationsStore } from "../stores/applications";
+import { mapStores } from "pinia";
 
 export default {
   name: "Applications",
   components: { ElTable, ElTableColumn, ElButton },
-  setup() {
-    const storeApplications = applicationsStore();
-    // const applications = ref([
-    //   {
-    //     name: "Заявка 1",
-    //     email: "example1@gmail.com",
-    //     publications: [
-    //       { name: "Издание 1", date: "10.10.2022" },
-    //       { name: "Издание 2", date: "12.10.2022" },
-    //     ],
-    //     comment: "Комментарий 1",
-    //   },
-    //   {
-    //     name: "Заявка 2",
-    //     email: "example2@gmail.com",
-    //     publications: [{ name: "Издание 3", date: "15.11.2022" }],
-    //     comment: "Комментарий 2",
-    //   },
-    // ]);
-
-    const applications = storeApplications.applications;
-
-    function removeApplication(application) {
-      const index = applications.value.indexOf(application);
-      applications.value.splice(index, 1);
-    }
-
-    return { applications, removeApplication };
+  computed: {
+    ...mapStores(applicationsStore),
+    applications() {
+      return this.applicationsStore.applications;
+    },
+  },
+  async mounted() {
+    await this.applicationsStore.getAllApplications();
+    console.log(this.applications);
+  },
+  methods: {
+    async removeApplication(applicationId) {
+      await this.applicationsStore.deleteApplication(Number(applicationId));
+    },
   },
 };
 </script>
