@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+// import { shouldRedirectToLogin } from "./utils";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,7 @@ const router = createRouter({
     {
       path: "/admin",
       name: "admin",
+      // beforeEnter: shouldRedirectToLogin(),
       component: () => import("../views/AdminView.vue"),
     },
   ],

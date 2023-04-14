@@ -34,6 +34,8 @@
 <script>
 import { defineComponent } from "vue";
 import { ElButton, ElCard, ElForm, ElFormItem, ElInput } from "element-plus";
+import { authStore } from "../stores/auth";
+import { mapStores } from "pinia";
 
 export default defineComponent({
   name: "LoginForm",
@@ -64,12 +66,19 @@ export default defineComponent({
       },
     };
   },
+  computed: {
+    ...mapStores(authStore),
+  },
   methods: {
     handleSubmitForm() {
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
           // отправка данных формы на сервер для авторизации
-          console.log("Форма отправлена");
+          await this.authStore.login(
+            this.loginForm.username,
+            this.loginForm.password
+          );
+          this.$router.push("/admin");
         } else {
           console.log("Ошибка валидации");
           return false;

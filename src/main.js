@@ -44,10 +44,16 @@ import router from "./router";
 
 const app = createApp(App);
 
+router.beforeEach((to, from, next) => {
+  next()
+})
+
 app.use(createPinia());
 app.use(router);
 app.use(MotionPlugin);
 app.use(ElementPlus);
 app.component("font-awesome-icon", FontAwesomeIcon);
 
-app.mount("#app");
+router.isReady().then(() => {
+  app.mount('#app')
+})

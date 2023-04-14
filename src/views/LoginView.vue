@@ -1,7 +1,3 @@
-<script setup>
-import LoginComponent from "../components/LoginComponent.vue";
-</script>
-
 <template>
   <main class="home home-section" v-motion-pop>
     <div class="flex flex-col items-center justify-center">
@@ -10,3 +6,21 @@ import LoginComponent from "../components/LoginComponent.vue";
     </div>
   </main>
 </template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import LoginComponent from "../components/LoginComponent.vue";
+import { isAuthenticated } from "../js/helpers";
+
+export default defineComponent({
+  components: {
+    LoginComponent,
+  },
+  mounted() {
+    const shouldRedirect = isAuthenticated();
+    if (shouldRedirect) {
+      this.$router.push("/admin");
+    }
+  },
+});
+</script>

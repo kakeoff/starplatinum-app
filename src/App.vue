@@ -1,5 +1,15 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
+import { isAuthenticated } from "./js/helpers";
+import { authStore } from "./stores/auth";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const storeAuth = authStore();
+const logout = () => {
+  storeAuth.logout();
+  router.push("login");
+};
 </script>
 
 <template>
@@ -88,6 +98,7 @@ import { RouterLink, RouterView } from "vue-router";
           >
         </RouterLink>
         <RouterLink
+          v-if="!isAuthenticated()"
           to="/login"
           :class="{
             'text-cyan-500': this.$route.name === 'login',
@@ -104,6 +115,15 @@ import { RouterLink, RouterView } from "vue-router";
             >Авторизация</span
           >
         </RouterLink>
+        <div
+          @click="logout()"
+          v-else
+          class="nav-link cursor-pointer"
+          title="AdminPage"
+        >
+          <font-awesome-icon icon="fa-solid fa-user"></font-awesome-icon>
+          <span class="nav-link-extension">Выйти</span>
+        </div>
       </nav>
     </section>
   </header>
