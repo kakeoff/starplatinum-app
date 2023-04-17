@@ -10,17 +10,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import LoginComponent from "../components/LoginComponent.vue";
-import { isAuthenticated } from "../js/helpers";
 
 export default defineComponent({
   components: {
     LoginComponent,
   },
-  mounted() {
-    const shouldRedirect = isAuthenticated();
-    if (shouldRedirect) {
-      this.$router.push("/admin");
-    }
-  },
+  mounted() {},
 });
 </script>

@@ -3,17 +3,20 @@ import { RouterLink, RouterView } from "vue-router";
 import { isAuthenticated } from "./js/helpers";
 import { authStore } from "./stores/auth";
 import { useRouter } from "vue-router";
+import { ref } from "vue";
 
 const router = useRouter();
 const storeAuth = authStore();
+const dialogVisible = ref(false);
 const logout = () => {
   storeAuth.logout();
   router.push("login");
+  dialogVisible.value = false;
 };
 </script>
 
 <template>
-  <header>
+  <header class="mainHeader">
     <!-- The nav <section> is fixed to top, but the <nav> block 
     itself inside is flex sensitive. Also, the 'nav-links-extension' 
     are not displayed in mobile and tablet layout -->
@@ -140,7 +143,7 @@ const logout = () => {
           >
         </RouterLink>
         <div
-          @click="logout()"
+          @click="dialogVisible = true"
           v-else
           class="nav-link cursor-pointer"
           title="AdminPage"
@@ -149,8 +152,27 @@ const logout = () => {
           <span class="nav-link-extension">Выйти</span>
         </div>
       </nav>
+      <el-dialog v-model="dialogVisible" width="30%" title="Выход">
+        <span class="top-0">Вы уверены, что хотите выйти?</span>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogVisible = false">Нет</el-button>
+            <el-button type="primary" @click="logout()"> Да </el-button>
+          </span>
+        </template>
+      </el-dialog>
     </section>
   </header>
 
   <RouterView />
 </template>
+
+<style scoped>
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+.el-dialog__header {
+  margin: 0;
+  padding: 0;
+}
+</style>
