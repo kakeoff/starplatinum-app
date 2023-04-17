@@ -20,6 +20,7 @@ const logout = () => {
     <section class="fixed-nav">
       <nav class="navbar">
         <RouterLink
+          v-if="!isAuthenticated()"
           to="/"
           :class="{
             'text-cyan-500': this.$route.name === 'home',
@@ -41,6 +42,7 @@ const logout = () => {
         </RouterLink>
 
         <RouterLink
+          v-if="!isAuthenticated()"
           :class="{
             'text-cyan-500': this.$route.name === 'publications',
           }"
@@ -59,6 +61,7 @@ const logout = () => {
         </RouterLink>
 
         <RouterLink
+          v-if="!isAuthenticated()"
           to="/about"
           :class="{
             'text-cyan-500': this.$route.name === 'about',
@@ -79,6 +82,7 @@ const logout = () => {
         </RouterLink>
 
         <RouterLink
+          v-if="!isAuthenticated()"
           to="/contact"
           :class="{
             'text-cyan-500': this.$route.name === 'contact',
@@ -95,6 +99,26 @@ const logout = () => {
             }"
             class="nav-link-extension"
             >Контакты</span
+          >
+        </RouterLink>
+        <RouterLink
+          v-if="isAuthenticated()"
+          to="/admin"
+          :class="{
+            'text-cyan-500': this.$route.name === 'admin',
+          }"
+          class="nav-link"
+          title="Admin"
+        >
+          <font-awesome-icon
+            icon="fa-solid fa-comment-dots"
+          ></font-awesome-icon>
+          <span
+            :class="{
+              'text-gradient': this.$route.name === 'admin',
+            }"
+            class="nav-link-extension"
+            >Заявки</span
           >
         </RouterLink>
         <RouterLink

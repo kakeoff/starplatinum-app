@@ -6,7 +6,7 @@ export const authStore = defineStore({
   actions: {
     async login(login: string, password: string) {
       const res = await Api.login(login, password)
-      console.log(res.data, 'sfdsfsdsdf')
+      if (!res) return
       localStorage.setItem('access_token', res.data.access_token)
     },
     logout() {
