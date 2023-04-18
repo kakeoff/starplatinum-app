@@ -16,13 +16,13 @@ const getCards = cardStore();
 
     <div class="my-5">
       <!-- Generates dynamically the preview pictures and attributes -->
-      <img
+      <!-- <img
         class="h-[250px] w-[300px]"
         v-if="card.preview"
         :src="card.preview"
         :title="`${card.name} preview`"
         :alt="`${card.name} preview`"
-      />
+      /> -->
 
       <p class="my-3 tracking-wide">{{ card.description }}</p>
 

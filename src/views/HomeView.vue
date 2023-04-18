@@ -1,4 +1,9 @@
 <template>
+  <img
+    class="absolute h-[500px] right-[0px] bottom-0"
+    src="../assets/jotarooo.png"
+    alt=""
+  />
   <main class="home home-section" v-motion-pop>
     <div class="-mt-36 text-center">
       <h1 class="text-4xl font-bold">

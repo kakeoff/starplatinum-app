@@ -22,6 +22,15 @@ const logout = () => {
     are not displayed in mobile and tablet layout -->
     <section class="fixed-nav">
       <nav class="navbar">
+        <div v-if="isAuthenticated()" class="mr-auto nav-link text-cyan-500">
+          <font-awesome-icon
+            icon="fa-solid fa-user"
+            class="-text-gradient"
+          ></font-awesome-icon>
+          <span class="nav-link-extension text-gradient"
+            >Администратор: kakeparake</span
+          >
+        </div>
         <RouterLink
           v-if="!isAuthenticated()"
           to="/"
@@ -148,7 +157,9 @@ const logout = () => {
           class="nav-link cursor-pointer"
           title="AdminPage"
         >
-          <font-awesome-icon icon="fa-solid fa-user"></font-awesome-icon>
+          <font-awesome-icon
+            icon="fa-solid fa-right-from-bracket"
+          ></font-awesome-icon>
           <span class="nav-link-extension">Выйти</span>
         </div>
       </nav>

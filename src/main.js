@@ -17,7 +17,7 @@ import {
   faCodeBranch,
   faCommentDots, faFilm,
   faHouse,
-  faLink, faUser
+  faLink, faRightFromBracket, faUser
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faGoogle, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
@@ -30,6 +30,7 @@ library.add(
   faCommentDots,
   faLink,
   faUser,
+  faRightFromBracket,
   faCodeBranch,
   faGoogle,
   faLinkedinIn,
