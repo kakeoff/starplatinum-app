@@ -1,5 +1,6 @@
 <template>
   <img
+    v-motion-pop
     class="absolute h-[500px] right-[0px] bottom-0"
     src="../assets/jotarooo.png"
     alt=""

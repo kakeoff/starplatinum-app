@@ -7,53 +7,56 @@ export const cardStore = defineStore({
       {
         id: 1,
         name: "Getbrand",
-        preview: "/assets/screenshots/getbrand.jpeg",
         description: "GETBRAND создаёт облик новых товаров и компаний, работает над формированием и развитием брендов; разрабатывает элементы корпоративной идентификации, создаёт дизайн упаковки и ключевые изображения для рекламы; занимается оформлением мест продаж.",
-        repo: "https://www.getbrand.ru",
+        link: "https://www.getbrand.ru",
+        cost: 5000
       },
 
      {
         id: 2,
         name: "Russ Outdoor",
-        preview: "/assets/screenshots/russ-outdoor.jpeg",
         description: "Крупнейший российский оператор наружной рекламы. В рекламной сети Russ Outdoor: билборды стандартных форматов, уличная мебель, рекламоносители больших и сверхбольших форматов, цифровые экраны, реклама в аэропортах, реклама в супермаркетах и торговых центрах.",
-        repo: "https://www.russoutdoor.ru",
+        link: "https://www.russoutdoor.ru",
+        cost: 4000
+
       },
 
       {
         id: 3,
         name: "Adv Group",
-        preview: "/assets/screenshots/adv-group.jpeg",
         description:
           "Лидирующая группа маркетинговых коммуникаций в России, предоставляющая широкий спектр компетенций в digtial, медиа, маркетинге, брендинге и PR. Сегодня Группа АДВ объединяет 22 специализированных коммуникационных агентства.",
-        repo: "https://advgroup.ru",
+          link: "https://advgroup.ru",
+          cost: 3000
+
       },
 
       {
         id: 4,
         name: "Public Totem",
-        preview: "/assets/screenshots/public-totem.jpeg",
         description:
           "Рекламно-производственная компания Public Totem производит долгосрочные и краткосрочные промо-конструкции и POS-материалы для выкладки и продвижения товаров в местах продаж.",
-        repo: "https://www.publictotem.ru",
+          link: "https://www.publictotem.ru",
+          cost: 6000
+
       },
 
       {
         id: 5,
         name: "Gallery",
-        preview: "/assets/screenshots/gallery.jpeg",
         description:
           "Компания Gallery с 1994 года работает на рынке наружной рекламы и является одним из крупнейших операторов наружной рекламы в России. Gallery осуществляет полный комплекс услуг по созданию, установке и обслуживанию рекламных конструкций: билборды и суперборды, цифровые экраны и конструкции крупного формата, уличная мебель и дорожные указатели.",
-        repo: "https://www.gallerymedia.com",
+        link: "https://www.gallerymedia.com",
+        cost: 7000
       },
 
       {
         id: 6,
         name: "Mediascope",
-        preview: "/assets/screenshots/mediascope.jpeg",
         description:
           "Компания «Медиаскоп» осуществляет полный цикл работ в области медиа-измерений и мониторинга рекламы: измерение аудитории в интернете и прессе, на радио и телевидении; мониторинговые исследования, оценка рекламы и эффективность спонсорства.",
-        repo: "https://mediascope.net",
+          link: "https://mediascope.net",
+          cost: 4000
       },
     ],
   }),

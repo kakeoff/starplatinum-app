@@ -14,7 +14,8 @@ export const applicationsStore = defineStore({
         name: app.name,
         email: app.email,
         comment: app.comment,
-        pubs: JSON.stringify(app.pubs)
+        pubs: JSON.stringify(app.pubs),
+        cost: app.cost
       }
       const res = await Api.sendApplication(data)
       this.applications.push(res.data)

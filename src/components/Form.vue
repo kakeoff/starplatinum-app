@@ -101,6 +101,9 @@
           type="textarea"
         />
       </el-form-item>
+      <el-form-item label="Итоговая цена" prop="desc">
+        <div class="w-full flex justify-end">{{ finalCost }} руб</div>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm()"> Создать </el-button>
         <el-button @click="resetForm(ruleFormRef)">Сбросить</el-button>
@@ -134,6 +137,7 @@ const formSize = ref("default");
 const formPubs = ref([]) as any;
 const showCompleteMessage = ref(false);
 const pubs = storeCards.cards;
+const finalCost = ref(0);
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
@@ -188,6 +192,7 @@ const submitForm = async () => {
     pubs: formPubs.value,
     email: ruleForm.email,
     comment: ruleForm.desc,
+    cost: finalCost.value,
   };
   if (data.name && data.pubs.length && data.email.length) {
     storeApplications.sendApplication(data);
@@ -213,6 +218,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
   formPubs.value = [];
+  finalCost.value = 0;
 };
 
 const addPub = () => {
@@ -231,11 +237,22 @@ const addPub = () => {
     date: date,
   };
   formPubs.value.push(data);
+  const foundPub = pubs.find((pub) => pub.name === data.name);
+  if (foundPub) {
+    finalCost.value += foundPub?.cost;
+  }
   ruleForm.pub = "";
   ruleForm.date = "";
 };
 
 const deletePub = (index: number) => {
   formPubs.value.splice(index, 1);
+  finalCost.value = 0;
+  formPubs.value.forEach((pub) => {
+    const foundPub = pubs.find((publ) => publ.name === pub.name);
+    if (foundPub) {
+      finalCost.value += foundPub.cost;
+    }
+  });
 };
 </script>

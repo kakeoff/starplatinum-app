@@ -18,6 +18,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="comment" label="Комментарий"></el-table-column>
+      <el-table-column prop="cost" label="Стоимость, руб"></el-table-column>
       <el-table-column label="Действия">
         <template #default="{ row }">
           <el-button
