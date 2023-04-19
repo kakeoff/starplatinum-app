@@ -1,10 +1,12 @@
 <template>
   <div class="container mx-auto my-10">
-    <el-date-picker
-      v-model="selectedDate"
-      type="date"
-      placeholder="Выберите дату"
-    />
+    <div class="w-full flex justify-end mb-[20px]">
+      <el-date-picker
+        v-model="selectedDate"
+        type="date"
+        placeholder="Выберите дату"
+      />
+    </div>
     <el-table :data="filteredApplications" style="width: 100%">
       <el-table-column prop="name" label="Название"></el-table-column>
       <el-table-column prop="email" label="Email"></el-table-column>
