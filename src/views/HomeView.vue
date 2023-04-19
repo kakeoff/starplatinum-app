@@ -9,7 +9,9 @@
     <div class="-mt-36 text-center">
       <h1 class="text-4xl font-bold">
         <strong class="text-5xl text-gradient font-heading">
-          STAR PLATINUM
+          <span v-for="(char, index) in animatedText" :key="index">{{
+            char
+          }}</span>
         </strong>
       </h1>
       <p class="text-2xl">
@@ -29,4 +31,16 @@
     </RouterLink>
   </main>
 </template>
-<script setup></script>
+
+<script setup>
+import { ref } from "vue";
+
+const text = "STAR PLATINUM";
+const animatedText = ref("");
+
+setInterval(() => {
+  if (animatedText.value.length < text.length) {
+    animatedText.value += text[animatedText.value.length];
+  }
+}, 100);
+</script>
