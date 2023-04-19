@@ -173,13 +173,6 @@ const rules = reactive<FormRules>({
       trigger: "blur",
     },
   ],
-  // pub: [
-  //   {
-  //     required: true,
-  //     message: "Пожалуйста, выберите издание",
-  //     trigger: "change",
-  //   },
-  // ],
   email: [
     {
       required: true,
@@ -192,14 +185,6 @@ const rules = reactive<FormRules>({
       trigger: ["blur", "change"],
     },
   ],
-  // date: [
-  //   {
-  //     type: "date",
-  //     required: true,
-  //     message: "Пожалуйста, выберите дату",
-  //     trigger: "change",
-  //   },
-  // ],
 });
 
 const submitForm = async (formEl: FormInstance | undefined) => {
