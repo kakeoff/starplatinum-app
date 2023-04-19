@@ -45,8 +45,7 @@
 
 
     .publications-section,
-    .about-section,
-    .contact-section {
+    .about-section {
         @apply w-10/12 sm:w-3/4 xl:w-1/2 mx-auto min-h-screen;
     }
 
@@ -68,14 +67,8 @@
         @apply grid sm:grid-cols-2 gap-8 my-12;
     }
 
-    .about-text,
-    .contact-text {
+    .about-text {
         @apply tracking-wide px-4 border-l border-slate-400 dark:border-slate-700 h-fit;
-    }
-
-    /**ContactView**/
-    .contact-container {
-        @apply flex-row sm:flex my-12;
     }
 
         /**AdminView**/

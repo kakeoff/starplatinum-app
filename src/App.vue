@@ -93,26 +93,6 @@ const logout = () => {
           >
         </RouterLink>
 
-        <RouterLink
-          v-if="!isAuthenticated()"
-          to="/contact"
-          :class="{
-            'text-cyan-500': this.$route.name === 'contact',
-          }"
-          class="nav-link"
-          title="Contact me"
-        >
-          <font-awesome-icon
-            icon="fa-solid fa-comment-dots"
-          ></font-awesome-icon>
-          <span
-            :class="{
-              'text-gradient': this.$route.name === 'contact',
-            }"
-            class="nav-link-extension"
-            >Контакты</span
-          >
-        </RouterLink>
         <el-badge
           v-if="isAuthenticated()"
           :value="storeApplications.applications.length || 0"

@@ -232,6 +232,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields();
   formPubs.value = [];
   finalCost.value = 0;
+  ElNotification({
+    title: "Все поля успешно очищены",
+    type: "success",
+  });
 };
 
 const addPub = () => {
