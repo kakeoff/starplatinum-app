@@ -112,7 +112,9 @@
         <div class="w-full flex justify-end">{{ finalCost }} руб</div>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm()"> Создать </el-button>
+        <el-button type="primary" @click="submitForm(ruleFormRef)">
+          Создать
+        </el-button>
         <el-button @click="resetForm(ruleFormRef)">Сбросить</el-button>
       </el-form-item>
     </el-form>
@@ -171,53 +173,70 @@ const rules = reactive<FormRules>({
       trigger: "blur",
     },
   ],
-  pub: [
-    {
-      required: true,
-      message: "Пожалуйста, выберите издание",
-      trigger: "change",
-    },
-  ],
+  // pub: [
+  //   {
+  //     required: true,
+  //     message: "Пожалуйста, выберите издание",
+  //     trigger: "change",
+  //   },
+  // ],
   email: [
     {
       required: true,
       message: "Пожалуйста, введите ваш email",
       trigger: "change",
     },
-  ],
-  date: [
     {
-      type: "date",
-      required: true,
-      message: "Пожалуйста, выберите дату",
-      trigger: "change",
+      type: "email",
+      message: "Введите корректный email",
+      trigger: ["blur", "change"],
     },
   ],
+  // date: [
+  //   {
+  //     type: "date",
+  //     required: true,
+  //     message: "Пожалуйста, выберите дату",
+  //     trigger: "change",
+  //   },
+  // ],
 });
 
-const submitForm = async () => {
-  const data = {
-    name: ruleForm.name,
-    pubs: formPubs.value,
-    email: ruleForm.email,
-    comment: ruleForm.desc,
-    cost: finalCost.value,
-  };
-  if (data.name && data.pubs.length && data.email.length) {
-    storeApplications.sendApplication(data);
-    ElNotification({
-      title: "Заявка успешно отправлена",
-      type: "success",
-    });
-    resetForm(ruleFormRef.value);
-    showCompleteMessage.value = true;
-  } else {
-    ElNotification({
-      title: "Ошибка",
-      message: "Вы ввели не все данные",
-      type: "error",
-    });
-  }
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.validate((valid) => {
+    if (valid) {
+      const data = {
+        name: ruleForm.name,
+        pubs: formPubs.value,
+        email: ruleForm.email,
+        comment: ruleForm.desc,
+        cost: finalCost.value,
+      };
+      if (data.name && data.pubs.length && data.email.length) {
+        storeApplications.sendApplication(data);
+        ElNotification({
+          title: "Заявка успешно отправлена",
+          type: "success",
+        });
+        resetForm(ruleFormRef.value);
+        showCompleteMessage.value = true;
+      } else {
+        ElNotification({
+          title: "Ошибка",
+          message: "Вы ввели не все данные",
+          type: "error",
+        });
+      }
+    } else {
+      ElNotification({
+        title: "Ошибка",
+        message: "Вы ввели некорректные данные",
+        type: "error",
+      });
+      return false;
+    }
+  });
 };
 const disabledDate = (time: Date) => {
   return time.getTime() < Date.now();
