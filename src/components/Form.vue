@@ -1,4 +1,11 @@
 <template>
+  <h2
+    v-if="!showCompleteMessage"
+    class="w-full text-center category-heading mt-[-20px] mb-[20px]"
+  >
+    Создание заявки
+  </h2>
+
   <el-card v-if="!showCompleteMessage">
     <el-form
       ref="ruleFormRef"
@@ -110,17 +117,19 @@
       </el-form-item>
     </el-form>
   </el-card>
-  <div class="flex flex-col items-center" v-else>
-    <h1 class="text-[20px]">
-      Заявка успешно отправлена! Спасибо, что пользуетесь нашими услугами.
-    </h1>
-    <button
-      @click="showCompleteMessage = false"
-      class="cta-btn mt-[20px] max-w-[30%]"
+  <el-col v-else>
+    <el-result
+      icon="success"
+      title="Заявка успешно отправлена"
+      sub-title="Мы свяжемся с вами для дальнейшего сотрудничества"
     >
-      Отправить повторно
-    </button>
-  </div>
+      <template #extra>
+        <button @click="showCompleteMessage = false" class="cta-btn">
+          Отправить повторно
+        </button>
+      </template>
+    </el-result>
+  </el-col>
 </template>
 
 <script lang="ts" setup>

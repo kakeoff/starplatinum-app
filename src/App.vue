@@ -4,9 +4,11 @@ import { isAuthenticated } from "./js/helpers";
 import { authStore } from "./stores/auth";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import { applicationsStore } from "./stores/applications";
 
 const router = useRouter();
 const storeAuth = authStore();
+const storeApplications = applicationsStore();
 const dialogVisible = ref(false);
 const logout = () => {
   storeAuth.logout();
@@ -27,9 +29,7 @@ const logout = () => {
             icon="fa-solid fa-user"
             class="-text-gradient"
           ></font-awesome-icon>
-          <span class="nav-link-extension text-gradient"
-            >Администратор: kakeparake</span
-          >
+          <span class="nav-link-extension text-gradient">Администратор</span>
         </div>
         <RouterLink
           v-if="!isAuthenticated()"
@@ -113,26 +113,32 @@ const logout = () => {
             >Контакты</span
           >
         </RouterLink>
-        <RouterLink
+        <el-badge
           v-if="isAuthenticated()"
-          to="/admin"
-          :class="{
-            'text-cyan-500': this.$route.name === 'admin',
-          }"
-          class="nav-link"
-          title="Admin"
+          :value="storeApplications.applications.length || 0"
+          class="item"
         >
-          <font-awesome-icon
-            icon="fa-solid fa-comment-dots"
-          ></font-awesome-icon>
-          <span
+          <RouterLink
+            to="/admin"
             :class="{
-              'text-gradient': this.$route.name === 'admin',
+              'text-cyan-500': this.$route.name === 'admin',
             }"
-            class="nav-link-extension"
-            >Заявки</span
+            class="nav-link"
+            title="Admin"
           >
-        </RouterLink>
+            <font-awesome-icon
+              icon="fa-solid fa-comment-dots"
+            ></font-awesome-icon>
+            <span
+              :class="{
+                'text-gradient': this.$route.name === 'admin',
+              }"
+              class="nav-link-extension"
+              >Заявки</span
+            >
+          </RouterLink>
+        </el-badge>
+
         <RouterLink
           v-if="!isAuthenticated()"
           to="/login"

@@ -1,6 +1,11 @@
 <template>
   <div class="container mx-auto my-10">
-    <el-table :data="applications" style="width: 100%">
+    <el-date-picker
+      v-model="selectedDate"
+      type="date"
+      placeholder="Выберите дату"
+    />
+    <el-table :data="filteredApplications" style="width: 100%">
       <el-table-column prop="name" label="Название"></el-table-column>
       <el-table-column prop="email" label="Email"></el-table-column>
       <el-table-column label="Издания">
@@ -21,12 +26,17 @@
       <el-table-column prop="cost" label="Стоимость, руб"></el-table-column>
       <el-table-column label="Действия">
         <template #default="{ row }">
-          <el-button
-            type="danger"
-            size="small"
-            @click="removeApplication(row.id)"
-            >Удалить</el-button
+          <el-popconfirm
+            cancel-button-text="Нет"
+            confirm-button-text="Да"
+            @confirm="removeApplication(row.id)"
+            width="160"
+            title="Удалить заявку?"
           >
+            <template #reference>
+              <el-button type="danger" size="small">Удалить</el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -46,10 +56,31 @@ export default {
     applications() {
       return this.applicationsStore.applications;
     },
+    filteredApplications() {
+      if (this.selectedDate) {
+        const date = new Date(this.selectedDate);
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear();
+        const formattedDate = `${day}.${month}.${year}`;
+        console.log(formattedDate);
+        return this.applications.filter((application) =>
+          application.pubs.some((pub) => pub.date === formattedDate)
+        );
+      } else {
+        return this.applications;
+      }
+    },
   },
+
   async mounted() {
     await this.applicationsStore.getAllApplications();
     console.log(this.applications);
+  },
+  data() {
+    return {
+      selectedDate: null,
+    };
   },
   methods: {
     async removeApplication(applicationId) {
