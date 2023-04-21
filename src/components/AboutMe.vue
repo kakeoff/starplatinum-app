@@ -1,6 +1,6 @@
 <template>
   <div class="demo-collapse mt-[20px]">
-    <el-collapse>
+    <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item title="Кто мы такие?" name="1">
         <div>
           Наше агенство занимается просмотром, обработкой и размещением заявок
@@ -84,9 +84,23 @@
   </div>
 </template>
 
+<script lang="ts" setup>
+import { onMounted, ref } from "vue";
+
+onMounted(() => {
+  activeNames.value = ["1"];
+});
+
+const activeNames = ref(["1"]);
+const handleChange = (val: string[]) => {
+  console.log(val);
+};
+</script>
+
 <style>
 .el-collapse-item__header {
   font-size: 23px;
+  color: rgb(100, 116, 139);
   @apply from-cyan-500 to-indigo-500;
 }
 .el-collapse-item__content {

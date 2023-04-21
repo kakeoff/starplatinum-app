@@ -137,17 +137,17 @@
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from "vue";
 import { ElNotification, FormInstance, FormRules } from "element-plus";
-import { cardStore } from "../stores/cards.js";
+import { pubsStore } from "../stores/publications.js";
 import { applicationsStore } from "../stores/applications.js";
 
-const storeCards = cardStore();
+const storePubs = pubsStore();
 const storeApplications = applicationsStore();
 
 onMounted(() => {});
 const formSize = ref("default");
 const formPubs = ref([]) as any;
 const showCompleteMessage = ref(false);
-const pubs = storeCards.cards;
+const pubs = storePubs.publications;
 const finalCost = ref(0);
 
 const ruleFormRef = ref<FormInstance>();

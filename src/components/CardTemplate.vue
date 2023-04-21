@@ -1,36 +1,29 @@
 <script setup>
-import { cardStore } from "../stores/cards";
-const getCards = cardStore();
+import { onMounted } from "vue";
+import { pubsStore } from "../stores/publications";
+const storePubs = pubsStore();
+onMounted(() => {
+  storePubs.getAllPublications();
+});
 </script>
 
 <template>
   <div
-    v-for="card in getCards.cards"
-    :key="card.name"
+    v-for="pub in storePubs.publications"
+    :key="pub.id"
     class="publications-card"
     v-motion-pop
   >
-    <h2 class="publications-card-heading">{{ card.name }}</h2>
+    <h2 class="publications-card-heading">{{ pub.name }}</h2>
 
     <div class="my-5">
-      <p class="my-3 tracking-wide">{{ card.description }}</p>
+      <p class="my-3 tracking-wide">{{ pub.description }}</p>
       <p class="my-3 text-gradient font-heading tracking-wide">
-        Цена: {{ card.cost }} рублей
+        Цена: {{ pub.cost }} рублей
       </p>
-
-      <a
-        :href="`${card.prefix}${card.appLink}`"
-        class="app-link font-mono my-3"
-      >
-        <font-awesome-icon
-          v-if="card.appLink"
-          icon="fa-solid fa-link"
-        ></font-awesome-icon>
-        {{ card.appLink }}
-      </a>
     </div>
 
-    <a :href="card.link" target="_blank" class="cta-btn font-mono">
+    <a :href="pub.link" target="_blank" class="cta-btn font-mono">
       <font-awesome-icon icon="fa-solid fa-link"></font-awesome-icon>
       Перейти на сайт
     </a>
