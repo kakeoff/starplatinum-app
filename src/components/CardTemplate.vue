@@ -10,9 +10,8 @@ onMounted(() => {
 <template>
   <el-carousel
     class="mt-[50px] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-[32px]"
+    height="400px"
     trigger="click"
-    height="300px"
-    width="1000px"
   >
     <el-carousel-item
       class="text-white text-center flex flex-col items-center"
@@ -20,8 +19,12 @@ onMounted(() => {
       :key="pub.id"
     >
       <div class="font-[700] text-[50px] w-full">{{ pub.name }}</div>
-      <div class="w-[85%]">{{ pub.description }}</div>
-      <a :href="pub.link" target="_blank" class="font-mono mt-[10px]">
+      <div class="w-[85%] text-[18px]">{{ pub.description }}</div>
+      <a
+        :href="pub.link"
+        target="_blank"
+        class="font-mono mt-[10px] hover:scale-105 hover: transition duration-300"
+      >
         <font-awesome-icon icon="fa-solid fa-link"></font-awesome-icon>
         Перейти на сайт
       </a>
