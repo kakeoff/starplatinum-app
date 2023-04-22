@@ -8,24 +8,26 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    v-for="pub in storePubs.publications"
-    :key="pub.id"
-    class="publications-card"
-    v-motion-pop
+  <el-carousel
+    class="mt-[50px] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-[32px]"
+    trigger="click"
+    height="300px"
+    width="1000px"
   >
-    <h2 class="publications-card-heading">{{ pub.name }}</h2>
-
-    <div class="my-5">
-      <p class="my-3 tracking-wide">{{ pub.description }}</p>
-      <p class="my-3 text-gradient font-heading tracking-wide">
+    <el-carousel-item
+      class="text-white text-center flex flex-col items-center"
+      v-for="pub in storePubs.publications"
+      :key="pub.id"
+    >
+      <div class="font-[700] text-[50px] w-full">{{ pub.name }}</div>
+      <div class="w-[85%]">{{ pub.description }}</div>
+      <a :href="pub.link" target="_blank" class="font-mono mt-[10px]">
+        <font-awesome-icon icon="fa-solid fa-link"></font-awesome-icon>
+        Перейти на сайт
+      </a>
+      <p class="my-3 text-[25px] font-heading tracking-wide">
         Цена: {{ pub.cost }} рублей
       </p>
-    </div>
-
-    <a :href="pub.link" target="_blank" class="cta-btn font-mono">
-      <font-awesome-icon icon="fa-solid fa-link"></font-awesome-icon>
-      Перейти на сайт
-    </a>
-  </div>
+    </el-carousel-item>
+  </el-carousel>
 </template>
