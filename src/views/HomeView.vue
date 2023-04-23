@@ -16,16 +16,19 @@
       </h1>
       <p class="text-2xl">
         Рекламное агенство
-        <strong class="text-gradient font-heading">номер 1</strong> в России
+        <strong class="text-gradient font-heading">для Вас</strong>
       </p>
     </div>
-    <RouterLink to="/form" class="cta-btn text-[20px] mt-8 mb-2">
+    <RouterLink
+      to="/form"
+      class="cta-btn text-[20px] hover:scale-105 hover:transition duration-300 mt-8 mb-2"
+    >
       Создать заявку
     </RouterLink>
     <RouterLink
       to="/about"
       style="transition: all 0.3s ease-in-out"
-      class="dark:hover:text-slate-300 hover:text-black hover:underline"
+      class="dark:hover:text-slate-300 hover:text-black hover:scale-105 hover:transition duration-300"
     >
       Посмотреть издания
     </RouterLink>
