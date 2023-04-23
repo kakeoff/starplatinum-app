@@ -46,7 +46,7 @@
 
     .publications-section,
     .about-section {
-        @apply w-10/12 sm:w-3/4 xl:w-1/2 mx-auto min-h-screen;
+        @apply w-10/12 mx-auto min-h-screen;
     }
 
     /**PublicationsView**/

@@ -1,5 +1,7 @@
 <template>
-  <div class="demo-collapse mt-[20px]">
+  <div><CardTemplate v-motion-pop /></div>
+  <h2 class="category-heading mt-[50px]">Информация</h2>
+  <div class="demo-collapse my-[20px]">
     <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item title="Кто мы такие?" name="1">
         <div>
@@ -86,6 +88,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
+import CardTemplate from "../components/CardTemplate.vue";
 
 onMounted(() => {
   activeNames.value = ["1"];

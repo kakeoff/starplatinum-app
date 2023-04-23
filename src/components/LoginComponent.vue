@@ -97,7 +97,7 @@ export default defineComponent({
           if (!IsToken) {
             return;
           }
-          this.$router.push("/admin");
+          this.$router.push("/admin-applications");
           this.close();
         } else {
           ElNotification({

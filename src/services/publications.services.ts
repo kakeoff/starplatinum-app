@@ -21,9 +21,18 @@ export async function createPublication(data) {
   }
 }
 
+export async function updatePublication(data) {
+  try {
+    const res = await axios.patch(`${BASE_URL}/publications/${data.id}`, data);
+      return res
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
 export async function deletePublication(id: number) {
   try {
-    await axios.delete(`${BASE_URL}/applications/${id}`);
+    await axios.delete(`${BASE_URL}/publications/${id}`);
   } catch (error) {
     return Promise.reject(error)
   }

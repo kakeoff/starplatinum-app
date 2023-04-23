@@ -9,8 +9,7 @@ onMounted(() => {
 
 <template>
   <el-carousel
-    class="mt-[50px] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-[32px]"
-    height="400px"
+    class="mt-[50px] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-[25px]"
     trigger="click"
   >
     <el-carousel-item
@@ -18,8 +17,12 @@ onMounted(() => {
       v-for="pub in storePubs.publications"
       :key="pub.id"
     >
-      <div class="font-[700] text-[50px] w-full">{{ pub.name }}</div>
-      <div class="w-[85%] text-[18px]">{{ pub.description }}</div>
+      <div class="font-[700] text-[30px] lg:text-[50px] w-full">
+        {{ pub.name }}
+      </div>
+      <div class="w-[85%] text-[17px] lg:text-[20px] line-clamp-4">
+        {{ pub.description }}
+      </div>
       <a
         :href="pub.link"
         target="_blank"
@@ -28,7 +31,7 @@ onMounted(() => {
         <font-awesome-icon icon="fa-solid fa-link"></font-awesome-icon>
         Перейти на сайт
       </a>
-      <p class="my-3 text-[25px] font-heading tracking-wide">
+      <p class="my-3 text-[19px] lg:text-[25px] font-heading tracking-wide">
         Цена: {{ pub.cost }} рублей
       </p>
     </el-carousel-item>

@@ -17,11 +17,6 @@ const router = createRouter({
       component: () => import("../views/FormView.vue"),
     },
     {
-      path: "/publications",
-      name: "publications",
-      component: () => import("../views/PublicationsView.vue"),
-    },
-    {
       path: "/about",
       name: "about",
       // route level code-splitting
@@ -31,9 +26,15 @@ const router = createRouter({
     },
     {
       meta: { requiresAuth: true },
-      path: "/admin",
-      name: "admin",
-      component: () => import("../views/AdminView.vue"),
+      path: "/admin-applications",
+      name: "adminApplications",
+      component: () => import("../views/AdminApplicationsView.vue"),
+    },
+    {
+      meta: { requiresAuth: true },
+      path: "/admin-publications",
+      name: "adminPublications",
+      component: () => import("../views/AdminPublicationsView.vue"),
     },
     {
       path: '/:pathMatch(.*)*',

@@ -5,11 +5,14 @@ import { authStore } from "./stores/auth";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { applicationsStore } from "./stores/applications";
+import { pubsStore } from "./stores/publications";
+
 import LoginComponent from "./components/LoginComponent.vue";
 
 const router = useRouter();
 const storeAuth = authStore();
 const storeApplications = applicationsStore();
+const storePublications = pubsStore();
 const dialogVisible = ref(false);
 const authVisible = ref(false);
 const logout = () => {
@@ -54,26 +57,6 @@ const logout = () => {
             >Главная</span
           >
         </RouterLink>
-
-        <RouterLink
-          v-if="!isAuthenticated()"
-          :class="{
-            'text-cyan-500': this.$route.name === 'publications',
-          }"
-          to="/publications"
-          class="nav-link"
-          title="Publications"
-        >
-          <font-awesome-icon icon="fa-solid fa-film"></font-awesome-icon>
-          <span
-            :class="{
-              'text-gradient': this.$route.name === 'publications',
-            }"
-            class="nav-link-extension"
-            >Издания</span
-          >
-        </RouterLink>
-
         <RouterLink
           v-if="!isAuthenticated()"
           to="/about"
@@ -101,9 +84,9 @@ const logout = () => {
           class="item"
         >
           <RouterLink
-            to="/admin"
+            to="/admin-applications"
             :class="{
-              'text-cyan-500': this.$route.name === 'admin',
+              'text-cyan-500': this.$route.name === 'adminApplications',
             }"
             class="nav-link"
             title="Admin"
@@ -113,10 +96,36 @@ const logout = () => {
             ></font-awesome-icon>
             <span
               :class="{
-                'text-gradient': this.$route.name === 'admin',
+                'text-gradient': this.$route.name === 'adminApplications',
               }"
               class="nav-link-extension"
               >Заявки</span
+            >
+          </RouterLink>
+        </el-badge>
+
+        <el-badge
+          v-if="isAuthenticated()"
+          :value="storePublications.publications.length || 0"
+          class="item"
+        >
+          <RouterLink
+            to="/admin-publications"
+            :class="{
+              'text-cyan-500': this.$route.name === 'adminPublications',
+            }"
+            class="nav-link"
+            title="Admin"
+          >
+            <font-awesome-icon
+              icon="fa-solid fa-comment-dots"
+            ></font-awesome-icon>
+            <span
+              :class="{
+                'text-gradient': this.$route.name === 'adminPublications',
+              }"
+              class="nav-link-extension"
+              >Издания</span
             >
           </RouterLink>
         </el-badge>

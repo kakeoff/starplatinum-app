@@ -17,7 +17,21 @@ export const pubsStore = defineStore({
         link: pub.link
       }
       const res = await Api.createPublication(data)
-      this.applications.push(res.data)
+      this.publications.push(res.data)
+    },
+    async updatePublication(pub: Publication) {
+      const data = {
+        id: pub.id,
+        name: pub.name,
+        description: pub.description,
+        cost: pub.cost,
+        link: pub.link
+      }
+      const res = await Api.updatePublication(data)
+      const index = this.publications.findIndex((pub) => pub.id === data.id)
+      if (index !== -1) {
+        this.publications[index] = res.data
+      }
     },
   async deletePublication(id: number) {
     await Api.deletePublication(id)

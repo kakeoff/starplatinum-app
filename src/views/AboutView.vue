@@ -4,7 +4,7 @@ import AboutMe from "../components/AboutMe.vue";
 
 <template>
   <section class="about about-section">
-    <h2 class="category-heading">О нашей компании</h2>
+    <h2 class="category-heading">Наши издания</h2>
 
     <div v-motion-pop>
       <AboutMe />

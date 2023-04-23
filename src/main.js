@@ -14,10 +14,9 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 /* import specific icons */
 import {
   faCircleQuestion,
-  faCodeBranch,
-  faCommentDots, faFilm,
+  faCodeBranch, faCommentDots, faFilm,
   faHouse,
-  faLink, faRightFromBracket, faUser
+  faLink, faPlus, faRightFromBracket, faUser
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faGoogle, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
@@ -28,6 +27,7 @@ library.add(
   faFilm,
   faCircleQuestion,
   faCommentDots,
+  faPlus,
   faLink,
   faUser,
   faRightFromBracket,

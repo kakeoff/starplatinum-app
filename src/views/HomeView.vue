@@ -23,7 +23,7 @@
       Создать заявку
     </RouterLink>
     <RouterLink
-      to="/publications"
+      to="/about"
       style="transition: all 0.3s ease-in-out"
       class="dark:hover:text-slate-300 hover:text-black hover:underline"
     >
