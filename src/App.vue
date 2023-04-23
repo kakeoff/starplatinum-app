@@ -42,7 +42,7 @@ const logout = () => {
           :class="{
             'text-cyan-500': this.$route.name === 'home',
           }"
-          class="nav-link hover:scale-105 hover:transition duration-300"
+          class="nav-link"
           title="Home"
         >
           <font-awesome-icon
@@ -63,7 +63,7 @@ const logout = () => {
           :class="{
             'text-cyan-500': this.$route.name === 'about',
           }"
-          class="nav-link hover:scale-105 hover:transition duration-300"
+          class="nav-link"
           title="About me"
         >
           <font-awesome-icon
@@ -81,7 +81,7 @@ const logout = () => {
         <el-badge
           v-if="isAuthenticated()"
           :value="storeApplications.applications.length || 0"
-          class="item hover:scale-105 hover:transition duration-300"
+          class="item"
         >
           <RouterLink
             to="/admin-applications"
@@ -107,7 +107,7 @@ const logout = () => {
         <el-badge
           v-if="isAuthenticated()"
           :value="storePublications.publications.length || 0"
-          class="item hover:scale-105 hover:transition duration-300"
+          class="item"
         >
           <RouterLink
             to="/admin-publications"
@@ -131,7 +131,7 @@ const logout = () => {
         <div
           @click="authVisible = true"
           v-if="!isAuthenticated()"
-          class="nav-link hover:scale-105 hover:transition duration-300"
+          class="nav-link"
           title="AdminModal"
         >
           <font-awesome-icon icon="fa-solid fa-user"></font-awesome-icon>
@@ -140,7 +140,7 @@ const logout = () => {
         <div
           @click="dialogVisible = true"
           v-else
-          class="nav-link cursor-pointer hover:scale-105 hover:transition duration-300"
+          class="nav-link cursor-pointer"
           title="AdminPage"
         >
           <font-awesome-icon

@@ -139,15 +139,19 @@ import { onMounted, reactive, ref } from "vue";
 import { ElNotification, FormInstance, FormRules } from "element-plus";
 import { pubsStore } from "../stores/publications.js";
 import { applicationsStore } from "../stores/applications.js";
+import { Publication } from "../types/publicationTypes";
 
 const storePubs = pubsStore();
 const storeApplications = applicationsStore();
 
-onMounted(() => {});
+onMounted(async () => {
+  await storePubs.getAllPublications();
+  pubs.value = storePubs.publications;
+});
 const formSize = ref("default");
 const formPubs = ref([]) as any;
 const showCompleteMessage = ref(false);
-const pubs = storePubs.publications;
+const pubs = ref([] as Publication[]);
 const finalCost = ref(0);
 
 const ruleFormRef = ref<FormInstance>();
@@ -177,7 +181,7 @@ const rules = reactive<FormRules>({
     {
       required: true,
       message: "Пожалуйста, введите ваш email",
-      trigger: "change",
+      trigger: "blur",
     },
     {
       type: "email",
@@ -232,10 +236,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields();
   formPubs.value = [];
   finalCost.value = 0;
-  ElNotification({
-    title: "Все поля успешно очищены",
-    type: "success",
-  });
 };
 
 const addPub = () => {
@@ -254,7 +254,7 @@ const addPub = () => {
     date: date,
   };
   formPubs.value.push(data);
-  const foundPub = pubs.find((pub) => pub.name === data.name);
+  const foundPub = pubs.value.find((pub) => pub.name === data.name);
   if (foundPub) {
     finalCost.value += foundPub?.cost;
   }
@@ -266,7 +266,7 @@ const deletePub = (index: number) => {
   formPubs.value.splice(index, 1);
   finalCost.value = 0;
   formPubs.value.forEach((pub) => {
-    const foundPub = pubs.find((publ) => publ.name === pub.name);
+    const foundPub = pubs.value.find((publ) => publ.name === pub.name);
     if (foundPub) {
       finalCost.value += foundPub.cost;
     }
