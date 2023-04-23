@@ -5,14 +5,16 @@ import { authStore } from "./stores/auth";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { applicationsStore } from "./stores/applications";
+import LoginComponent from "./components/LoginComponent.vue";
 
 const router = useRouter();
 const storeAuth = authStore();
 const storeApplications = applicationsStore();
 const dialogVisible = ref(false);
+const authVisible = ref(false);
 const logout = () => {
   storeAuth.logout();
-  router.push("login");
+  router.push("/");
   dialogVisible.value = false;
 };
 </script>
@@ -119,24 +121,15 @@ const logout = () => {
           </RouterLink>
         </el-badge>
 
-        <RouterLink
+        <div
+          @click="authVisible = true"
           v-if="!isAuthenticated()"
-          to="/login"
-          :class="{
-            'text-cyan-500': this.$route.name === 'login',
-          }"
           class="nav-link"
-          title="AdminPage"
+          title="AdminModal"
         >
           <font-awesome-icon icon="fa-solid fa-user"></font-awesome-icon>
-          <span
-            :class="{
-              'text-gradient': this.$route.name === 'login',
-            }"
-            class="nav-link-extension"
-            >Авторизация</span
-          >
-        </RouterLink>
+          <span class="nav-link-extension">Авторизация</span>
+        </div>
         <div
           @click="dialogVisible = true"
           v-else
@@ -149,7 +142,12 @@ const logout = () => {
           <span class="nav-link-extension">Выйти</span>
         </div>
       </nav>
-      <el-dialog v-model="dialogVisible" width="30%" title="Выход">
+      <LoginComponent
+        :authVisible="authVisible"
+        @close="authVisible = false"
+        v-if="authVisible"
+      />
+      <el-dialog v-model="dialogVisible" width="20%" title="Выход">
         <span class="top-0">Вы уверены, что хотите выйти?</span>
         <template #footer>
           <span class="dialog-footer">

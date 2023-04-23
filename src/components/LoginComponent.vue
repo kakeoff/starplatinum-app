@@ -1,21 +1,25 @@
 <template>
-  <div class="flex justify-center w-full min-h-full">
-    <el-card class="p-[20px] h-[250px]">
+  <el-dialog
+    v-model="authVisible"
+    width="30%"
+    class="px-[20px]"
+    title="Авторизация"
+  >
+    <div class="flex justify-center w-full min-h-full">
       <el-form
         ref="loginForm"
         :model="loginForm"
         :rules="loginRules"
-        label-width="80px"
-        class="max-w-[600px] font-[700] text-[35px]"
+        class="font-[700] w-full text-[35px]"
       >
-        <el-form-item class="mb-[30px]" label="Логин" prop="username">
+        <el-form-item class="mb-[30px]" prop="username">
           <el-input
             size="large"
             v-model="loginForm.username"
             placeholder="Введите логин"
           ></el-input>
         </el-form-item>
-        <el-form-item class="mb-[30px]" label="Пароль" prop="password">
+        <el-form-item class="mb-[30px]" prop="password">
           <el-input
             size="large"
             v-model="loginForm.password"
@@ -23,12 +27,15 @@
             placeholder="Введите пароль"
           ></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="handleSubmitForm">Войти</el-button>
-        </el-form-item>
       </el-form>
-    </el-card>
-  </div>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="close()">Отмена</el-button>
+        <el-button type="primary" @click="login()"> Войти </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
@@ -45,6 +52,12 @@ export default defineComponent({
     ElForm,
     ElFormItem,
     ElInput,
+  },
+  props: {
+    authVisible: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -70,23 +83,41 @@ export default defineComponent({
     ...mapStores(authStore),
   },
   methods: {
-    handleSubmitForm() {
+    login() {
       this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
-          // отправка данных формы на сервер для авторизации
           await this.authStore.login(
             this.loginForm.username,
             this.loginForm.password
           );
+          let IsToken = false;
+          if (localStorage.getItem("access_token")) {
+            IsToken = true;
+          }
+          if (!IsToken) {
+            return;
+          }
           this.$router.push("/admin");
+          this.close();
         } else {
-          console.log("Ошибка валидации");
+          ElNotification({
+            title: "Ошибка",
+            message: "Проверьте правильность введенных данных",
+            type: "error",
+          });
           return false;
         }
       });
+    },
+    close() {
+      this.$emit("close");
     },
   },
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.el-form-item__content {
+  margin-left: 0px;
+}
+</style>
