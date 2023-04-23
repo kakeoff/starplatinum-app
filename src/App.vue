@@ -117,9 +117,7 @@ const logout = () => {
             class="nav-link"
             title="Admin"
           >
-            <font-awesome-icon
-              icon="fa-solid fa-comment-dots"
-            ></font-awesome-icon>
+            <font-awesome-icon icon="fa-solid fa-film"></font-awesome-icon>
             <span
               :class="{
                 'text-gradient': this.$route.name === 'adminPublications',
