@@ -5,12 +5,14 @@
     <div class="w-full" v-motion-pop>
       <div class="mx-auto px-[30px] my-10">
         <div class="w-full flex justify-end gap-[10px] mb-[20px]">
-          <el-input
-            v-model="searchId"
-            placeholder="Введите Id заявки"
-            clearable
-            class="w-[300px]"
-          />
+          <div class="w-full flex justify-start">
+            <el-input
+              v-model="searchId"
+              placeholder="Введите Id заявки"
+              clearable
+              class="w-[150px] ml-[0px]"
+            />
+          </div>
           <el-date-picker
             v-model="selectedDate"
             type="date"
@@ -20,7 +22,7 @@
             v-model="search"
             placeholder="Поиск"
             clearable
-            class="w-[300px]"
+            class="w-[300px] mr-0"
           />
         </div>
         <el-table
