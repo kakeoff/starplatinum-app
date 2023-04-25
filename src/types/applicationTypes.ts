@@ -3,7 +3,8 @@ export type Application = {
   comment: string | null,
   email: string,
   pubs: Pub[],
-  cost: number
+  cost: number,
+  status: ApplicationStatus
 }
 
 export type Pub = {
@@ -11,3 +12,6 @@ export type Pub = {
   date: string,
   cost: number
 }
+
+export type ApplicationStatus = 'ACCEPTED' | 'PENDING' | 'CANCELED'
+export type ApplicationLocalization = { [key in ApplicationStatus]: string }

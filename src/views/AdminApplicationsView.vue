@@ -59,6 +59,11 @@
             </template>
           </el-table-column>
           <el-table-column prop="cost" label="Стоимость, руб"></el-table-column>
+          <el-table-column :style="{ wordWrap: 'break-word' }" label="Статус">
+            <template #default="{ row }">
+              {{ localize(row.status) }}
+            </template>
+          </el-table-column>
           <el-table-column label="Действия">
             <template #default="{ row }">
               <el-popconfirm
@@ -103,6 +108,7 @@ import { ElTable, ElTableColumn, ElButton, ElNotification } from "element-plus";
 import { applicationsStore } from "../stores/applications";
 import { pubsStore } from "../stores/publications";
 import { mapStores } from "pinia";
+import { localizeApplicationStatus } from "../js/helpers";
 
 export default {
   name: "Applications",
@@ -163,6 +169,9 @@ export default {
     };
   },
   methods: {
+    localize(status) {
+      return localizeApplicationStatus(status);
+    },
     async removeApplication(applicationId) {
       await this.applicationsStore.deleteApplication(Number(applicationId));
       ElNotification({
