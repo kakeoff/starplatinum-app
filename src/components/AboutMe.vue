@@ -59,71 +59,19 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import FaqComponent from "../components/FaqComponent.vue";
 import { pubsStore } from "../stores/publications";
 
 onMounted(() => {
   activeNames.value = ["0"];
-  storePubs.getAllPublications();
 });
-const pubs = ref([
-  {
-    id: 1,
-    name: "Getbrand",
-    description:
-      "GETBRAND создаёт облик новых товаров и компаний, работает над формированием и развитием брендов; разрабатывает элементы корпоративной идентификации, создаёт дизайн упаковки и ключевые изображения для рекламы; занимается оформлением мест продаж.",
-    link: "https://www.getbrand.ru",
-    cost: 4000,
-  },
-
-  {
-    id: 2,
-    name: "Russ Outdoor",
-    description:
-      "Крупнейший российский оператор наружной рекламы. В рекламной сети Russ Outdoor: билборды стандартных форматов, уличная мебель, рекламоносители больших и сверхбольших форматов, цифровые экраны, реклама в аэропортах, реклама в супермаркетах и торговых центрах.",
-    link: "https://www.russoutdoor.ru",
-    cost: 5000,
-  },
-
-  {
-    id: 3,
-    name: "Adv Group",
-    description:
-      "Лидирующая группа маркетинговых коммуникаций в России, предоставляющая широкий спектр компетенций в digtial, медиа, маркетинге, брендинге и PR. Сегодня Группа АДВ объединяет 22 специализированных коммуникационных агентства.",
-    link: "https://advgroup.ru",
-    cost: 6000,
-  },
-
-  {
-    id: 4,
-    name: "Public Totem",
-    description:
-      "Рекламно-производственная компания Public Totem производит долгосрочные и краткосрочные промо-конструкции и POS-материалы для выкладки и продвижения товаров в местах продаж.",
-    link: "https://www.publictotem.ru",
-    cost: 4000,
-  },
-
-  {
-    id: 5,
-    name: "Gallery",
-    description:
-      "Компания Gallery с 1994 года работает на рынке наружной рекламы и является одним из крупнейших операторов наружной рекламы в России. Gallery осуществляет полный комплекс услуг по созданию, установке и обслуживанию рекламных конструкций: билборды и суперборды, цифровые экраны и конструкции крупного формата, уличная мебель и дорожные указатели.",
-    link: "https://www.gallerymedia.com",
-    cost: 7000,
-  },
-
-  {
-    id: 6,
-    name: "Mediascope",
-    description:
-      "Компания «Медиаскоп» осуществляет полный цикл работ в области медиа-измерений и мониторинга рекламы: измерение аудитории в интернете и прессе, на радио и телевидении; мониторинговые исследования, оценка рекламы и эффективность спонсорства.",
-    link: "https://mediascope.net",
-    cost: 3000,
-  },
-]);
 const activeNames = ref(["1"]);
 const storePubs = pubsStore();
+const pubs = computed(() => {
+  return storePubs.publications;
+});
+console.log(pubs);
 const handleChange = (val: string[]) => {
   console.log(val);
 };

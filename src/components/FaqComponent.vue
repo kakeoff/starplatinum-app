@@ -26,12 +26,14 @@ const questions = ref([
 
 <template>
   <el-carousel
-    class="mt-[50px] bg-gradient-to-r p-[10px] from-cyan-500 to-blue-500 rounded-[25px]"
-    height="200px"
+    class="mt-[50px] rounded-[25px]"
+    height="300px"
+    :interval="4000"
+    type="card"
     trigger="click"
   >
     <el-carousel-item
-      class="text-white text-center flex flex-col items-center"
+      class="text-white text-center flex flex-col justify-center items-center rounded-[16px]"
       v-for="question in questions"
       :key="question.question"
     >
@@ -44,3 +46,13 @@ const questions = ref([
     </el-carousel-item>
   </el-carousel>
 </template>
+
+<style scoped>
+.el-carousel__item:nth-child(2n) {
+  @apply bg-gradient-to-r p-[10px] from-cyan-500 to-blue-500;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  @apply bg-gradient-to-r p-[10px] from-purple-500 to-blue-700;
+}
+</style>

@@ -81,12 +81,6 @@ export default {
       }
     },
   },
-
-  async mounted() {
-    await this.applicationsStore.getAllApplications();
-    await this.publicationsStore.getAllPublications();
-    console.log(this.applications);
-  },
   data() {
     return {
       selectedDate: null,

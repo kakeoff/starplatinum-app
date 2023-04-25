@@ -15,6 +15,8 @@ const storeApplications = applicationsStore();
 const storePublications = pubsStore();
 const dialogVisible = ref(false);
 const authVisible = ref(false);
+storeApplications.getAllApplications();
+storePublications.getAllPublications();
 const logout = () => {
   storeAuth.logout();
   router.push("/");
@@ -37,7 +39,6 @@ const logout = () => {
           <span class="nav-link-extension text-gradient">Администратор</span>
         </div>
         <RouterLink
-          v-if="!isAuthenticated()"
           to="/"
           :class="{
             'text-cyan-500': this.$route.name === 'home',
@@ -58,7 +59,6 @@ const logout = () => {
           >
         </RouterLink>
         <RouterLink
-          v-if="!isAuthenticated()"
           to="/about"
           :class="{
             'text-cyan-500': this.$route.name === 'about',

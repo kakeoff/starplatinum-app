@@ -196,10 +196,6 @@ export default {
       return this.publicationsStore.publications;
     },
   },
-  async mounted() {
-    await this.applicationsStore.getAllApplications();
-    await this.publicationsStore.getAllPublications();
-  },
   watch: {
     showAddPub: {
       immediate: true,
