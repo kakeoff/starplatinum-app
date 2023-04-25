@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import * as Api from '../services/applications.service';
-import { Application } from "../types/applicationTypes";
+import { Application, ApplicationStatus } from "../types/applicationTypes";
 
 export const applicationsStore = defineStore({
   id: 'applications',
@@ -19,6 +19,14 @@ export const applicationsStore = defineStore({
       }
       const res = await Api.sendApplication(data)
       this.applications.push(res.data)
+      return res
+    },
+    async changeApplicationStatus(id: number, status: ApplicationStatus) {
+      const res = await Api.changeApplicationStatus(id, status)
+      const index = this.applications.findIndex((app) => app.id === id)
+      if (!index) return
+      this.applications[index].status = status
+      return res
     },
   async deleteApplication(applicationId: number) {
     await Api.deleteApplication(applicationId)

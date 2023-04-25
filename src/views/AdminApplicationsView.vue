@@ -61,7 +61,34 @@
           <el-table-column prop="cost" label="Стоимость, руб"></el-table-column>
           <el-table-column :style="{ wordWrap: 'break-word' }" label="Статус">
             <template #default="{ row }">
-              {{ localize(row.status) }}
+              <el-popover placement="bottom" trigger="click">
+                <template #reference>
+                  <el-button>{{ localize(row.status) }}</el-button>
+                </template>
+                <div class="w-full flex flex-col justify-center items-center">
+                  <el-button
+                    class="w-full"
+                    @click="changeStatus(row.id, 'PENDING')"
+                    v-if="row.status !== 'PENDING'"
+                  >
+                    Ожидание
+                  </el-button>
+                  <el-button
+                    class="w-full"
+                    @click="changeStatus(row.id, 'ACCEPTED')"
+                    v-if="row.status !== 'ACCEPTED'"
+                  >
+                    Одобрена
+                  </el-button>
+                  <el-button
+                    class="w-full"
+                    @click="changeStatus(row.id, 'CANCELED')"
+                    v-if="row.status !== 'CANCELED'"
+                  >
+                    Отклонена
+                  </el-button>
+                </div>
+              </el-popover>
             </template>
           </el-table-column>
           <el-table-column label="Действия">
@@ -103,12 +130,13 @@
   </el-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { ElTable, ElTableColumn, ElButton, ElNotification } from "element-plus";
 import { applicationsStore } from "../stores/applications";
 import { pubsStore } from "../stores/publications";
 import { mapStores } from "pinia";
 import { localizeApplicationStatus } from "../js/helpers";
+import { ApplicationStatus } from "../types/applicationTypes";
 
 export default {
   name: "Applications",
@@ -171,6 +199,9 @@ export default {
   methods: {
     localize(status) {
       return localizeApplicationStatus(status);
+    },
+    changeStatus(id: string, status: ApplicationStatus) {
+      this.applicationsStore.changeApplicationStatus(id, status);
     },
     async removeApplication(applicationId) {
       await this.applicationsStore.deleteApplication(Number(applicationId));

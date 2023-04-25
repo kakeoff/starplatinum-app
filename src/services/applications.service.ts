@@ -26,6 +26,16 @@ export async function sendApplication(data) {
   }
 }
 
+export async function changeApplicationStatus(id: number, status: string) {
+  try {
+    const res = await axios.patch(`${BASE_URL}/applications/${id}/status`, {status});
+    console.log(res)
+      return res
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
 export async function deleteApplication(applicationId: number) {
   try {
     await axios.delete(`${BASE_URL}/applications/${applicationId}`);
