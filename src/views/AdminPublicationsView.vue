@@ -13,7 +13,11 @@
             Добавить издание
           </el-button>
         </div>
-        <el-table :data="publications" style="width: 100%">
+        <el-table
+          class="bg-black/[.60] rounded-b-[16px]"
+          :data="publications"
+          style="width: 100%"
+        >
           <el-table-column prop="name" label="Название"></el-table-column>
           <el-table-column label="Описание">
             <template #default="{ row }">

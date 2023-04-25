@@ -71,7 +71,6 @@ const storePubs = pubsStore();
 const pubs = computed(() => {
   return storePubs.publications;
 });
-console.log(pubs);
 const handleChange = (val: string[]) => {
   console.log(val);
 };
