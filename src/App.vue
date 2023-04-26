@@ -131,7 +131,7 @@ const logout = () => {
         <div
           @click="authVisible = true"
           v-if="!isAuthenticated()"
-          class="nav-link"
+          class="nav-link cursor-pointer"
           title="AdminModal"
         >
           <font-awesome-icon icon="fa-solid fa-user"></font-awesome-icon>
