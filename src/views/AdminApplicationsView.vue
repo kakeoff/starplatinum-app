@@ -3,9 +3,36 @@
     <h2 class="category-heading mx-auto">Заявки</h2>
 
     <div class="w-full" v-motion-pop>
-      <div class="mx-auto px-[30px] my-10">
-        <div class="w-full flex justify-end gap-[10px] mb-[20px]">
-          <div class="w-full flex justify-start gap-[20px]">
+      <div class="mx-auto px-[30px] w-full my-10">
+        <div class="w-full flex justify-between mb-[20px]">
+          <el-radio-group v-model="statusFilter">
+            <el-radio
+              class="hover:scale-105 hover:transition duration-300"
+              label=""
+            >
+              Все заявки
+            </el-radio>
+            <el-radio
+              class="hover:scale-105 hover:transition duration-300"
+              label="PENDING"
+            >
+              В ожидании
+            </el-radio>
+            <el-radio
+              class="hover:scale-105 hover:transition duration-300"
+              label="ACCEPTED"
+            >
+              Одобренные
+            </el-radio>
+            <el-radio
+              class="hover:scale-105 hover:transition duration-300"
+              label="CANCELED"
+            >
+              Отклоненные
+            </el-radio>
+          </el-radio-group>
+
+          <div class="flex flex-row flex-wrap gap-[15px]">
             <el-tooltip
               class="text-white"
               effect="light"
@@ -16,61 +43,36 @@
                 v-model="searchId"
                 placeholder="Введите Id заявки"
                 clearable
-                class="w-[150px] ml-[0px]"
+                class="w-[220px]"
               />
             </el-tooltip>
-            <el-radio-group v-model="statusFilter">
-              <el-radio
-                class="hover:scale-105 hover:transition duration-300"
-                label=""
-              >
-                Все заявки
-              </el-radio>
-              <el-radio
-                class="hover:scale-105 hover:transition duration-300"
-                label="PENDING"
-              >
-                В ожидании
-              </el-radio>
-              <el-radio
-                class="hover:scale-105 hover:transition duration-300"
-                label="ACCEPTED"
-              >
-                Одобренные
-              </el-radio>
-              <el-radio
-                class="hover:scale-105 hover:transition duration-300"
-                label="CANCELED"
-              >
-                Отклоненные
-              </el-radio>
-            </el-radio-group>
-          </div>
-          <el-tooltip
-            effect="light"
-            content="Фильтрация заявок по дате"
-            placement="top"
-          >
-            <div>
-              <el-date-picker
-                v-model="selectedDate"
-                type="date"
-                placeholder="Выберите дату"
+            <el-tooltip
+              effect="light"
+              content="Фильтрация заявок по дате"
+              placement="top"
+            >
+              <div>
+                <el-date-picker
+                  v-model="selectedDate"
+                  type="date"
+                  class="w-[220px]"
+                  placeholder="Выберите дату"
+                />
+              </div>
+            </el-tooltip>
+            <el-tooltip
+              effect="light"
+              content="Глобальный поиск заявок"
+              placement="top"
+            >
+              <el-input
+                v-model="search"
+                placeholder="Поиск"
+                clearable
+                class="w-[220px]"
               />
-            </div>
-          </el-tooltip>
-          <el-tooltip
-            effect="light"
-            content="Глобальный поиск заявок"
-            placement="top"
-          >
-            <el-input
-              v-model="search"
-              placeholder="Поиск"
-              clearable
-              class="w-[300px] mr-0"
-            />
-          </el-tooltip>
+            </el-tooltip>
+          </div>
         </div>
         <el-table
           class="bg-black/[.60] text-[13px] rounded-b-[16px]"

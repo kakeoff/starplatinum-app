@@ -4,7 +4,7 @@
 
     <div class="w-full" v-motion-pop>
       <div class="container mx-auto my-10 h-full">
-        <div class="w-full flex gap-[20px] justify-end mb-[20px]">
+        <div class="w-full flex gap-[15px] justify-end mb-[20px]">
           <el-tooltip
             class="text-white"
             effect="light"
@@ -47,24 +47,28 @@
           <el-table-column prop="link" label="Ссылка"> </el-table-column>
           <el-table-column label="Действия">
             <template #default="{ row }">
-              <el-popconfirm
-                cancel-button-text="Нет"
-                confirm-button-text="Да"
-                @confirm="removePub(row.id)"
-                width="180"
-                title="Удалить издание?"
-              >
-                <template #reference>
-                  <el-button type="danger" size="small">Удалить</el-button>
-                </template>
-              </el-popconfirm>
-              <el-button
-                type="info"
-                size="small"
-                @click="(showUpdatePub = true), (selectedPub = row)"
-              >
-                Редактировать
-              </el-button>
+              <div class="flex flex-row flex-wrap gap-[5px]">
+                <el-popconfirm
+                  cancel-button-text="Нет"
+                  confirm-button-text="Да"
+                  @confirm="removePub(row.id)"
+                  width="180"
+                  title="Удалить издание?"
+                >
+                  <template #reference>
+                    <el-button type="danger" size="small">Удалить</el-button>
+                  </template>
+                </el-popconfirm>
+                <div>
+                  <el-button
+                    type="info"
+                    size="small"
+                    @click="(showUpdatePub = true), (selectedPub = row)"
+                  >
+                    Редактировать
+                  </el-button>
+                </div>
+              </div>
             </template>
           </el-table-column>
         </el-table>
