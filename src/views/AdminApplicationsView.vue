@@ -5,28 +5,75 @@
     <div class="w-full" v-motion-pop>
       <div class="mx-auto px-[30px] my-10">
         <div class="w-full flex justify-end gap-[10px] mb-[20px]">
-          <div class="w-full flex justify-start">
-            <el-input
-              v-model="searchId"
-              placeholder="Введите Id заявки"
-              clearable
-              class="w-[150px] ml-[0px]"
-            />
+          <div class="w-full flex justify-start gap-[20px]">
+            <el-tooltip
+              class="text-white"
+              effect="light"
+              content="Поиск заявок по id"
+              placement="top"
+            >
+              <el-input
+                v-model="searchId"
+                placeholder="Введите Id заявки"
+                clearable
+                class="w-[150px] ml-[0px]"
+              />
+            </el-tooltip>
+            <el-radio-group v-model="statusFilter">
+              <el-radio
+                class="hover:scale-105 hover:transition duration-300"
+                label=""
+              >
+                Все заявки
+              </el-radio>
+              <el-radio
+                class="hover:scale-105 hover:transition duration-300"
+                label="PENDING"
+              >
+                В ожидании
+              </el-radio>
+              <el-radio
+                class="hover:scale-105 hover:transition duration-300"
+                label="ACCEPTED"
+              >
+                Одобренные
+              </el-radio>
+              <el-radio
+                class="hover:scale-105 hover:transition duration-300"
+                label="CANCELED"
+              >
+                Отклоненные
+              </el-radio>
+            </el-radio-group>
           </div>
-          <el-date-picker
-            v-model="selectedDate"
-            type="date"
-            placeholder="Выберите дату"
-          />
-          <el-input
-            v-model="search"
-            placeholder="Поиск"
-            clearable
-            class="w-[300px] mr-0"
-          />
+          <el-tooltip
+            effect="light"
+            content="Фильтрация заявок по дате"
+            placement="top"
+          >
+            <div>
+              <el-date-picker
+                v-model="selectedDate"
+                type="date"
+                placeholder="Выберите дату"
+              />
+            </div>
+          </el-tooltip>
+          <el-tooltip
+            effect="light"
+            content="Глобальный поиск заявок"
+            placement="top"
+          >
+            <el-input
+              v-model="search"
+              placeholder="Поиск"
+              clearable
+              class="w-[300px] mr-0"
+            />
+          </el-tooltip>
         </div>
         <el-table
-          class="bg-black/[.60] rounded-b-[16px]"
+          class="bg-black/[.60] text-[13px] rounded-b-[16px]"
           :data="filteredApplications"
           style="width: 100%"
         >
@@ -62,7 +109,7 @@
           <el-table-column label="Статус">
             <template #default="{ row }">
               <el-dropdown trigger="click" placement="bottom">
-                <el-button>
+                <el-button :type="getButtonType(row.status)">
                   {{ localize(row.status) }}
                 </el-button>
 
@@ -138,6 +185,7 @@ import { mapStores } from "pinia";
 import { localizeApplicationStatus } from "../js/helpers";
 import { Application, ApplicationStatus } from "../types/applicationTypes";
 import { App } from "vue";
+import { changeApplicationStatus } from "../services/applications.service";
 
 export default {
   name: "Applications",
@@ -192,6 +240,12 @@ export default {
         });
       }
 
+      if (this.statusFilter) {
+        filteredApps = filteredApps.filter(
+          (app) => app.status === this.statusFilter
+        );
+      }
+
       return filteredApps;
     },
   },
@@ -200,6 +254,7 @@ export default {
       selectedDate: null,
       search: "",
       searchId: "",
+      statusFilter: "",
       selectedAppId: null,
       showComment: false,
       visiblePopover: false,
@@ -208,6 +263,11 @@ export default {
   methods: {
     localize(status) {
       return localizeApplicationStatus(status);
+    },
+    getButtonType(status: ApplicationStatus) {
+      if (status === "ACCEPTED") return "success";
+      if (status === "CANCELED") return "danger";
+      if (status === "PENDING") return "info";
     },
     changeStatus(id: string, status: ApplicationStatus) {
       this.applicationsStore.changeApplicationStatus(id, status);
