@@ -4,7 +4,20 @@
 
     <div class="w-full" v-motion-pop>
       <div class="container mx-auto my-10 h-full">
-        <div class="w-full flex justify-end mb-[20px]">
+        <div class="w-full flex gap-[20px] justify-end mb-[20px]">
+          <el-tooltip
+            class="text-white"
+            effect="light"
+            content="Глобальный поиск изданий"
+            placement="top"
+          >
+            <el-input
+              v-model="search"
+              placeholder="Поиск"
+              clearable
+              class="w-[300px] ml-[0px]"
+            />
+          </el-tooltip>
           <el-button type="success" size="large" @click="showAddPub = true">
             <font-awesome-icon
               icon="fa-solid fa-plus"
@@ -15,7 +28,7 @@
         </div>
         <el-table
           class="bg-black/[.60] rounded-b-[16px]"
-          :data="publications"
+          :data="filteredPublications"
           style="width: 100%"
         >
           <el-table-column prop="name" label="Название"></el-table-column>
@@ -199,6 +212,23 @@ export default {
     publications() {
       return this.publicationsStore.publications;
     },
+    filteredPublications() {
+      let filteredPubs = this.publications;
+
+      if (this.search) {
+        const keyword = this.search.toLowerCase().trim();
+        filteredPubs = filteredPubs.filter((pub) => {
+          return (
+            pub.name.toLowerCase().includes(keyword) ||
+            pub.description.toLowerCase().includes(keyword) ||
+            pub.cost.toString().includes(keyword) ||
+            pub.link.toString().includes(keyword)
+          );
+        });
+      }
+
+      return filteredPubs;
+    },
   },
   watch: {
     showAddPub: {
@@ -227,6 +257,7 @@ export default {
       showDescription: false,
       showUpdatePub: false,
       selectedPub: {},
+      search: "",
       showAddPub: false,
       pubForm: {
         name: "",
