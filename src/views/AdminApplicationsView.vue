@@ -78,23 +78,17 @@
           style="width: 100%"
         >
           <el-table-column width="50px" prop="id" label="Id"></el-table-column>
-          <el-table-column prop="name" label="Название"></el-table-column>
-          <el-table-column prop="email" label="Email"></el-table-column>
-          <el-table-column label="Издания">
-            <template #default="{ row }">
-              <ul>
-                <li v-for="pub in row.pubs">{{ pub.name }}</li>
-              </ul>
-            </template>
-          </el-table-column>
-          <el-table-column label="Дата размещения">
-            <template #default="{ row }">
-              <ul>
-                <li v-for="pub in row.pubs">{{ pub.date }}</li>
-              </ul>
-            </template>
-          </el-table-column>
-          <el-table-column prop="comment" label="Комментарий">
+          <el-table-column
+            width="300"
+            prop="name"
+            label="Название"
+          ></el-table-column>
+          <el-table-column
+            width="300"
+            prop="email"
+            label="Email"
+          ></el-table-column>
+          <el-table-column prop="comment" label="Инфромация">
             <template #default="{ row }">
               <el-button
                 type="info"
@@ -109,8 +103,10 @@
           <el-table-column label="Статус">
             <template #default="{ row }">
               <el-dropdown trigger="click" placement="bottom">
-                <el-button :type="getButtonType(row.status)">
-                  {{ localize(row.status) }}
+                <el-button size="small" :type="getButtonType(row.status)">
+                  <div class="w-[100px]">
+                    {{ localize(row.status) }}
+                  </div>
                 </el-button>
 
                 <template #dropdown>
@@ -157,24 +153,27 @@
       </div>
     </div>
   </section>
-  <el-dialog
+  <el-drawer
     v-model="showComment"
-    width="30%"
-    :title="'Комментарий к заявке ' + selectedApp?.name"
+    @close="showComment = false"
+    class="text-white"
+    :title="'Информация о заявке #' + selectedApp?.id"
+    direction="rtl"
   >
-    <div class="overflow-hidden break-words">
-      <div class="top-0 break-words">
-        {{ selectedApp?.comment }}
+    <div class="mb-[20px]">Издания</div>
+    <el-table class="mb-[50px]" :data="selectedApp.pubs">
+      <el-table-column property="name" label="Название" />
+      <el-table-column property="date" label="Дата" />
+    </el-table>
+    <div class="mb-[20px]">Комментарий</div>
+    <el-card class="rounded-[12px]">
+      <div class="overflow-hidden break-words">
+        <div class="top-0 break-words">
+          {{ selectedApp?.comment }}
+        </div>
       </div>
-    </div>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="(showComment = false), (selectedAppId = null)">
-          Закрыть
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
+    </el-card>
+  </el-drawer>
 </template>
 
 <script lang="ts">
@@ -288,4 +287,18 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text {
+  font-size: 14px;
+}
+
+.item {
+  margin-bottom: 18px;
+}
+</style>
