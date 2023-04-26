@@ -140,6 +140,7 @@ import { ElNotification, FormInstance, FormRules } from "element-plus";
 import { pubsStore } from "../stores/publications.js";
 import { applicationsStore } from "../stores/applications.js";
 import { Publication } from "../types/publicationTypes";
+import { ApplicationStatus } from "../types/applicationTypes";
 
 const storePubs = pubsStore();
 const storeApplications = applicationsStore();
@@ -201,13 +202,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         email: ruleForm.email,
         comment: ruleForm.desc,
         cost: finalCost.value,
+        status: "PENDING" as ApplicationStatus,
       };
       if (data.name && data.pubs.length && data.email.length) {
         storeApplications.sendApplication(data);
-        ElNotification({
-          title: "Заявка успешно отправлена",
-          type: "success",
-        });
         resetForm(ruleFormRef.value);
         showCompleteMessage.value = true;
       } else {

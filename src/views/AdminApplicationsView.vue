@@ -81,7 +81,7 @@
           <el-table-column
             width="300"
             prop="name"
-            label="Название"
+            label="Рекламодатель"
           ></el-table-column>
           <el-table-column
             width="300"
@@ -270,18 +270,10 @@ export default {
     },
     changeStatus(id: string, status: ApplicationStatus) {
       this.applicationsStore.changeApplicationStatus(id, status);
-      ElNotification({
-        title: `Статус заявки изменен на '${this.localize(status)}' `,
-        type: "success",
-      });
       this.visiblePopover = false;
     },
     async removeApplication(applicationId) {
       await this.applicationsStore.deleteApplication(Number(applicationId));
-      ElNotification({
-        title: "Заявка удалена",
-        type: "success",
-      });
     },
   },
 };

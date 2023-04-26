@@ -261,10 +261,6 @@ export default {
     },
     async removePub(id) {
       await this.publicationsStore.deletePublication(Number(id));
-      ElNotification({
-        title: "Издание удалено",
-        type: "success",
-      });
     },
     addPub() {
       const data = {
@@ -282,10 +278,6 @@ export default {
         return;
       }
       this.publicationsStore.createPublication(data);
-      ElNotification({
-        title: "Издание успешно добавлено",
-        type: "success",
-      });
       this.showAddPub = false;
     },
 
@@ -306,10 +298,6 @@ export default {
         return;
       }
       this.publicationsStore.updatePublication(data);
-      ElNotification({
-        title: "Издание успешно изменено",
-        type: "success",
-      });
       this.showUpdatePub = false;
     },
     resetFields() {
