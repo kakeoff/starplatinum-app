@@ -52,43 +52,43 @@
               <el-button
                 type="info"
                 size="small"
-                @click="(selectedApp = row), (showComment = true)"
+                @click="(selectedAppId = row.id), (showComment = true)"
               >
                 Посмотреть
               </el-button>
             </template>
           </el-table-column>
           <el-table-column prop="cost" label="Стоимость, руб"></el-table-column>
-          <el-table-column :style="{ wordWrap: 'break-word' }" label="Статус">
+          <el-table-column label="Статус">
             <template #default="{ row }">
-              <el-popover placement="bottom" trigger="click">
-                <template #reference>
-                  <el-button>{{ localize(row.status) }}</el-button>
+              <el-dropdown trigger="click" placement="bottom">
+                <el-button>
+                  {{ localize(row.status) }}
+                </el-button>
+
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item
+                      @click="changeStatus(row.id, 'ACCEPTED')"
+                      :disabled="row.status === 'ACCEPTED'"
+                    >
+                      Одобрена
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      @click="changeStatus(row.id, 'PENDING')"
+                      :disabled="row.status === 'PENDING'"
+                    >
+                      Ожидание
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      @click="changeStatus(row.id, 'CANCELED')"
+                      :disabled="row.status === 'CANCELED'"
+                    >
+                      Отменена
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
                 </template>
-                <div class="w-full flex flex-col justify-center items-center">
-                  <el-button
-                    class="w-full"
-                    @click="changeStatus(row.id, 'PENDING')"
-                    v-if="row.status !== 'PENDING'"
-                  >
-                    Ожидание
-                  </el-button>
-                  <el-button
-                    class="w-full"
-                    @click="changeStatus(row.id, 'ACCEPTED')"
-                    v-if="row.status !== 'ACCEPTED'"
-                  >
-                    Одобрена
-                  </el-button>
-                  <el-button
-                    class="w-full"
-                    @click="changeStatus(row.id, 'CANCELED')"
-                    v-if="row.status !== 'CANCELED'"
-                  >
-                    Отклонена
-                  </el-button>
-                </div>
-              </el-popover>
+              </el-dropdown>
             </template>
           </el-table-column>
           <el-table-column label="Действия">
@@ -113,16 +113,16 @@
   <el-dialog
     v-model="showComment"
     width="30%"
-    :title="'Комментарий к заявке ' + selectedApp.name"
+    :title="'Комментарий к заявке ' + selectedApp?.name"
   >
     <div class="overflow-hidden break-words">
       <div class="top-0 break-words">
-        {{ selectedApp.comment }}
+        {{ selectedApp?.comment }}
       </div>
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="(showComment = false), (selectedApp = {})">
+        <el-button @click="(showComment = false), (selectedAppId = null)">
           Закрыть
         </el-button>
       </span>
@@ -136,7 +136,8 @@ import { applicationsStore } from "../stores/applications";
 import { pubsStore } from "../stores/publications";
 import { mapStores } from "pinia";
 import { localizeApplicationStatus } from "../js/helpers";
-import { ApplicationStatus } from "../types/applicationTypes";
+import { Application, ApplicationStatus } from "../types/applicationTypes";
+import { App } from "vue";
 
 export default {
   name: "Applications",
@@ -145,6 +146,13 @@ export default {
     ...mapStores(applicationsStore, pubsStore),
     applications() {
       return this.applicationsStore.applications;
+    },
+    selectedApp() {
+      return (
+        this.applicationsStore.applications.find(
+          (app) => app.id === this.selectedAppId
+        ) || null
+      );
     },
     filteredApplications() {
       let filteredApps = this.applications;
@@ -192,8 +200,9 @@ export default {
       selectedDate: null,
       search: "",
       searchId: "",
-      selectedApp: {},
+      selectedAppId: null,
       showComment: false,
+      visiblePopover: false,
     };
   },
   methods: {
@@ -202,6 +211,11 @@ export default {
     },
     changeStatus(id: string, status: ApplicationStatus) {
       this.applicationsStore.changeApplicationStatus(id, status);
+      ElNotification({
+        title: `Статус заявки изменен на '${this.localize(status)}' `,
+        type: "success",
+      });
+      this.visiblePopover = false;
     },
     async removeApplication(applicationId) {
       await this.applicationsStore.deleteApplication(Number(applicationId));

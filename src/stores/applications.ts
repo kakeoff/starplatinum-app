@@ -24,8 +24,8 @@ export const applicationsStore = defineStore({
     async changeApplicationStatus(id: number, status: ApplicationStatus) {
       const res = await Api.changeApplicationStatus(id, status)
       const index = this.applications.findIndex((app) => app.id === id)
-      if (!index) return
-      this.applications[index].status = status
+      if (index === -1) return
+      this.applications[index].status = res.data.status
       return res
     },
   async deleteApplication(applicationId: number) {
