@@ -1,9 +1,11 @@
 import { MotionPlugin } from "@vueuse/motion";
+import 'animate.css';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import 'element-plus/theme-chalk/dark/css-vars.css';
 import { createPinia } from "pinia";
 import { createApp } from "vue";
+import('preline')
 
 /* import the fontawesome core */
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -49,6 +51,7 @@ app.use(createPinia());
 app.use(router);
 app.use(MotionPlugin);
 app.use(ElementPlus);
+app.use(/* ... */)
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 router.isReady().then(() => {

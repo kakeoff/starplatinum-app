@@ -25,136 +25,207 @@ const logout = () => {
 </script>
 
 <template>
-  <header class="mainHeader">
-    <!-- The nav <section> is fixed to top, but the <nav> block 
-    itself inside is flex sensitive. Also, the 'nav-links-extension' 
-    are not displayed in mobile and tablet layout -->
+  <header class="mainHeader z-[1]">
     <section class="fixed-nav">
-      <nav class="navbar">
-        <div v-if="isAuthenticated()" class="mr-auto nav-link text-cyan-500">
-          <font-awesome-icon
-            icon="fa-solid fa-user"
-            class="-text-gradient"
-          ></font-awesome-icon>
-          <span class="nav-link-extension text-gradient">Администратор</span>
-        </div>
-        <RouterLink
-          to="/"
-          :class="{
-            'text-cyan-500': this.$route.name === 'home',
-          }"
-          class="nav-link"
-          title="Home"
+      <header
+        class="flex flex-wrap text-white sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0 dark:bg-gray-800 dark:border-gray-700"
+      >
+        <nav
+          class="relative max-w-7xl w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8"
+          aria-label="Global"
         >
-          <font-awesome-icon
-            icon="fa-solid fa-house"
-            class="-text-gradient"
-          ></font-awesome-icon>
-          <span
-            :class="{
-              'text-gradient': this.$route.name === 'home',
-            }"
-            class="nav-link-extension"
-            >Главная</span
-          >
-        </RouterLink>
-        <RouterLink
-          to="/about"
-          :class="{
-            'text-cyan-500': this.$route.name === 'about',
-          }"
-          class="nav-link"
-          title="About me"
-        >
-          <font-awesome-icon
-            icon="fa-solid fa-circle-question"
-          ></font-awesome-icon>
-          <span
-            :class="{
-              'text-gradient': this.$route.name === 'about',
-            }"
-            class="nav-link-extension"
-            >О нас</span
-          >
-        </RouterLink>
-
-        <el-badge
-          v-if="isAuthenticated()"
-          :value="storeApplications.applications.length || 0"
-          class="item"
-        >
-          <RouterLink
-            to="/admin-applications"
-            :class="{
-              'text-cyan-500': this.$route.name === 'adminApplications',
-            }"
-            class="nav-link"
-            title="Admin"
-          >
-            <font-awesome-icon
-              icon="fa-solid fa-comment-dots"
-            ></font-awesome-icon>
-            <span
-              :class="{
-                'text-gradient': this.$route.name === 'adminApplications',
-              }"
-              class="nav-link-extension"
-              >Заявки</span
+          <div class="flex items-center justify-between">
+            <div
+              v-if="!isAuthenticated()"
+              class="flex flex-row items-center gap-[2px]"
             >
-          </RouterLink>
-        </el-badge>
-
-        <el-badge
-          v-if="isAuthenticated()"
-          :value="storePublications.publications.length || 0"
-          class="item"
-        >
-          <RouterLink
-            to="/admin-publications"
-            :class="{
-              'text-cyan-500': this.$route.name === 'adminPublications',
-            }"
-            class="nav-link"
-            title="Admin"
-          >
-            <font-awesome-icon icon="fa-solid fa-film"></font-awesome-icon>
-            <span
-              :class="{
-                'text-gradient': this.$route.name === 'adminPublications',
-              }"
-              class="nav-link-extension"
-              >Издания</span
+              <img
+                src="./assets/starplatinumicon.png"
+                width="50"
+                height="50"
+                alt="logo"
+              />
+              <a
+                v-if="!isAuthenticated()"
+                class="flex-none text-xl font-semibold dark:text-white"
+                href="/"
+                aria-label="Brand"
+                >STAR PLATINUM</a
+              >
+            </div>
+            <a
+              v-else
+              class="flex-none text-xl font-semibold dark:text-white"
+              href="/admin-publications"
+              aria-label="Brand"
+              >ПАНЕЛЬ УПРАВЛЕНИЯ</a
             >
-          </RouterLink>
-        </el-badge>
+            <div class="sm:hidden">
+              <button
+                type="button"
+                class="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                data-hs-collapse="#navbar-collapse-with-animation"
+                aria-controls="navbar-collapse-with-animation"
+                aria-label="Toggle navigation"
+              >
+                <svg
+                  class="hs-collapse-open:hidden w-4 h-4"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+                  />
+                </svg>
+                <svg
+                  class="hs-collapse-open:block hidden w-4 h-4"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div
+            id="navbar-collapse-with-animation"
+            class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block"
+          >
+            <div
+              class="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:pl-7"
+            >
+              <RouterLink
+                to="/"
+                :class="{
+                  'text-cyan-500': this.$route.name === 'home',
+                }"
+                title="Home"
+              >
+                <span
+                  :class="{
+                    'text-gradient': this.$route.name === 'home',
+                  }"
+                  class="nav-link-extension"
+                  >Главная</span
+                >
+              </RouterLink>
+              <RouterLink
+                to="/about"
+                :class="{
+                  'text-cyan-500': this.$route.name === 'about',
+                }"
+                title="About me"
+              >
+                <span
+                  :class="{
+                    'text-gradient': this.$route.name === 'about',
+                  }"
+                  class="nav-link-extension"
+                  >О нас</span
+                >
+              </RouterLink>
 
-        <div
-          @click="authVisible = true"
-          v-if="!isAuthenticated()"
-          class="nav-link cursor-pointer"
-          title="AdminModal"
-        >
-          <font-awesome-icon icon="fa-solid fa-user"></font-awesome-icon>
-          <span class="nav-link-extension">Авторизация</span>
-        </div>
-        <div
-          @click="dialogVisible = true"
-          v-else
-          class="nav-link cursor-pointer"
-          title="AdminPage"
-        >
-          <font-awesome-icon
-            icon="fa-solid fa-right-from-bracket"
-          ></font-awesome-icon>
-          <span class="nav-link-extension">Выйти</span>
-        </div>
-      </nav>
+              <RouterLink
+                to="/contacts"
+                :class="{
+                  'text-cyan-500': this.$route.name === 'contacts',
+                }"
+                title="Contacts"
+              >
+                <span
+                  :class="{
+                    'text-gradient': this.$route.name === 'contacts',
+                  }"
+                  class="nav-link-extension"
+                  >Контакты</span
+                >
+              </RouterLink>
+
+              <div v-if="isAuthenticated()">
+                <el-badge
+                  :value="storeApplications.applications.length || 0"
+                  class="item"
+                >
+                  <RouterLink
+                    to="/admin-applications"
+                    :class="{
+                      'text-cyan-500': this.$route.name === 'adminApplications',
+                    }"
+                    title="Admin"
+                  >
+                    <span
+                      :class="{
+                        'text-gradient':
+                          this.$route.name === 'adminApplications',
+                      }"
+                      class="nav-link-extension"
+                      >Заявки</span
+                    >
+                  </RouterLink>
+                </el-badge>
+              </div>
+              <div v-if="isAuthenticated()">
+                <el-badge
+                  :value="storePublications.publications.length || 0"
+                  class="item"
+                >
+                  <RouterLink
+                    to="/admin-publications"
+                    :class="{
+                      'text-cyan-500': this.$route.name === 'adminPublications',
+                    }"
+                    title="Admin"
+                  >
+                    <span
+                      :class="{
+                        'text-gradient':
+                          this.$route.name === 'adminPublications',
+                      }"
+                      class="nav-link-extension"
+                      >Издания</span
+                    >
+                  </RouterLink>
+                </el-badge>
+              </div>
+
+              <div
+                v-if="!isAuthenticated()"
+                class="flex nav-link-extension cursor-pointer items-center gap-x-2 font-medium text-gray-500 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700 dark:text-gray-400"
+                @click="authVisible = true"
+              >
+                <font-awesome-icon icon="fa-solid fa-user"></font-awesome-icon>
+                Авторизация
+              </div>
+              <div
+                v-else
+                class="flex nav-link-extension cursor-pointer items-center gap-x-2 font-medium text-gray-500 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700 dark:text-gray-400"
+                @click="dialogVisible = true"
+              >
+                <font-awesome-icon icon="fa-solid fa-right-from-bracket">
+                </font-awesome-icon>
+                Выйти
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
       <LoginComponent
         :authVisible="authVisible"
         @close="authVisible = false"
         v-if="authVisible"
       />
-      <el-dialog v-model="dialogVisible" width="20%" title="Выход">
+      <el-dialog
+        v-model="dialogVisible"
+        class="w-[20%] min-w-[200px]"
+        title="Выход"
+      >
         <span class="top-0">Вы уверены, что хотите выйти?</span>
         <template #footer>
           <span class="dialog-footer">
@@ -167,6 +238,105 @@ const logout = () => {
   </header>
 
   <RouterView />
+  <footer
+    v-if="
+      $route.name !== 'adminApplications' && $route.name !== 'adminPublications'
+    "
+    class="mt-auto w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto"
+  >
+    <!-- Grid -->
+    <div class="text-center">
+      <div>
+        <a
+          class="flex-none text-xl font-semibold text-black dark:text-white"
+          href="#"
+          aria-label="Brand"
+          >STAR PLATINUM</a
+        >
+      </div>
+      <!-- End Col -->
+
+      <div class="mt-3">
+        <p class="text-gray-500">
+          © Egor Panteleev. 2022 Star Platinum. Все права защищены.
+        </p>
+      </div>
+
+      <!-- Social Brands -->
+      <div class="mt-3 space-x-2">
+        <a
+          class="inline-flex justify-center items-center w-10 h-10 text-center text-gray-500 hover:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition dark:text-gray-500 dark:hover:text-gray-200 dark:hover:bg-gray-800"
+          href="#"
+        >
+          <svg
+            class="w-3.5 h-3.5"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"
+            />
+          </svg>
+        </a>
+        <a
+          class="inline-flex justify-center items-center w-10 h-10 text-center text-gray-500 hover:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition dark:text-gray-500 dark:hover:text-gray-200 dark:hover:bg-gray-800"
+          href="#"
+        >
+          <svg
+            class="w-3.5 h-3.5"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
+            />
+          </svg>
+        </a>
+        <a
+          class="inline-flex justify-center items-center w-10 h-10 text-center text-gray-500 hover:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition dark:text-gray-500 dark:hover:text-gray-200 dark:hover:bg-gray-800"
+          href="#"
+        >
+          <svg
+            class="w-3.5 h-3.5"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+            />
+          </svg>
+        </a>
+        <a
+          class="inline-flex justify-center items-center w-10 h-10 text-center text-gray-500 hover:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition dark:text-gray-500 dark:hover:text-gray-200 dark:hover:bg-gray-800"
+          href="#"
+        >
+          <svg
+            class="w-3.5 h-3.5"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M3.362 10.11c0 .926-.756 1.681-1.681 1.681S0 11.036 0 10.111C0 9.186.756 8.43 1.68 8.43h1.682v1.68zm.846 0c0-.924.756-1.68 1.681-1.68s1.681.756 1.681 1.68v4.21c0 .924-.756 1.68-1.68 1.68a1.685 1.685 0 0 1-1.682-1.68v-4.21zM5.89 3.362c-.926 0-1.682-.756-1.682-1.681S4.964 0 5.89 0s1.68.756 1.68 1.68v1.682H5.89zm0 .846c.924 0 1.68.756 1.68 1.681S6.814 7.57 5.89 7.57H1.68C.757 7.57 0 6.814 0 5.89c0-.926.756-1.682 1.68-1.682h4.21zm6.749 1.682c0-.926.755-1.682 1.68-1.682.925 0 1.681.756 1.681 1.681s-.756 1.681-1.68 1.681h-1.681V5.89zm-.848 0c0 .924-.755 1.68-1.68 1.68A1.685 1.685 0 0 1 8.43 5.89V1.68C8.43.757 9.186 0 10.11 0c.926 0 1.681.756 1.681 1.68v4.21zm-1.681 6.748c.926 0 1.682.756 1.682 1.681S11.036 16 10.11 16s-1.681-.756-1.681-1.68v-1.682h1.68zm0-.847c-.924 0-1.68-.755-1.68-1.68 0-.925.756-1.681 1.68-1.681h4.21c.924 0 1.68.756 1.68 1.68 0 .926-.756 1.681-1.68 1.681h-4.21z"
+            />
+          </svg>
+        </a>
+      </div>
+      <!-- End Social Brands -->
+    </div>
+    <!-- End Grid -->
+  </footer>
 </template>
 
 <style scoped>

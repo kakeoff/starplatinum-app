@@ -1,137 +1,119 @@
 <template>
-  <h2
-    v-if="!showCompleteMessage"
-    class="w-full text-center category-heading mt-[-20px] mb-[20px]"
-  >
+  <h2 class="w-full text-center category-heading mt-[-20px] mb-[20px]">
     Создание заявки
   </h2>
 
-  <el-card v-if="!showCompleteMessage">
-    <el-form
-      ref="ruleFormRef"
-      :model="ruleForm"
-      :rules="rules"
-      label-width="120px"
-      class="demo-ruleForm font-[700]"
-      :size="formSize"
-      status-icon
-    >
-      <el-form-item label="Название" prop="name">
-        <el-input
-          placeholder="Например: ООО 'Зеленоглазое такси'"
-          v-model="ruleForm.name"
-        />
-      </el-form-item>
+  <el-form
+    ref="ruleFormRef"
+    :model="ruleForm"
+    :rules="rules"
+    label-width="120px"
+    class="demo-ruleForm font-[700]"
+    :size="formSize"
+    status-icon
+  >
+    <el-form-item label="Название" prop="name">
+      <el-input
+        placeholder="Например: ООО 'Зеленоглазое такси'"
+        v-model="ruleForm.name"
+      />
+    </el-form-item>
 
-      <el-form-item label="Издание" required>
-        <el-col :span="11">
-          <el-form-item class="max-w-[223px]" prop="count">
-            <el-select
-              v-model="ruleForm.pub"
-              style="width: 100%"
-              placeholder="Выберите издание"
-            >
-              <el-option
-                v-for="item in pubs"
-                :key="item.name"
-                :label="item.name"
-                :value="item.name"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col class="text-center" :span="2">
-          <span class="text-gray-500">-</span>
-        </el-col>
-        <el-col :span="11">
-          <el-form-item class="max-w-[223px]" prop="date">
-            <el-date-picker
-              v-model="ruleForm.date"
-              type="date"
-              label="Выберите дату"
-              placeholder="Выберите дату"
-              :disabledDate="disabledDate"
-              style="width: 100%"
+    <el-form-item label="Издание" required>
+      <el-col :span="11">
+        <el-form-item class="max-w-[223px]" prop="count">
+          <el-select
+            v-model="ruleForm.pub"
+            style="width: 100%"
+            placeholder="Выберите издание"
+          >
+            <el-option
+              v-for="item in pubs"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name"
             />
-          </el-form-item>
-        </el-col>
-      </el-form-item>
-      <el-form-item>
-        <el-button class="w-full" type="primary" @click="addPub()">
-          Добавить издание
-        </el-button>
-      </el-form-item>
-      <el-form-item>
-        <div
-          v-if="!formPubs.length"
-          style="background-color: rgb(32, 33, 33)"
-          class="w-full rounded-[8px] border border-[#4C4D4F] p-[10px]"
-        >
-          <el-alert type="info" show-icon :closable="false">
-            <p>Здесь будут отображаться добавленные издания</p>
-          </el-alert>
-        </div>
-        <div
-          v-if="formPubs.length"
-          class="w-full bg-[#141414] rounded-[8px] border border-[#4C4D4F] p-[10px]"
-        >
-          <el-table :data="formPubs" style="width: 100%" max-height="250">
-            <el-table-column fixed prop="date" label="Дата" />
-            <el-table-column fixed prop="name" label="Название" />
-            <el-table-column fixed="right" label="Операция">
-              <template #default="scope">
-                <el-button
-                  link
-                  type="primary"
-                  class="mb-[3px]"
-                  size="small"
-                  @click.prevent="deletePub(scope.$index)"
-                >
-                  Удалить
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </el-form-item>
-      <el-form-item label="Email" prop="email">
-        <el-input
-          v-model="ruleForm.email"
-          placeholder="Введите ваш Email"
-          type="input"
-        />
-      </el-form-item>
-      <el-form-item label="Комментарий" prop="desc">
-        <el-input
-          v-model="ruleForm.desc"
-          placeholder="Введите комментарий"
-          type="textarea"
-        />
-      </el-form-item>
-      <el-form-item label="Итоговая цена" prop="desc">
-        <div class="w-full flex justify-end">{{ finalCost }} руб</div>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm(ruleFormRef)">
-          Создать
-        </el-button>
-        <el-button @click="resetForm(ruleFormRef)">Сбросить</el-button>
-      </el-form-item>
-    </el-form>
-  </el-card>
-  <el-col v-else>
-    <el-result
-      icon="success"
-      title="Заявка успешно отправлена"
-      sub-title="Мы свяжемся с вами для дальнейшего сотрудничества"
-    >
-      <template #extra>
-        <button @click="showCompleteMessage = false" class="cta-btn">
-          Отправить повторно
-        </button>
-      </template>
-    </el-result>
-  </el-col>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col class="text-center" :span="2">
+        <span class="text-gray-500">-</span>
+      </el-col>
+      <el-col :span="11">
+        <el-form-item class="max-w-[223px]" prop="date">
+          <el-date-picker
+            v-model="ruleForm.date"
+            type="date"
+            label="Выберите дату"
+            placeholder="Выберите дату"
+            :disabledDate="disabledDate"
+            style="width: 100%"
+          />
+        </el-form-item>
+      </el-col>
+    </el-form-item>
+    <el-form-item>
+      <el-button class="w-full" type="primary" @click="addPub()">
+        Добавить издание
+      </el-button>
+    </el-form-item>
+    <el-form-item>
+      <div
+        v-if="!formPubs.length"
+        style="background-color: rgb(32, 33, 33)"
+        class="w-full rounded-[8px] border border-[#4C4D4F] p-[10px]"
+      >
+        <el-alert type="info" show-icon :closable="false">
+          <p>Здесь будут отображаться добавленные издания</p>
+        </el-alert>
+      </div>
+      <div
+        v-if="formPubs.length"
+        class="w-full bg-[#141414] rounded-[8px] border border-[#4C4D4F] p-[10px]"
+      >
+        <el-table :data="formPubs" style="width: 100%" max-height="250">
+          <el-table-column fixed prop="date" label="Дата" />
+          <el-table-column fixed prop="name" label="Название" />
+          <el-table-column fixed="right" label="Операция">
+            <template #default="scope">
+              <el-button
+                link
+                type="primary"
+                class="mb-[3px]"
+                size="small"
+                @click.prevent="deletePub(scope.$index)"
+              >
+                Удалить
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-form-item>
+    <el-form-item label="Email" prop="email">
+      <el-input
+        v-model="ruleForm.email"
+        placeholder="Введите ваш Email"
+        type="input"
+      />
+    </el-form-item>
+    <el-form-item label="Комментарий" prop="desc">
+      <el-input
+        v-model="ruleForm.desc"
+        placeholder="Введите комментарий"
+        type="textarea"
+      />
+    </el-form-item>
+    <el-form-item label="Итоговая цена" prop="desc">
+      <div class="w-full flex justify-end">{{ finalCost }} руб</div>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="submitForm(ruleFormRef)">
+        Создать
+      </el-button>
+      <el-button @click="resetForm(ruleFormRef)">Сбросить</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script lang="ts" setup>
@@ -144,6 +126,7 @@ import { ApplicationStatus } from "../types/applicationTypes";
 
 const storePubs = pubsStore();
 const storeApplications = applicationsStore();
+const emit = defineEmits(["close"]);
 
 onMounted(async () => {
   await storePubs.getAllPublications();
@@ -151,7 +134,6 @@ onMounted(async () => {
 });
 const formSize = ref("default");
 const formPubs = ref([]) as any;
-const showCompleteMessage = ref(false);
 const pubs = ref([] as Publication[]);
 const finalCost = ref(0);
 
@@ -194,7 +176,7 @@ const rules = reactive<FormRules>({
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  formEl.validate((valid) => {
+  formEl.validate(async (valid) => {
     if (valid) {
       const data = {
         name: ruleForm.name,
@@ -205,9 +187,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         status: "PENDING" as ApplicationStatus,
       };
       if (data.name && data.pubs.length && data.email.length) {
-        storeApplications.sendApplication(data);
+        await storeApplications.sendApplication(data);
         resetForm(ruleFormRef.value);
-        showCompleteMessage.value = true;
+        emit("close");
       } else {
         ElNotification({
           title: "Ошибка",

@@ -1,89 +1,18 @@
 <template>
-  <div><FaqComponent v-motion-pop /></div>
-  <h2 class="category-heading mt-[50px]">Наши издания</h2>
-  <div class="demo-collapse my-[20px]">
-    <el-collapse v-model="activeNames" @change="handleChange">
-      <el-collapse-item
-        class="hover:scale-[1.02] hover:transition duration-300"
-        v-for="(pub, index) in pubs"
-        :name="String(index)"
-        :title="pub.name"
-      >
-        <a
-          :href="pub.link"
-          target="_blank"
-          class="font-mono nav-link mt-[10px] text-white hover:transition duration-300"
-        >
-          <font-awesome-icon icon="fa-solid fa-link"></font-awesome-icon>
-          <span class="nav-link-extension">Перейти на сайт</span>
-        </a>
-        <div>{{ pub.description }}</div>
-        <div class="text-[18px] text-white">Цена: {{ pub.cost }} руб.</div>
-      </el-collapse-item>
-    </el-collapse>
-    <h2 class="category-heading mt-[50px]">Поддержка</h2>
-
-    <div class="mt-[20px]">
-      Если у Вас возник вопрос или Вы столкнулись с какой-либо проблемой -
-      свяжитесь с нами.
-    </div>
-    <div class="mb-[20px]">
-      Наша служба поддержки обеспечит Вам оперативную помощь.
-    </div>
-    <div class="flex flex-row mt-[5px]">
-      <a
-        class="cta-btn w-fit hover:scale-105 hover:transition duration-300"
-        href="tel:+79911126263"
-      >
-        <font-awesome-icon
-          class="h-[16px] w-[16px]"
-          icon="fa-solid fa-phone"
-        ></font-awesome-icon>
-      </a>
-      <a
-        class="cta-btn w-fit hover:scale-105 hover:transition duration-300"
-        href="mailto:kakeparake@gmail.com"
-      >
-        <font-awesome-icon icon="fa-brands fa-google"></font-awesome-icon>
-      </a>
-
-      <a
-        class="cta-btn w-fit hover:scale-105 hover:transition duration-300"
-        href="https://goo.gl/maps/KV5vUc11qTc1zGN76"
-        target="_blank"
-      >
-        <font-awesome-icon icon="fa-solid fa-map" />
-      </a>
-    </div>
-  </div>
+  <el-dialog class="max-w-[600px] min-w-[465px]" v-model="showForm">
+    <Form @close="showForm = false"></Form>
+  </el-dialog>
+  <AboutHeaderComponent @showForm="showForm = true"></AboutHeaderComponent>
+  <TestimonialsComponent></TestimonialsComponent>
+  <AboutFaqComponent></AboutFaqComponent>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, computed } from "vue";
-import FaqComponent from "../components/FaqComponent.vue";
-import { pubsStore } from "../stores/publications";
+import AboutFaqComponent from "../components/AboutFaqComponent.vue";
+import TestimonialsComponent from "./TestimonialsComponent.vue";
+import AboutHeaderComponent from "./AboutHeaderComponent.vue";
+import { ref } from "vue";
+import Form from "./Form.vue";
 
-onMounted(() => {
-  activeNames.value = ["0"];
-});
-const activeNames = ref(["1"]);
-const storePubs = pubsStore();
-const pubs = computed(() => {
-  return storePubs.publications;
-});
-const handleChange = (val: string[]) => {
-  console.log(val);
-};
+const showForm = ref(false);
 </script>
-
-<style>
-.el-collapse-item__header {
-  font-size: 23px;
-  color: rgb(100, 116, 139);
-  @apply from-cyan-500 to-indigo-500;
-}
-.el-collapse-item__content {
-  font-size: 16px;
-  color: rgb(100, 116, 139);
-}
-</style>

@@ -27,6 +27,7 @@ export async function sendApplication(data) {
     res.data.pubs = JSON.parse(res.data.pubs)
     ElNotification({
       title: "Заявка отправлена",
+      message: 'Мы свяжемся с Вами для уточнения деталей',
       type: "success",
     });
       return res

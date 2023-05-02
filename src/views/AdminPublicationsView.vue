@@ -31,8 +31,12 @@
           :data="filteredPublications"
           style="width: 100%"
         >
-          <el-table-column prop="name" label="Название"></el-table-column>
-          <el-table-column label="Описание">
+          <el-table-column
+            width="256"
+            prop="name"
+            label="Название"
+          ></el-table-column>
+          <el-table-column width="256" label="Описание">
             <template #default="{ row }">
               <el-button
                 type="info"
@@ -42,10 +46,11 @@
               >
             </template>
           </el-table-column>
-          <el-table-column prop="cost" label="Стоимость, руб">
+          <el-table-column width="256" prop="cost" label="Стоимость, руб">
           </el-table-column>
-          <el-table-column prop="link" label="Ссылка"> </el-table-column>
-          <el-table-column label="Действия">
+          <el-table-column width="256" prop="link" label="Ссылка">
+          </el-table-column>
+          <el-table-column width="256" label="Действия">
             <template #default="{ row }">
               <div class="flex flex-row flex-wrap gap-[5px]">
                 <el-popconfirm
@@ -77,7 +82,7 @@
   </section>
   <el-dialog
     v-model="showDescription"
-    width="30%"
+    class="w-[30%] min-w-[400px]"
     :title="'Описание издания ' + selectedPub.name"
   >
     <div class="overflow-hidden break-words">

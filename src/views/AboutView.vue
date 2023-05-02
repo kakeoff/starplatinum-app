@@ -3,10 +3,8 @@ import AboutMe from "../components/AboutMe.vue";
 </script>
 
 <template>
-  <section class="about about-section">
-    <h2 class="category-heading">Общая информация</h2>
-
-    <div v-motion-pop>
+  <section>
+    <div v-motion-slide-visible-once-left>
       <AboutMe />
     </div>
   </section>

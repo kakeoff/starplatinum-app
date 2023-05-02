@@ -1,8 +1,7 @@
 <template>
   <el-dialog
     v-model="authVisible"
-    width="30%"
-    class="px-[20px]"
+    class="px-[20px] min-w-[260px] max-w-[400px]"
     title="Авторизация"
   >
     <div class="flex justify-center w-full min-h-full">
