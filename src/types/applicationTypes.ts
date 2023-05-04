@@ -8,6 +8,7 @@ export type Application = {
 }
 
 export type Pub = {
+  id: number,
   name: string,
   date: string,
   cost: number

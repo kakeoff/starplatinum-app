@@ -229,8 +229,12 @@ const addPub = () => {
   }
 
   const date = new Date(ruleForm.date).toLocaleDateString();
+  const storePub = storePubs.publications.find(
+    (pub) => pub.name === ruleForm.pub
+  );
   const data = {
-    name: ruleForm.pub,
+    id: storePub?.id,
+    name: storePub?.name,
     date: date,
   };
   formPubs.value.push(data);

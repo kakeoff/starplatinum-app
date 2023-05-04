@@ -7,9 +7,6 @@ const BASE_URL = 'http://localhost:3000';
 export async function getAllApplications() {
   try {
     const res = await axios.get(`${BASE_URL}/applications`);
-      res.data.forEach((item) => {
-        item.pubs = JSON.parse(item.pubs)
-      })
       console.log(res)
       return res
   } catch (error) {
@@ -24,12 +21,12 @@ export async function getAllApplications() {
 export async function sendApplication(data) {
   try {
     const res = await axios.post(`${BASE_URL}/applications`, data);
-    res.data.pubs = JSON.parse(res.data.pubs)
     ElNotification({
       title: "Заявка отправлена",
       message: 'Мы свяжемся с Вами для уточнения деталей',
       type: "success",
     });
+    console.log(res)
       return res
   } catch (error) {
     ElNotification({
