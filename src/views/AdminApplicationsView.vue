@@ -42,6 +42,7 @@
               <el-input
                 v-model="searchId"
                 placeholder="Введите Id заявки"
+                @input="validateIdInput"
                 clearable
                 class="w-[220px]"
               />
@@ -269,6 +270,9 @@ export default {
       if (status === "ACCEPTED") return "success";
       if (status === "CANCELED") return "danger";
       if (status === "PENDING") return "info";
+    },
+    validateIdInput() {
+      this.searchId = this.searchId.replace(/[^0-9.]/g, "");
     },
     changeStatus(id: string, status: ApplicationStatus) {
       this.applicationsStore.changeApplicationStatus(id, status);
