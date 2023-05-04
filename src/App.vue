@@ -35,31 +35,32 @@ const logout = () => {
           aria-label="Global"
         >
           <div class="flex items-center justify-between">
-            <div
+            <RouterLink
+              to="/"
               v-if="!isAuthenticated()"
               class="flex flex-row items-center gap-[2px]"
             >
               <img
+                class="hover:transition duration-300 hover:scale-105"
                 src="./assets/starplatinumicon.png"
                 width="50"
                 height="50"
                 alt="logo"
               />
-              <a
-                v-if="!isAuthenticated()"
-                class="flex-none text-xl font-semibold dark:text-white"
-                href="/"
+              <span
+                class="flex-none text-xl font-semibold dark:text-white hover:text-gradient hover:transition duration-300"
                 aria-label="Brand"
-                >STAR PLATINUM</a
+                >STAR PLATINUM</span
               >
-            </div>
-            <a
+            </RouterLink>
+            <RouterLink
               v-else
-              class="flex-none text-xl font-semibold dark:text-white"
-              href="/admin-publications"
+              class="flex-none text-xl font-semibold dark:text-white hover:text-gradient hover:transition duration-300"
+              to="/admin-publications"
               aria-label="Brand"
-              >ПАНЕЛЬ УПРАВЛЕНИЯ</a
             >
+              ПАНЕЛЬ УПРАВЛЕНИЯ
+            </RouterLink>
             <div class="sm:hidden">
               <button
                 type="button"
@@ -247,12 +248,13 @@ const logout = () => {
     <!-- Grid -->
     <div class="text-center">
       <div>
-        <a
-          class="flex-none text-xl font-semibold text-black dark:text-white"
-          href="#"
+        <RouterLink
+          class="flex-none text-xl font-semibold hover:text-gradient hover:transition duration-300 text-black dark:text-white"
+          to="/"
           aria-label="Brand"
-          >STAR PLATINUM</a
         >
+          STAR PLATINUM
+        </RouterLink>
       </div>
       <!-- End Col -->
 
