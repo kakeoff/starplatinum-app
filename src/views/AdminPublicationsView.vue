@@ -125,12 +125,19 @@
         </el-form-item>
         <span class="text-[16px]">Стоимость размещения</span>
         <el-form-item class="mb-[10px]" prop="cost">
-          <el-input
-            @input="validateCost"
-            size="large"
-            v-model="pubForm.cost"
-            placeholder="Введите стоимость"
-          ></el-input>
+          <el-tooltip
+            class="text-white"
+            effect="light"
+            content="Только числовые значения"
+            placement="top"
+          >
+            <el-input
+              @input="validateCost"
+              size="large"
+              v-model="pubForm.cost"
+              placeholder="Введите стоимость"
+            ></el-input>
+          </el-tooltip>
         </el-form-item>
         <span class="text-[16px]">Ссылка</span>
         <el-form-item class="mb-[10px]" prop="link">
@@ -235,7 +242,7 @@ export default {
           );
         });
       }
-
+      filteredPubs.sort((a, b) => b.id - a.id);
       return filteredPubs;
     },
   },

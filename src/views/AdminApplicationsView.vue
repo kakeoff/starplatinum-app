@@ -246,7 +246,7 @@ export default {
           (app) => app.status === this.statusFilter
         );
       }
-
+      filteredApps.sort((a, b) => b.id - a.id);
       return filteredApps;
     },
   },
