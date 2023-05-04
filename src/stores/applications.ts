@@ -41,8 +41,6 @@ export const applicationsStore = defineStore({
         Array.from(item.pubs)
       })
       this.applications = res.data
-      console.log(this.applications)
-
 
       return res.data
     },

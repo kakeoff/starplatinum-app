@@ -7,7 +7,6 @@ const BASE_URL = 'http://localhost:3000';
 export async function getAllApplications() {
   try {
     const res = await axios.get(`${BASE_URL}/applications`);
-      console.log(res)
       return res
   } catch (error) {
     ElNotification({
@@ -26,7 +25,6 @@ export async function sendApplication(data) {
       message: 'Мы свяжемся с Вами для уточнения деталей',
       type: "success",
     });
-    console.log(res)
       return res
   } catch (error) {
     ElNotification({

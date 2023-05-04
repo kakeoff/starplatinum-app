@@ -43,7 +43,6 @@ export const pubsStore = defineStore({
     async getAllPublications() {
       const res = await Api.getAllPublications()
       this.publications = res.data
-      console.log(this.publications)
       return res.data
     },
   }
