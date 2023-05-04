@@ -7,21 +7,20 @@
     ref="ruleFormRef"
     :model="ruleForm"
     :rules="rules"
-    label-width="120px"
     class="demo-ruleForm font-[700]"
     :size="formSize"
     status-icon
   >
-    <el-form-item label="Название" prop="name">
+    <el-form-item prop="name">
       <el-input
         placeholder="Например: ООО 'Зеленоглазое такси'"
         v-model="ruleForm.name"
       />
     </el-form-item>
 
-    <el-form-item label="Издание" required>
+    <el-form-item required>
       <el-col :span="11">
-        <el-form-item class="max-w-[223px]" prop="count">
+        <el-form-item prop="count">
           <el-select
             v-model="ruleForm.pub"
             style="width: 100%"
@@ -40,11 +39,10 @@
         <span class="text-gray-500">-</span>
       </el-col>
       <el-col :span="11">
-        <el-form-item class="max-w-[223px]" prop="date">
+        <el-form-item prop="date">
           <el-date-picker
             v-model="ruleForm.date"
             type="date"
-            label="Выберите дату"
             placeholder="Выберите дату"
             :disabledDate="disabledDate"
             style="width: 100%"
@@ -90,21 +88,21 @@
         </el-table>
       </div>
     </el-form-item>
-    <el-form-item label="Email" prop="email">
+    <el-form-item prop="email">
       <el-input
         v-model="ruleForm.email"
         placeholder="Введите ваш Email"
         type="input"
       />
     </el-form-item>
-    <el-form-item label="Комментарий" prop="desc">
+    <el-form-item prop="desc">
       <el-input
         v-model="ruleForm.desc"
         placeholder="Введите комментарий"
         type="textarea"
       />
     </el-form-item>
-    <el-form-item label="Итоговая цена" prop="desc">
+    <el-form-item prop="desc">
       <div class="w-full flex justify-end">{{ finalCost }} руб</div>
     </el-form-item>
     <el-form-item>
