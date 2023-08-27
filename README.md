@@ -8,12 +8,12 @@ The advertising agency collects applications from advertisers and publishes them
 ### Technologies
 
 - 🔭 Vue.js (3.2.37)
+- 💫 Typescript
 - ⚡ Vite (2.9.12)
 - 🍍 Pinia (2.0.14)
 - 🌈 Tailwind CSS (3.1.4)
 - 💫 Vue Motion (@vueuse/motion)
 - ✨ ESLint & Prettier
-- 🛰️ Netlify
 
 _Find more information in the `package.json` file_
 # adv_app
