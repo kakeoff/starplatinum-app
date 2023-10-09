@@ -16,5 +16,3 @@ The advertising agency collects applications from advertisers and publishes them
 - ✨ ESLint & Prettier
 
 _Find more information in the `package.json` file_
-# adv_app
-# starplatinum-app
