@@ -2,8 +2,9 @@
 
 ## The project
 
-This is my personal app.
-The advertising agency collects applications from advertisers and publishes them in advertising publications (newspapers, magazines), etc. It has been made using modern technologies such as **Vue 3** and **Tailwind CSS**.
+Users can submit applications and receive automatic feedback regarding the status of their applications via email. Additionally, users have the ability to access information about publications created by the administrator and incorporate it into their applications.
+
+The administrator has a panel that enables them to oversee and manage applications and publications.
 
 ### Technologies
 
