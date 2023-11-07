@@ -1,5 +1,5 @@
 <template>
-  <main v-motion-slide-visible-once-left>
+  <main>
     <!-- Hero -->
     <div class="h-[600px] flex justify-center items-center">
       <div
@@ -93,7 +93,7 @@
             <!-- Form -->
             <form>
               <div
-                class="relative z-10 flex hover:scale-105 hover:transition duration-300 space-x-3 p-3 bg-white border rounded-lg shadow-lg shadow-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:shadow-gray-900/[.2]"
+                class="relative flex hover:scale-105 hover:transition duration-300 space-x-3 p-3 bg-white border rounded-lg shadow-lg shadow-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:shadow-gray-900/[.2]"
               >
                 <div class="flex-[1_0_0%]">
                   <label

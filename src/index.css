@@ -14,7 +14,7 @@
 
     /***Navbar***/
     .fixed-nav {
-        @apply fixed top-0 w-full z-10;
+        @apply fixed top-0 w-full z-[11];
     }
 
     .navbar {

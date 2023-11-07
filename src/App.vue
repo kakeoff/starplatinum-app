@@ -1,31 +1,5 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
-import { isAuthenticated } from "./js/helpers";
-import { authStore } from "./stores/auth";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
-import { applicationsStore } from "./stores/applications";
-import { pubsStore } from "./stores/publications";
-
-import LoginComponent from "./components/LoginComponent.vue";
-
-const router = useRouter();
-const storeAuth = authStore();
-const storeApplications = applicationsStore();
-const storePublications = pubsStore();
-const dialogVisible = ref(false);
-const authVisible = ref(false);
-storeApplications.getAllApplications();
-storePublications.getAllPublications();
-const logout = () => {
-  storeAuth.logout();
-  router.push("/");
-  dialogVisible.value = false;
-};
-</script>
-
 <template>
-  <header class="mainHeader z-[1]">
+  <header class="mainHeader">
     <section class="fixed-nav">
       <header
         class="flex flex-wrap text-white sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0 dark:bg-gray-800 dark:border-gray-700"
@@ -307,6 +281,32 @@ const logout = () => {
     <!-- End Grid -->
   </footer>
 </template>
+
+<script setup>
+import { RouterLink, RouterView } from "vue-router";
+import { isAuthenticated } from "./js/helpers";
+import { authStore } from "./stores/auth";
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { applicationsStore } from "./stores/applications";
+import { pubsStore } from "./stores/publications";
+
+import LoginComponent from "./components/LoginComponent.vue";
+
+const router = useRouter();
+const storeAuth = authStore();
+const storeApplications = applicationsStore();
+const storePublications = pubsStore();
+const dialogVisible = ref(false);
+const authVisible = ref(false);
+storeApplications.getAllApplications();
+storePublications.getAllPublications();
+const logout = () => {
+  storeAuth.logout();
+  router.push("/");
+  dialogVisible.value = false;
+};
+</script>
 
 <style scoped>
 .dialog-footer button:first-child {

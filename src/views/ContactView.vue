@@ -1,9 +1,6 @@
 <template>
   <!-- Hero -->
-  <div
-    v-motion-slide-visible-once-left
-    class="relative overflow-hidden mt-[-50px] z-[0]"
-  >
+  <div class="relative overflow-hidden mt-[-50px] z-[0]">
     <!-- Gradients -->
     <div
       aria-hidden="true"

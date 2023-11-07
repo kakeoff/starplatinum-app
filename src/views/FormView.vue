@@ -1,5 +1,5 @@
 <template>
-  <section class="form-section" v-motion-pop>
+  <section class="form-section">
     <div class="p-[20px]">
       <Form />
     </div>

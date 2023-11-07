@@ -2,7 +2,7 @@
   <section class="about applications-section">
     <h2 class="category-heading mx-auto">Издания</h2>
 
-    <div class="w-full" v-motion-pop>
+    <div class="w-full">
       <div class="container mx-auto my-10 h-full">
         <div class="w-full flex gap-[15px] justify-end mb-[20px]">
           <el-tooltip

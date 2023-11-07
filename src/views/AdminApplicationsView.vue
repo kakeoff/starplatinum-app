@@ -2,7 +2,7 @@
   <section class="about applications-section">
     <h2 class="category-heading mx-auto">Заявки</h2>
 
-    <div class="w-full" v-motion-pop>
+    <div class="w-full">
       <div class="mx-auto px-[30px] w-full my-10">
         <div class="w-full flex justify-between mb-[20px]">
           <el-radio-group v-model="statusFilter">
