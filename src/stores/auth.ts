@@ -9,6 +9,9 @@ export const authStore = defineStore({
       if (!res) return
       localStorage.setItem('access_token', res.data.access_token)
     },
+    async register(login: string, password: string) {
+      await Api.register(login, password)
+    },
     logout() {
       localStorage.removeItem('access_token')
     }

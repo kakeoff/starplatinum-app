@@ -172,10 +172,17 @@
 
               <div
                 v-if="!isAuthenticated()"
-                class="flex nav-link-extension cursor-pointer items-center gap-x-2 font-medium text-gray-500 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700 dark:text-gray-400"
+                class="flex nav-link-extension cursor-pointer items-center font-medium text-gray-500 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700 dark:text-gray-400"
+                @click="registerVisible = true"
+              >
+                Регистрация
+              </div>
+
+              <div
+                v-if="!isAuthenticated()"
+                class="flex nav-link-extension cursor-pointer items-center font-medium text-gray-500 sm:my-6 dark:text-gray-400"
                 @click="authVisible = true"
               >
-                <font-awesome-icon icon="fa-solid fa-user"></font-awesome-icon>
                 Авторизация
               </div>
               <div
@@ -194,7 +201,14 @@
       <LoginComponent
         :authVisible="authVisible"
         @close="authVisible = false"
+        @auth="login"
         v-if="authVisible"
+      />
+      <LoginComponent
+        :authVisible="registerVisible"
+        @close="registerVisible = false"
+        @auth="register"
+        v-if="registerVisible"
       />
       <el-dialog
         v-model="dialogVisible"
@@ -299,12 +313,19 @@ const storeApplications = applicationsStore();
 const storePublications = pubsStore();
 const dialogVisible = ref(false);
 const authVisible = ref(false);
+const registerVisible = ref(false);
 storeApplications.getAllApplications();
 storePublications.getAllPublications();
 const logout = () => {
   storeAuth.logout();
   router.push("/");
   dialogVisible.value = false;
+};
+const login = async (login, password) => {
+  await storeAuth.login(login, password);
+};
+const register = async (login, password) => {
+  await storeAuth.register(login, password);
 };
 </script>
 

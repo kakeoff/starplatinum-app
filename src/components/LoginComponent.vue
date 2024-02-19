@@ -85,17 +85,7 @@ export default defineComponent({
     login() {
       this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
-          await this.authStore.login(
-            this.loginForm.username,
-            this.loginForm.password
-          );
-          let IsToken = false;
-          if (localStorage.getItem("access_token")) {
-            IsToken = true;
-          }
-          if (!IsToken) {
-            return;
-          }
+          this.$emit('auth', this.loginForm.username, this.loginForm.password)
           this.$router.push("/admin-applications");
           this.close();
         } else {
