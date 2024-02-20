@@ -1,31 +1,13 @@
 <template>
   <!-- Hero -->
-  <div class="relative overflow-hidden mt-[-50px] z-[0]">
-    <!-- Gradients -->
-    <div
-      aria-hidden="true"
-      class="flex absolute -top-96 left-1/2 transform -translate-x-1/2"
-    >
-      <div
-        class="bg-gradient-to-r from-violet-300/50 to-purple-100 blur-3xl w-[25rem] h-[44rem] rotate-[-60deg] transform -translate-x-[10rem] dark:from-violet-900/50 dark:to-purple-900"
-      ></div>
-      <div
-        class="bg-gradient-to-tl from-blue-50 via-blue-100 to-blue-50 blur-3xl w-[90rem] h-[50rem] rounded-fulls origin-top-left -rotate-12 -translate-x-[15rem] dark:from-indigo-900/70 dark:via-indigo-900/70 dark:to-blue-900/70"
-      ></div>
-    </div>
-    <!-- End Gradients -->
+  <div class="relative overflow-hidden z-[0] h-[calc(100vh-326px)]">
 
     <div class="relative z-10">
-      <div class="mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
+      <div class="mx-auto px-4 sm:px-6 lg:px-8 pb-10 lg:pb-16">
         <div class="max-w-2xl text-center mx-auto">
-          <p
-            class="inline-block text-sm font-medium bg-clip-text bg-gradient-to-l from-blue-600 to-violet-500 text-transparent dark:from-blue-400 dark:to-violet-400"
-          >
-            Контактная информация
-          </p>
 
           <!-- Title -->
-          <div class="mt-5 max-w-2xl">
+          <div class="max-w-2xl">
             <h1
               class="block font-semibold text-gray-800 text-4xl md:text-5xl lg:text-6xl dark:text-gray-200"
             >
@@ -34,7 +16,7 @@
           </div>
           <!-- End Title -->
 
-          <div class="mt-5 max-w-3xl">
+          <div class="mt-5 ">
             <p class="text-lg text-gray-600 dark:text-gray-400">
               Ниже представлены все способы связаться с нами. Мы очень надеемся,
               что сможем Вам помочь!
@@ -42,9 +24,8 @@
           </div>
         </div>
       </div>
-      <div class="px-[50px] pb-[30px]">
-        <!-- Grid -->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div class="w-full flex justify-center pb-[-30px]">
+        <div class="flex flex-col min-w-[700px] gap-[10px] px-[150px]">
           <!-- Card -->
           <a
             class="group flex flex-col bg-white hover:scale-105 hover:transition duration-300 border shadow-sm rounded-xl hover:shadow-md transition dark:bg-slate-900 dark:border-gray-800"

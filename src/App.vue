@@ -2,7 +2,7 @@
   <header class="mainHeader">
     <section class="fixed-nav">
       <header
-        class="flex flex-wrap text-white sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0 dark:bg-gray-800 dark:border-gray-700"
+        class="flex flex-wrap text-white sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0 dark:bg-black/30 backdrop-blur-md dark:border-gray-700"
       >
         <nav
           class="relative w-full sm:flex sm:items-center sm:justify-between"
@@ -11,7 +11,7 @@
           <div class="flex items-center justify-between">
             <RouterLink
               to="/"
-              v-if="!isAuthenticated()"
+              v-if="!user"
               class="flex flex-row items-center gap-[2px]"
             >
               <img
@@ -74,7 +74,7 @@
             class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block"
           >
             <div
-              class="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:pl-7"
+              class="flex font-[700] flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:pl-7"
             >
               <RouterLink
                 to="/"
@@ -123,7 +123,7 @@
                 >
               </RouterLink>
 
-              <div v-if="isAuthenticated()">
+              <div v-if="user">
                 <el-badge
                   :value="storeApplications.applications.length || 0"
                   class="item"
@@ -146,7 +146,7 @@
                   </RouterLink>
                 </el-badge>
               </div>
-              <div v-if="isAuthenticated()">
+              <div v-if="user">
                 <el-badge
                   :value="storePublications.publications.length || 0"
                   class="item"
@@ -171,7 +171,7 @@
               </div>
 
               <div
-                v-if="!isAuthenticated()"
+                v-if="!user"
                 class="flex nav-link-extension cursor-pointer items-center font-medium text-gray-500 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700 dark:text-gray-400"
                 @click="registerVisible = true"
               >
@@ -179,7 +179,7 @@
               </div>
 
               <div
-                v-if="!isAuthenticated()"
+                v-if="!user"
                 class="flex nav-link-extension cursor-pointer items-center font-medium text-gray-500 sm:my-6 dark:text-gray-400"
                 @click="authVisible = true"
               >
@@ -200,12 +200,14 @@
       </header>
       <LoginComponent
         :authVisible="authVisible"
+        title="Авторизация"
         @close="authVisible = false"
         @auth="login"
         v-if="authVisible"
       />
       <LoginComponent
         :authVisible="registerVisible"
+        title="Регистрация"
         @close="registerVisible = false"
         @auth="register"
         v-if="registerVisible"
@@ -298,10 +300,10 @@
 
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import { isAuthenticated } from "./js/helpers";
 import { authStore } from "./stores/auth";
+import { userStore } from "./stores/user";
 import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { applicationsStore } from "./stores/applications";
 import { pubsStore } from "./stores/publications";
 
@@ -309,13 +311,21 @@ import LoginComponent from "./components/LoginComponent.vue";
 
 const router = useRouter();
 const storeAuth = authStore();
+const storeUser = userStore();
 const storeApplications = applicationsStore();
 const storePublications = pubsStore();
+
+onMounted(async () => {
+  await storeUser.getMe();
+  await storeApplications.getAllApplications();
+  await storePublications.getAllPublications();
+});
+
 const dialogVisible = ref(false);
 const authVisible = ref(false);
 const registerVisible = ref(false);
-storeApplications.getAllApplications();
-storePublications.getAllPublications();
+const user = computed(() => storeUser.user)
+
 const logout = () => {
   storeAuth.logout();
   router.push("/");

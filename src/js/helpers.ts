@@ -1,6 +1,6 @@
 
 export function isAuthenticated () {
-  const token = localStorage.getItem('access_token')
+  const token = localStorage.getItem('accessToken')
   return token !== null && token !== undefined
 }
 

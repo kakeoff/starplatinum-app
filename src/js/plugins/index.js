@@ -1,12 +1,23 @@
-import axios from 'axios'
-import interceptors from './interceptors'
+import axios from 'axios';
 
-const url = import.meta.env.VITE_APP_SERVER_API
+const API_URL = 'http://localhost:3000';
 
-const instance = axios.create({
-  baseURL: url
-})
+const axiosInstance = axios.create({
+  baseURL: API_URL,
+});
 
-interceptors(instance)
+axiosInstance.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('accessToken');
 
-export default instance
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+export default axiosInstance;

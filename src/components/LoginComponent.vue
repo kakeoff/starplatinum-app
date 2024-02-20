@@ -2,7 +2,7 @@
   <el-dialog
     v-model="authVisible"
     class="px-[20px] min-w-[260px] max-w-[400px]"
-    title="Авторизация"
+    :title="title"
   >
     <div class="flex justify-center w-full min-h-full">
       <el-form
@@ -31,7 +31,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="close()">Отмена</el-button>
-        <el-button type="primary" @click="login()"> Войти </el-button>
+        <el-button type="primary" @click="login()"> Подтвердить </el-button>
       </span>
     </template>
   </el-dialog>
@@ -57,6 +57,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    title: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -86,7 +90,6 @@ export default defineComponent({
       this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
           this.$emit('auth', this.loginForm.username, this.loginForm.password)
-          this.$router.push("/admin-applications");
           this.close();
         } else {
           ElNotification({

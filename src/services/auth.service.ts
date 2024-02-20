@@ -1,11 +1,9 @@
-import axios from 'axios';
 import { ElNotification } from 'element-plus';
-
-const API_URL = 'http://localhost:3000';
+import axios from '../js/plugins/index';
 
 export async function login(login: string, password: string) {
   try {
-    const response = await axios.post(`${API_URL}/auth/login`, {
+    const response = await axios.post(`/auth/login`, {
       login,
       password,
     });
@@ -34,7 +32,7 @@ export async function login(login: string, password: string) {
 
 export async function register(login: string, password: string) {
   try {
-    const response = await axios.post(`${API_URL}/auth/register`, {
+    const response = await axios.post(`/auth/register`, {
       login,
       password,
     });

@@ -317,5 +317,5 @@
 </template>
 
 <script setup>
-const emit = defineEmits(["showForm"]);
+const emit = defineEmits(['showForm'])
 </script>
