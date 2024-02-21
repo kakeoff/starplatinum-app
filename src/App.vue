@@ -140,7 +140,7 @@
                 >
               </RouterLink>
 
-              <div v-if="user">
+              <div v-if="user && user.role !== 0">
                 <el-badge
                   :value="storeApplications.applications.length || 0"
                   class="item"
@@ -163,7 +163,7 @@
                   </RouterLink>
                 </el-badge>
               </div>
-              <div v-if="user">
+              <div v-if="user && user?.role !== 0">
                 <el-badge
                   :value="storePublications.publications.length || 0"
                   class="item"
@@ -337,7 +337,9 @@ onMounted(async () => {
   if (isAuthenticated()) {
     await storeUser.getMe()
   }
-  await storeApplications.getAllApplications()
+  if (isAdmin.value) {
+    await storeApplications.getAllApplications()
+  }
   await storePublications.getAllPublications()
 })
 
@@ -345,6 +347,9 @@ const dialogVisible = ref(false)
 const authVisible = ref(false)
 const registerVisible = ref(false)
 const user = computed(() => storeUser.user)
+const isAdmin = computed(() => {
+  return user.value && user.value.role === 1
+})
 
 const logout = () => {
   storeAuth.logout()

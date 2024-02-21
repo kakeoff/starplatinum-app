@@ -1,12 +1,10 @@
-import axios from 'axios';
 import { ElNotification } from 'element-plus';
-
-const BASE_URL = 'http://localhost:3000';
+import axios from '../js/plugins';
 
 
 export async function getAllApplications() {
   try {
-    const res = await axios.get(`${BASE_URL}/applications`);
+    const res = await axios.get(`/applications`);
       return res
   } catch (error) {
     ElNotification({
@@ -19,7 +17,7 @@ export async function getAllApplications() {
 
 export async function sendApplication(data) {
   try {
-    const res = await axios.post(`${BASE_URL}/applications`, data);
+    const res = await axios.post(`/applications`, data);
     ElNotification({
       title: "Заявка отправлена",
       message: 'Мы свяжемся с Вами для уточнения деталей',
@@ -37,7 +35,7 @@ export async function sendApplication(data) {
 
 export async function changeApplicationStatus(id: number, status: string) {
   try {
-    const res = await axios.patch(`${BASE_URL}/applications/${id}/status`, {status});
+    const res = await axios.patch(`/applications/${id}/status`, {status});
     ElNotification({
       title: `Статус заявки изменен`,
       type: "success",
@@ -54,7 +52,7 @@ export async function changeApplicationStatus(id: number, status: string) {
 
 export async function deleteApplication(applicationId: number) {
   try {
-    await axios.delete(`${BASE_URL}/applications/${applicationId}`);
+    await axios.delete(`/applications/${applicationId}`);
     ElNotification({
       title: "Заявка удалена",
       type: "success",

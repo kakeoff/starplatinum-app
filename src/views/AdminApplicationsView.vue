@@ -1,7 +1,6 @@
 <template>
   <section class="about applications-section">
     <h2 class="category-heading mx-auto">Заявки</h2>
-
     <div class="w-full">
       <div class="mx-auto px-[30px] w-full my-10">
         <div class="w-full flex justify-between mb-[20px]">
@@ -96,7 +95,7 @@
               <el-button
                 type="info"
                 size="small"
-                @click="(selectedAppId = row.id), (showComment = true)"
+                @click=";(selectedAppId = row.id), (showComment = true)"
               >
                 Посмотреть
               </el-button>
@@ -180,53 +179,57 @@
 </template>
 
 <script lang="ts">
-import { ElTable, ElTableColumn, ElButton, ElNotification } from "element-plus";
-import { applicationsStore } from "../stores/applications";
-import { pubsStore } from "../stores/publications";
-import { mapStores } from "pinia";
-import { localizeApplicationStatus } from "../js/helpers";
-import { Application, ApplicationStatus } from "../types/applicationTypes";
-import { App } from "vue";
-import { changeApplicationStatus } from "../services/applications.service";
+import { ElTable, ElTableColumn, ElButton, ElNotification } from 'element-plus'
+import { applicationsStore } from '../stores/applications'
+import { pubsStore } from '../stores/publications'
+import { mapStores } from 'pinia'
+import { localizeApplicationStatus } from '../js/helpers'
+import { Application, ApplicationStatus } from '../types/applicationTypes'
+import { App, defineComponent } from 'vue'
+import { changeApplicationStatus } from '../services/applications.service'
+import { userStore } from '../stores/user'
 
-export default {
-  name: "Applications",
+export default defineComponent({
+  name: 'Applications',
   components: { ElTable, ElTableColumn, ElButton },
   computed: {
-    ...mapStores(applicationsStore, pubsStore),
+    ...mapStores(applicationsStore, pubsStore, userStore),
     applications() {
-      return this.applicationsStore.applications;
+      return this.applicationsStore.applications
     },
     selectedApp() {
       return (
         this.applicationsStore.applications.find(
           (app) => app.id === this.selectedAppId
         ) || null
-      );
+      )
+    },
+    user() {
+      return this.userStore.user
     },
     filteredApplications() {
-      let filteredApps = this.applications;
+      let filteredApps = this.applications
 
       if (this.selectedDate) {
-        const date = new Date(this.selectedDate);
-        const day = date.getDate().toString().padStart(2, "0");
-        const month = (date.getMonth() + 1).toString().padStart(2, "0");
-        const year = date.getFullYear();
-        const formattedDate = `${day}.${month}.${year}`;
+        const date = new Date(this.selectedDate)
+        const day = date.getDate().toString().padStart(2, '0')
+        const month = (date.getMonth() + 1).toString().padStart(2, '0')
+        const year = date.getFullYear()
+        const formattedDate = `${day}.${month}.${year}`
         filteredApps = filteredApps.filter((app) =>
           app.pubs.some((pub) => pub.date === formattedDate)
-        );
+        )
       }
 
       if (this.searchId) {
-        const keyword = this.searchId.toLowerCase().trim();
+        const keyword = this.searchId.toLowerCase().trim()
         filteredApps = filteredApps.filter((app) =>
           String(app.id).includes(keyword)
-        );
+        )
       }
 
       if (this.search) {
-        const keyword = this.search.toLowerCase().trim();
+        const keyword = this.search.toLowerCase().trim()
         filteredApps = filteredApps.filter((app) => {
           return (
             app.name.toLowerCase().includes(keyword) ||
@@ -238,51 +241,58 @@ export default {
                 pub.name.toLowerCase().includes(keyword) ||
                 pub.date.toLowerCase().includes(keyword)
             )
-          );
-        });
+          )
+        })
       }
 
       if (this.statusFilter) {
         filteredApps = filteredApps.filter(
           (app) => app.status === this.statusFilter
-        );
+        )
       }
-      filteredApps.sort((a, b) => b.id - a.id);
-      return filteredApps;
-    },
+      filteredApps.sort((a, b) => b.id - a.id)
+      return filteredApps
+    }
+  },
+  watch: {
+    user(user) {
+      if (user && user?.role === 0) {
+        this.$router.push('/')
+      }
+    }
   },
   data() {
     return {
       selectedDate: null,
-      search: "",
-      searchId: "",
-      statusFilter: "",
+      search: '',
+      searchId: '',
+      statusFilter: '',
       selectedAppId: null,
       showComment: false,
-      visiblePopover: false,
-    };
+      visiblePopover: false
+    }
   },
   methods: {
     localize(status) {
-      return localizeApplicationStatus(status);
+      return localizeApplicationStatus(status)
     },
     getButtonType(status: ApplicationStatus) {
-      if (status === "ACCEPTED") return "success";
-      if (status === "CANCELED") return "danger";
-      if (status === "PENDING") return "info";
+      if (status === 'ACCEPTED') return 'success'
+      if (status === 'CANCELED') return 'danger'
+      if (status === 'PENDING') return 'info'
     },
     validateIdInput() {
-      this.searchId = this.searchId.replace(/[^0-9.]/g, "");
+      this.searchId = this.searchId.replace(/[^0-9.]/g, '')
     },
     changeStatus(id: string, status: ApplicationStatus) {
-      this.applicationsStore.changeApplicationStatus(id, status);
-      this.visiblePopover = false;
+      this.applicationsStore.changeApplicationStatus(id, status)
+      this.visiblePopover = false
     },
     async removeApplication(applicationId) {
-      await this.applicationsStore.deleteApplication(Number(applicationId));
-    },
-  },
-};
+      await this.applicationsStore.deleteApplication(Number(applicationId))
+    }
+  }
+})
 </script>
 
 <style scoped>

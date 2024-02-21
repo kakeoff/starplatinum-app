@@ -1,12 +1,10 @@
-import axios from 'axios';
 import { ElNotification } from 'element-plus';
-
-const BASE_URL = 'http://localhost:3000';
+import axios from '../js/plugins/index';
 
 
 export async function getAllPublications() {
   try {
-    const res = await axios.get(`${BASE_URL}/publications`);
+    const res = await axios.get(`/publications`);
       return res
   } catch (error) {
     ElNotification({
@@ -19,7 +17,7 @@ export async function getAllPublications() {
 
 export async function createPublication(data) {
   try {
-    const res = await axios.post(`${BASE_URL}/publications`, data);
+    const res = await axios.post(`/publications`, data);
     ElNotification({
       title: "Издание успешно добавлено",
       type: "success",
@@ -36,7 +34,7 @@ export async function createPublication(data) {
 
 export async function updatePublication(data) {
   try {
-    const res = await axios.patch(`${BASE_URL}/publications/${data.id}`, data);
+    const res = await axios.patch(`/publications/${data.id}`, data);
     ElNotification({
       title: "Издание успешно изменено",
       type: "success",
@@ -53,7 +51,7 @@ export async function updatePublication(data) {
 
 export async function deletePublication(id: number) {
   try {
-    await axios.delete(`${BASE_URL}/publications/${id}`);
+    await axios.delete(`/publications/${id}`);
     ElNotification({
       title: "Издание удалено",
       type: "success",

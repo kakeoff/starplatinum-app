@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
 import * as Api from '../services/user.service';
+import { User } from "../types/userTypes";
 
 export const userStore = defineStore({
   id: 'user',
   state: () => ({
-    user: null
+    user: null as User
   }),
   actions: {
     async getMe() {

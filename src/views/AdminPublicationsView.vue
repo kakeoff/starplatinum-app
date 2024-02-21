@@ -41,7 +41,7 @@
               <el-button
                 type="info"
                 size="small"
-                @click="(selectedPub = row), (showDescription = true)"
+                @click=";(selectedPub = row), (showDescription = true)"
                 >Посмотреть</el-button
               >
             </template>
@@ -68,7 +68,7 @@
                   <el-button
                     type="info"
                     size="small"
-                    @click="(showUpdatePub = true), (selectedPub = row)"
+                    @click=";(showUpdatePub = true), (selectedPub = row)"
                   >
                     Редактировать
                   </el-button>
@@ -92,7 +92,7 @@
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="(showDescription = false), (selectedPub = {})">
+        <el-button @click=";(showDescription = false), (selectedPub = {})">
           Закрыть
         </el-button>
       </span>
@@ -215,57 +215,66 @@
 </template>
 
 <script>
-import { ElTable, ElTableColumn, ElButton, ElNotification } from "element-plus";
-import { applicationsStore } from "../stores/applications";
-import { pubsStore } from "../stores/publications";
-import { mapStores } from "pinia";
+import { ElTable, ElTableColumn, ElButton, ElNotification } from 'element-plus'
+import { applicationsStore } from '../stores/applications'
+import { pubsStore } from '../stores/publications'
+import { mapStores } from 'pinia'
+import { userStore } from '../stores/user'
 
 export default {
-  name: "Applications",
+  name: 'Applications',
   components: { ElTable, ElTableColumn, ElButton },
   computed: {
-    ...mapStores(pubsStore, applicationsStore),
+    ...mapStores(pubsStore, applicationsStore, userStore),
     publications() {
-      return this.publicationsStore.publications;
+      return this.publicationsStore.publications
+    },
+    user() {
+      return this.userStore.user
     },
     filteredPublications() {
-      let filteredPubs = this.publications;
+      let filteredPubs = this.publications
 
       if (this.search) {
-        const keyword = this.search.toLowerCase().trim();
+        const keyword = this.search.toLowerCase().trim()
         filteredPubs = filteredPubs.filter((pub) => {
           return (
             pub.name.toLowerCase().includes(keyword) ||
             pub.description.toLowerCase().includes(keyword) ||
             pub.cost.toString().includes(keyword) ||
             pub.link.toString().includes(keyword)
-          );
-        });
+          )
+        })
       }
-      filteredPubs.sort((a, b) => b.id - a.id);
-      return filteredPubs;
-    },
+      filteredPubs.sort((a, b) => b.id - a.id)
+      return filteredPubs
+    }
   },
   watch: {
+    user(user) {
+      if (user && user?.role === 0) {
+        this.$router.push('/')
+      }
+    },
     showAddPub: {
       immediate: true,
       handler: function () {
-        this.resetFields();
-      },
+        this.resetFields()
+      }
     },
     showUpdatePub: {
       immediate: true,
       handler: function (val) {
         if (val === false) {
-          this.resetFields();
+          this.resetFields()
         } else {
-          this.pubForm.cost = this.selectedPub.cost;
-          this.pubForm.name = this.selectedPub.name;
-          this.pubForm.description = this.selectedPub.description;
-          this.pubForm.link = this.selectedPub.link;
+          this.pubForm.cost = this.selectedPub.cost
+          this.pubForm.name = this.selectedPub.name
+          this.pubForm.description = this.selectedPub.description
+          this.pubForm.link = this.selectedPub.link
         }
-      },
-    },
+      }
+    }
   },
   data() {
     return {
@@ -273,59 +282,59 @@ export default {
       showDescription: false,
       showUpdatePub: false,
       selectedPub: {},
-      search: "",
+      search: '',
       showAddPub: false,
       pubForm: {
-        name: "",
-        description: "",
-        cost: "",
-        link: "",
+        name: '',
+        description: '',
+        cost: '',
+        link: ''
       },
       pubRules: {
         name: [
           {
             required: true,
-            message: "Введите название",
-            trigger: "blur",
-          },
+            message: 'Введите название',
+            trigger: 'blur'
+          }
         ],
         description: [
-          { required: true, message: "Введите описание", trigger: "blur" },
+          { required: true, message: 'Введите описание', trigger: 'blur' }
         ],
         cost: [
           {
             required: true,
-            message: "Введите стоимость размещения",
-            trigger: "blur",
-          },
-        ],
-      },
-    };
+            message: 'Введите стоимость размещения',
+            trigger: 'blur'
+          }
+        ]
+      }
+    }
   },
   methods: {
     validateCost() {
-      this.pubForm.cost = this.pubForm.cost.replace(/[^0-9.]/g, "");
+      this.pubForm.cost = this.pubForm.cost.replace(/[^0-9.]/g, '')
     },
     async removePub(id) {
-      await this.publicationsStore.deletePublication(Number(id));
+      await this.publicationsStore.deletePublication(Number(id))
     },
     addPub() {
       const data = {
         name: this.pubForm.name,
         description: this.pubForm.description,
         cost: Number(this.pubForm.cost),
-        link: this.pubForm.link,
-      };
+        link: this.pubForm.link
+      }
       if (!data.name || !data.cost || !data.description) {
         ElNotification({
-          title: "Ошибка",
-          message: "Вы ввели не все данные",
-          type: "error",
-        });
-        return;
+          title: 'Ошибка',
+          message: 'Вы ввели не все данные',
+          type: 'error'
+        })
+        return
       }
-      this.publicationsStore.createPublication(data);
-      this.showAddPub = false;
+      this.publicationsStore.createPublication(data)
+      this.showAddPub = false
     },
 
     updatePub() {
@@ -334,25 +343,25 @@ export default {
         name: this.pubForm.name,
         description: this.pubForm.description,
         cost: Number(this.pubForm.cost),
-        link: this.pubForm.link,
-      };
+        link: this.pubForm.link
+      }
       if (!data.name || !data.cost || !data.description) {
         ElNotification({
-          title: "Ошибка",
-          message: "Вы ввели не все данные",
-          type: "error",
-        });
-        return;
+          title: 'Ошибка',
+          message: 'Вы ввели не все данные',
+          type: 'error'
+        })
+        return
       }
-      this.publicationsStore.updatePublication(data);
-      this.showUpdatePub = false;
+      this.publicationsStore.updatePublication(data)
+      this.showUpdatePub = false
     },
     resetFields() {
-      this.pubForm.name = "";
-      this.pubForm.description = "";
-      this.pubForm.link = "";
-      this.pubForm.cost = "";
-    },
-  },
-};
+      this.pubForm.name = ''
+      this.pubForm.description = ''
+      this.pubForm.link = ''
+      this.pubForm.cost = ''
+    }
+  }
+}
 </script>
