@@ -2,10 +2,10 @@
   <header class="mainHeader">
     <section class="fixed-nav">
       <header
-        class="flex flex-wrap text-white sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0 dark:bg-black/30 backdrop-blur-md dark:border-gray-700"
+        class="flex flex-wrap text-white lg:justify-start lg:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 lg:py-0 dark:bg-black/30 backdrop-blur-md dark:border-gray-700"
       >
         <nav
-          class="relative w-full sm:flex sm:items-center sm:justify-between"
+          class="relative w-full lg:flex lg:items-center lg:justify-between"
           aria-label="Global"
         >
           <div class="flex items-center justify-between">
@@ -35,7 +35,7 @@
             >
               ПАНЕЛЬ УПРАВЛЕНИЯ
             </RouterLink>
-            <div class="sm:hidden">
+            <div class="lg:hidden">
               <button
                 type="button"
                 class="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
@@ -71,36 +71,53 @@
           </div>
           <div
             id="navbar-collapse-with-animation"
-            class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block"
+            class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow lg:block"
           >
             <div
-              class="flex font-[700] flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:pl-7"
+              class="flex font-[700] flex-col gap-y-4 gap-x-0 mt-5 lg:flex-row lg:items-center lg:justify-end lg:gap-y-0 lg:gap-x-7 lg:mt-0 lg:pl-7"
             >
               <RouterLink
                 to="/"
                 :class="{
-                  'text-cyan-500': this.$route.name === 'home',
+                  'text-cyan-500': this.$route.name === 'home'
                 }"
                 title="Home"
               >
                 <span
                   :class="{
-                    'text-gradient': this.$route.name === 'home',
+                    'text-gradient': this.$route.name === 'home'
                   }"
                   class="nav-link-extension"
                   >Главная</span
                 >
               </RouterLink>
+
               <RouterLink
-                to="/about"
+                to="/review"
                 :class="{
-                  'text-cyan-500': this.$route.name === 'about',
+                  'text-cyan-500': this.$route.name === 'review'
                 }"
-                title="About me"
+                title="review"
               >
                 <span
                   :class="{
-                    'text-gradient': this.$route.name === 'about',
+                    'text-gradient': this.$route.name === 'review'
+                  }"
+                  class="nav-link-extension"
+                  >Обзор</span
+                >
+              </RouterLink>
+
+              <RouterLink
+                to="/about"
+                :class="{
+                  'text-cyan-500': this.$route.name === 'about'
+                }"
+                title="About"
+              >
+                <span
+                  :class="{
+                    'text-gradient': this.$route.name === 'about'
                   }"
                   class="nav-link-extension"
                   >О нас</span
@@ -110,13 +127,13 @@
               <RouterLink
                 to="/contacts"
                 :class="{
-                  'text-cyan-500': this.$route.name === 'contacts',
+                  'text-cyan-500': this.$route.name === 'contacts'
                 }"
                 title="Contacts"
               >
                 <span
                   :class="{
-                    'text-gradient': this.$route.name === 'contacts',
+                    'text-gradient': this.$route.name === 'contacts'
                   }"
                   class="nav-link-extension"
                   >Контакты</span
@@ -131,14 +148,14 @@
                   <RouterLink
                     to="/admin-applications"
                     :class="{
-                      'text-cyan-500': this.$route.name === 'adminApplications',
+                      'text-cyan-500': this.$route.name === 'adminApplications'
                     }"
                     title="Admin"
                   >
                     <span
                       :class="{
                         'text-gradient':
-                          this.$route.name === 'adminApplications',
+                          this.$route.name === 'adminApplications'
                       }"
                       class="nav-link-extension"
                       >Заявки</span
@@ -154,14 +171,14 @@
                   <RouterLink
                     to="/admin-publications"
                     :class="{
-                      'text-cyan-500': this.$route.name === 'adminPublications',
+                      'text-cyan-500': this.$route.name === 'adminPublications'
                     }"
                     title="Admin"
                   >
                     <span
                       :class="{
                         'text-gradient':
-                          this.$route.name === 'adminPublications',
+                          this.$route.name === 'adminPublications'
                       }"
                       class="nav-link-extension"
                       >Издания</span
@@ -227,7 +244,6 @@
       </el-dialog>
     </section>
   </header>
-
   <RouterView />
   <footer
     v-if="
@@ -298,45 +314,61 @@
   </footer>
 </template>
 
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
-import { authStore } from "./stores/auth";
-import { userStore } from "./stores/user";
-import { useRouter } from "vue-router";
-import { ref, onMounted, computed } from "vue";
-import { applicationsStore } from "./stores/applications";
-import { pubsStore } from "./stores/publications";
+<script setup lang="ts">
+import { RouterLink, RouterView } from 'vue-router'
+import { authStore } from './stores/auth'
+import { userStore } from './stores/user'
+import { useRouter } from 'vue-router'
+import { ref, onMounted, computed } from 'vue'
+import { applicationsStore } from './stores/applications'
+import { pubsStore } from './stores/publications'
+import { isAuthenticated } from './js/helpers'
 
-import LoginComponent from "./components/LoginComponent.vue";
+import LoginComponent from './components/LoginComponent.vue'
+import { ElNotification } from 'element-plus'
 
-const router = useRouter();
-const storeAuth = authStore();
-const storeUser = userStore();
-const storeApplications = applicationsStore();
-const storePublications = pubsStore();
+const router = useRouter()
+const storeAuth = authStore()
+const storeUser = userStore()
+const storeApplications = applicationsStore()
+const storePublications = pubsStore()
 
 onMounted(async () => {
-  await storeUser.getMe();
-  await storeApplications.getAllApplications();
-  await storePublications.getAllPublications();
-});
+  if (isAuthenticated()) {
+    await storeUser.getMe()
+  }
+  await storeApplications.getAllApplications()
+  await storePublications.getAllPublications()
+})
 
-const dialogVisible = ref(false);
-const authVisible = ref(false);
-const registerVisible = ref(false);
+const dialogVisible = ref(false)
+const authVisible = ref(false)
+const registerVisible = ref(false)
 const user = computed(() => storeUser.user)
 
 const logout = () => {
-  storeAuth.logout();
-  router.push("/");
-  dialogVisible.value = false;
-};
+  storeAuth.logout()
+  router.push('/')
+  dialogVisible.value = false
+}
 const login = async (login, password) => {
-  await storeAuth.login(login, password);
-};
+  await storeAuth.login(login, password)
+  authVisible.value = false
+}
 const register = async (login, password) => {
-  await storeAuth.register(login, password);
-};
+  try {
+    await storeAuth.register(login, password)
+    registerVisible.value = false
+  } catch (err) {
+    if (err.response.data.message === 'User already exists') {
+      ElNotification({
+        title: 'Ошибка',
+        message: 'Пользователь уже существует',
+        type: 'error'
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>

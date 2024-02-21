@@ -3,139 +3,152 @@
 @tailwind utilities;
 
 @layer components {
-    .body {
-        @apply transition ease-in-out delay-150 duration-150 font-sans text-slate-700 bg-gradient-to-tl from-slate-300 via-white to-slate-100 dark:from-black dark:to-slate-900 dark:text-slate-500;
-    }
+  .body {
+    @apply transition h-[100vh] overflow-auto ease-in-out delay-150 duration-150 font-sans text-slate-700 bg-gradient-to-tl from-slate-300 via-white to-slate-100 dark:from-black dark:to-slate-900 dark:text-slate-500;
+  }
 
-    /***Global text-gradients***/
-    .text-gradient {
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-indigo-500;
-    }
+  /***Global text-gradients***/
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-indigo-500;
+  }
 
-    /***Navbar***/
-    .fixed-nav {
-        @apply fixed top-0 w-full z-[11];
-    }
+  /***Navbar***/
+  .fixed-nav {
+    @apply fixed top-0 w-full z-[11];
+  }
 
-    .navbar {
-        @apply flex items-center justify-center z-10 bg-gradient-to-b from-white/80 dark:from-transparent backdrop-blur-md font-heading font-normal text-xl xl:text-lg;
-    }
+  .navbar {
+    @apply flex items-center justify-center z-10 bg-gradient-to-b from-white/80 dark:from-transparent backdrop-blur-md font-heading font-normal text-xl xl:text-lg;
+  }
 
-    /**Navbar elements**/
-    .nav-link {
-        @apply my-4;
-    }
+  /**Navbar elements**/
+  .nav-link {
+    @apply my-4;
+  }
 
-    .nav-link:hover svg {
-        @apply text-cyan-500;
-    }
+  .nav-link:hover svg {
+    @apply text-cyan-500;
+  }
 
-    .nav-link-extension {
-        @apply xl:inline xl:mx-1 hover:text-gradient hover:duration-300 hover:ease-in-out;
-    }
+  .nav-link-extension {
+    @apply xl:inline xl:mx-1 hover:text-gradient hover:duration-300 hover:ease-in-out;
+  }
 
-    /***Global views layout***/
-    .home-section {
-        @apply flex flex-col justify-center items-center w-10/12 sm:w-3/4 xl:w-1/2 mx-auto h-[85vh];
-    }
+  /***Global views layout***/
+  .home-section {
+    @apply flex flex-col justify-center items-center w-10/12 sm:w-3/4 xl:w-1/2 mx-auto h-[85vh];
+  }
 
-    .form-section {
-        @apply flex flex-col justify-start items-center w-full mx-auto h-[85vh];
-    }
+  .form-section {
+    @apply flex flex-col justify-start items-center w-full mx-auto h-[85vh];
+  }
 
+  .publications-section,
+  .about-section {
+    @apply w-10/12 mx-auto min-h-screen;
+  }
 
-    .publications-section,
-    .about-section {
-        @apply w-10/12 mx-auto min-h-screen;
-    }
+  /**PublicationsView**/
+  .publications-grid {
+    @apply grid md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-8 my-12;
+  }
 
-    /**PublicationsView**/
-    .publications-grid {
-        @apply grid md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-8 my-12;
-    }
+  .publications-card {
+    @apply px-4 py-4 border-l border-slate-400 dark:border-slate-700 h-fit;
+  }
 
-    .publications-card {
-        @apply px-4 py-4 border-l border-slate-400 dark:border-slate-700 h-fit;
-    }
+  .publications-card-heading {
+    @apply text-xl font-heading font-semibold;
+  }
 
-    .publications-card-heading {
-        @apply text-xl font-heading font-semibold;
-    }
+  /**AboutView**/
+  .about-grid {
+    @apply grid sm:grid-cols-2 gap-8 my-12;
+  }
 
-    /**AboutView**/
-    .about-grid {
-        @apply grid sm:grid-cols-2 gap-8 my-12;
-    }
+  .about-text {
+    @apply tracking-wide px-4 border-l border-slate-400 dark:border-slate-700 h-fit;
+  }
 
-    .about-text {
-        @apply tracking-wide px-4 border-l border-slate-400 dark:border-slate-700 h-fit;
-    }
+  /**AdminView**/
+  .applications-section {
+    @apply w-10/12 sm:w-3/4 xl:w-full mx-auto min-h-screen;
+  }
 
-        /**AdminView**/
-    .applications-section {
-        @apply w-10/12 sm:w-3/4 xl:w-full mx-auto min-h-screen;
-    }
+  /**Categories**/
+  .category-heading {
+    @apply text-3xl font-heading font-black tracking-widest w-fit text-gradient;
+  }
 
-    /**Categories**/
-    .category-heading {
-        @apply text-3xl font-heading font-black tracking-widest w-fit text-gradient;
-    }
+  /*Buttons*/
+  .cta-btn {
+    @apply border border-slate-600 px-4 py-2 dark:hover:text-slate-300 hover:text-black;
+  }
 
-    /*Buttons*/
-    .cta-btn {
-        @apply border border-slate-600 px-4 py-2 dark:hover:text-slate-300 hover:text-black;
-    }
+  /*Links*/
+  .app-link {
+    @apply text-gradient xl:text-current hover:text-gradient hover:duration-300 hover:ease-in-out;
+  }
 
-    /*Links*/
-    .app-link {
-        @apply text-gradient xl:text-current hover:text-gradient hover:duration-300 hover:ease-in-out;
-    }
+  .app-link:hover svg {
+    @apply text-cyan-500;
+  }
 
-    .app-link:hover svg {
-        @apply text-cyan-500;
-    }
+  .app-link svg {
+    @apply text-cyan-500 xl:text-slate-700 dark:xl:text-slate-500;
+  }
+}
 
-    .app-link svg {
-        @apply text-cyan-500 xl:text-slate-700 dark:xl:text-slate-500;
-    }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 10px;
+}
+
+/* Define the thumb style */
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-500 rounded-[6px];
+}
+
+/* Define the track style */
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
 }
 
 html {
-    scroll-behavior: smooth;
-    scroll-padding: 4rem;
+  overflow: hidden;
 }
 
 .mainHeader {
-    margin-bottom: 14vh;
+  margin-bottom: 14vh;
 }
 
 nav > * {
-    margin-inline: 1rem;
+  margin-inline: 1rem;
 }
 
 .about-grid p::first-letter {
-    font-size: 1.3rem;
-    font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 700;
 }
 
 .cta-btn:hover {
-    transition: all .3s ease-in-out;
-    border-image-source: linear-gradient(to bottom right, #22d3ee, #6638F0);
-    border-image-slice: 1;
+  transition: all 0.3s ease-in-out;
+  border-image-source: linear-gradient(to bottom right, #22d3ee, #6638f0);
+  border-image-slice: 1;
 }
 
 @media (prefers-color-scheme: light) {
-    @supports not (backdrop-filter: blur()) {
-        .navbar {
-            background-image: linear-gradient(to bottom, #ffffffe0, transparent);
-        }
+  @supports not (backdrop-filter: blur()) {
+    .navbar {
+      background-image: linear-gradient(to bottom, #ffffffe0, transparent);
     }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
-    @supports not (backdrop-filter: blur()) {
-        .navbar {
-            background-image: linear-gradient(to bottom, #0f172ae0, transparent);
-        }
+  @supports not (backdrop-filter: blur()) {
+    .navbar {
+      background-image: linear-gradient(to bottom, #0f172ae0, transparent);
     }
+  }
 }

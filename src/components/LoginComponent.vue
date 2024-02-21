@@ -38,24 +38,24 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import { ElButton, ElCard, ElForm, ElFormItem, ElInput } from "element-plus";
-import { authStore } from "../stores/auth";
-import { mapStores } from "pinia";
+import { defineComponent } from 'vue'
+import { ElButton, ElCard, ElForm, ElFormItem, ElInput } from 'element-plus'
+import { authStore } from '../stores/auth'
+import { mapStores } from 'pinia'
 
 export default defineComponent({
-  name: "LoginForm",
+  name: 'LoginForm',
   components: {
     ElButton,
     ElCard,
     ElForm,
     ElFormItem,
-    ElInput,
+    ElInput
   },
   props: {
     authVisible: {
       type: Boolean,
-      default: false,
+      default: false
     },
     title: {
       type: String,
@@ -65,47 +65,46 @@ export default defineComponent({
   data() {
     return {
       loginForm: {
-        username: "",
-        password: "",
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [
           {
             required: true,
-            message: "Введите логин",
-            trigger: "blur",
-          },
+            message: 'Введите логин',
+            trigger: 'blur'
+          }
         ],
         password: [
-          { required: true, message: "Введите пароль", trigger: "blur" },
-        ],
-      },
-    };
+          { required: true, message: 'Введите пароль', trigger: 'blur' }
+        ]
+      }
+    }
   },
   computed: {
-    ...mapStores(authStore),
+    ...mapStores(authStore)
   },
   methods: {
     login() {
       this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
           this.$emit('auth', this.loginForm.username, this.loginForm.password)
-          this.close();
         } else {
           ElNotification({
-            title: "Ошибка",
-            message: "Проверьте правильность введенных данных",
-            type: "error",
-          });
-          return false;
+            title: 'Ошибка',
+            message: 'Проверьте правильность введенных данных',
+            type: 'error'
+          })
+          return false
         }
-      });
+      })
     },
     close() {
-      this.$emit("close");
-    },
-  },
-});
+      this.$emit('close')
+    }
+  }
+})
 </script>
 
 <style scoped>
