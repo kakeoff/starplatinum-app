@@ -27,11 +27,6 @@ const router = createRouter({
       component: () => import("../views/AboutView.vue"),
     },
     {
-      path: "/contacts",
-      name: "contacts",
-      component: () => import("../views/ContactView.vue"),
-    },
-    {
       meta: { requiresAuth: true },
       path: "/admin-applications",
       name: "adminApplications",

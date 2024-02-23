@@ -1,5 +1,5 @@
 <template>
-  <main class="h-[calc(100vh-326px)]">
+  <main class="h-full">
     <!-- Hero -->
     <div class="h-[600px] flex justify-center items-center">
       <div
@@ -60,13 +60,13 @@
 
           <!-- Buttons -->
           <button
-            @click="showForm = true"
+            @click="clickShowForm"
             class="mt-8 mb-[3px] grid gap-3 w-full cursor-pointer sm:inline-flex sm:justify-center"
           >
             <div
-              class="inline-flex cursor-pointer justify-center hover:scale-105 hover:transition duration-300 items-center gap-x-3 text-center bg-gradient-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white py-3 px-4 dark:focus:ring-offset-gray-800"
+              class="inline-flex cursor-pointer font-[700] justify-center hover:scale-105 hover:transition duration-300 items-center gap-x-3 text-center bg-gradient-to-tl from-blue-600 to-violet-600 border border-transparent text-white text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white py-3 px-6 dark:focus:ring-offset-gray-800"
             >
-              Отправить заявку
+              СОЗДАТЬ ЗАЯВКУ
             </div>
           </button>
           <!-- End Buttons -->
@@ -83,10 +83,26 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Form from '../components/Form.vue'
+import { isAuthenticated } from '../js/helpers'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const text = 'TAR PLATINUM'
 const animatedText = ref('')
 const showForm = ref(false)
+
+const clickShowForm = () => {
+  if (!isAuthenticated()) {
+    router.replace({
+      name: String(router.currentRoute.value.name),
+      query: {
+        login: 1
+      }
+    })
+    return
+  }
+  showForm.value = true
+}
 
 setInterval(() => {
   if (animatedText.value.length < text.length) {

@@ -1,6 +1,6 @@
 <template>
   <!-- Hero -->
-  <div class="relative py-[10px] overflow-hidden h-[calc(100vh-326px)]">
+  <div class="relative py-[10px] overflow-hidden h-full">
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-24">
       <div class="text-center">
         <h1

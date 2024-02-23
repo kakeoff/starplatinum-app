@@ -12,6 +12,7 @@
         class="font-[700] w-full text-[35px]"
       >
         <el-form-item class="mb-[30px]" prop="username">
+          <p>Введите логин</p>
           <el-input
             size="large"
             v-model="loginForm.username"
@@ -19,10 +20,12 @@
           ></el-input>
         </el-form-item>
         <el-form-item class="mb-[30px]" prop="password">
+          <p>Введите пароль</p>
           <el-input
             size="large"
             v-model="loginForm.password"
             type="password"
+            show-password
             placeholder="Введите пароль"
           ></el-input>
         </el-form-item>
@@ -110,5 +113,8 @@ export default defineComponent({
 <style scoped>
 .el-form-item__content {
   margin-left: 0px;
+}
+input {
+  background-color: red !important;
 }
 </style>

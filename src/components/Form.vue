@@ -13,7 +13,7 @@
   >
     <el-form-item prop="name">
       <el-input
-        placeholder="Например: ООО 'Зеленоглазое такси'"
+        placeholder="Введите название организации. Например: ООО 'Зеленоглазое такси'"
         v-model="ruleForm.name"
       />
     </el-form-item>
@@ -62,7 +62,9 @@
         class="w-full rounded-[8px] border border-[#4C4D4F] p-[10px]"
       >
         <el-alert type="info" show-icon :closable="false">
-          <p>Здесь будут отображаться добавленные издания</p>
+          <p class="text-[13px]">
+            Здесь будут отображаться добавленные издания
+          </p>
         </el-alert>
       </div>
       <div
@@ -115,65 +117,73 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from "vue";
-import { ElNotification, FormInstance, FormRules } from "element-plus";
-import { pubsStore } from "../stores/publications.js";
-import { applicationsStore } from "../stores/applications.js";
-import { Publication } from "../types/publicationTypes";
-import { ApplicationStatus } from "../types/applicationTypes";
+import { onMounted, reactive, ref } from 'vue'
+import { ElNotification, FormInstance, FormRules } from 'element-plus'
+import { pubsStore } from '../stores/publications.js'
+import { applicationsStore } from '../stores/applications.js'
+import { Publication } from '../types/publicationTypes'
+import { ApplicationStatus } from '../types/applicationTypes'
+import { isAuthenticated } from '../js/helpers'
 
-const storePubs = pubsStore();
-const storeApplications = applicationsStore();
-const emit = defineEmits(["close"]);
+const storePubs = pubsStore()
+const storeApplications = applicationsStore()
+const emit = defineEmits(['close'])
 
 onMounted(async () => {
-  await storePubs.getAllPublications();
-  pubs.value = storePubs.publications;
-});
-const formSize = ref("default");
-const formPubs = ref([]) as any;
-const pubs = ref([] as Publication[]);
-const finalCost = ref(0);
+  pubs.value = storePubs.publications
+})
+const formSize = ref('default')
+const formPubs = ref([]) as any
+const pubs = ref([] as Publication[])
+const finalCost = ref(0)
 
-const ruleFormRef = ref<FormInstance>();
+const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  name: "",
-  date: "",
-  pub: "",
-  email: "",
-  desc: "",
-});
+  name: '',
+  date: '',
+  pub: '',
+  email: '',
+  desc: ''
+})
 
 const rules = reactive<FormRules>({
   name: [
     {
       required: true,
-      message: "Пожалуйста, введите название организации",
-      trigger: "blur",
+      message: 'Пожалуйста, введите название организации',
+      trigger: 'blur'
     },
     {
       min: 3,
       max: 30,
-      message: "Название должно быть в диапазоне от 3 до 30 символов",
-      trigger: "blur",
-    },
+      message: 'Название должно быть в диапазоне от 3 до 30 символов',
+      trigger: 'blur'
+    }
   ],
   email: [
     {
       required: true,
-      message: "Пожалуйста, введите ваш email",
-      trigger: "blur",
+      message: 'Пожалуйста, введите ваш email',
+      trigger: 'blur'
     },
     {
-      type: "email",
-      message: "Введите корректный email",
-      trigger: ["blur", "change"],
-    },
-  ],
-});
+      type: 'email',
+      message: 'Введите корректный email',
+      trigger: ['blur', 'change']
+    }
+  ]
+})
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
+  if (!isAuthenticated()) {
+    ElNotification({
+      title: 'Ошибка',
+      message: 'Вы не авторизованы',
+      type: 'error'
+    })
+    return
+  }
+  if (!formEl) return
   formEl.validate(async (valid) => {
     if (valid) {
       const data = {
@@ -182,76 +192,76 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         email: ruleForm.email,
         comment: ruleForm.desc,
         cost: finalCost.value,
-        status: "PENDING" as ApplicationStatus,
-      };
+        status: 'PENDING' as ApplicationStatus
+      }
       if (data.name && data.pubs.length && data.email.length) {
-        await storeApplications.sendApplication(data);
-        resetForm(ruleFormRef.value);
-        emit("close");
+        await storeApplications.sendApplication(data)
+        resetForm(ruleFormRef.value)
+        emit('close')
       } else {
         ElNotification({
-          title: "Ошибка",
-          message: "Вы ввели не все данные",
-          type: "error",
-        });
+          title: 'Ошибка',
+          message: 'Вы ввели не все данные',
+          type: 'error'
+        })
       }
     } else {
       ElNotification({
-        title: "Ошибка",
-        message: "Вы ввели некорректные данные",
-        type: "error",
-      });
-      return false;
+        title: 'Ошибка',
+        message: 'Вы ввели некорректные данные',
+        type: 'error'
+      })
+      return false
     }
-  });
-};
+  })
+}
 const disabledDate = (time: Date) => {
-  return time.getTime() < Date.now();
-};
+  return time.getTime() < Date.now()
+}
 
 const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-  formPubs.value = [];
-  finalCost.value = 0;
-};
+  if (!formEl) return
+  formEl.resetFields()
+  formPubs.value = []
+  finalCost.value = 0
+}
 
 const addPub = () => {
-  if (ruleForm.pub === "" || ruleForm.date === "") {
+  if (ruleForm.pub === '' || ruleForm.date === '') {
     ElNotification({
-      title: "Ошибка",
-      message: "Заполните поля перед добавлением",
-      type: "error",
-    });
-    return;
+      title: 'Ошибка',
+      message: 'Заполните поля перед добавлением',
+      type: 'error'
+    })
+    return
   }
 
-  const date = new Date(ruleForm.date).toLocaleDateString();
+  const date = new Date(ruleForm.date).toLocaleDateString()
   const storePub = storePubs.publications.find(
     (pub) => pub.name === ruleForm.pub
-  );
+  )
   const data = {
     id: storePub?.id,
     name: storePub?.name,
-    date: date,
-  };
-  formPubs.value.push(data);
-  const foundPub = pubs.value.find((pub) => pub.name === data.name);
-  if (foundPub) {
-    finalCost.value += foundPub?.cost;
+    date: date
   }
-  ruleForm.pub = "";
-  ruleForm.date = "";
-};
+  formPubs.value.push(data)
+  const foundPub = pubs.value.find((pub) => pub.name === data.name)
+  if (foundPub) {
+    finalCost.value += foundPub?.cost
+  }
+  ruleForm.pub = ''
+  ruleForm.date = ''
+}
 
 const deletePub = (index: number) => {
-  formPubs.value.splice(index, 1);
-  finalCost.value = 0;
+  formPubs.value.splice(index, 1)
+  finalCost.value = 0
   formPubs.value.forEach((pub) => {
-    const foundPub = pubs.value.find((publ) => publ.name === pub.name);
+    const foundPub = pubs.value.find((publ) => publ.name === pub.name)
     if (foundPub) {
-      finalCost.value += foundPub.cost;
+      finalCost.value += foundPub.cost
     }
-  });
-};
+  })
+}
 </script>

@@ -3,7 +3,7 @@
     <Form @close="showForm = false"></Form>
   </el-dialog>
   <div>
-    <AboutHeaderComponent @showForm="showForm = true" />
+    <AboutHeaderComponent @showForm="clickShowForm(true)" />
     <TestimonialsComponent />
     <AboutFaqComponent />
   </div>
@@ -15,6 +15,23 @@ import TestimonialsComponent from '../components/TestimonialsComponent.vue'
 import AboutHeaderComponent from '../components/AboutHeaderComponent.vue'
 import { ref } from 'vue'
 import Form from '../components/Form.vue'
+import { useRouter } from 'vue-router'
+import { isAuthenticated } from '../js/helpers'
+
+const router = useRouter()
 
 const showForm = ref(false)
+
+const clickShowForm = (val: boolean) => {
+  if (!isAuthenticated()) {
+    router.replace({
+      name: String(router.currentRoute.value.name),
+      query: {
+        login: 1
+      }
+    })
+    return
+  }
+  showForm.value = val
+}
 </script>
