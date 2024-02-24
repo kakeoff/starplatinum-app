@@ -208,14 +208,15 @@
   </el-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { ElTable, ElTableColumn, ElButton, ElNotification } from 'element-plus'
 import { applicationsStore } from '../stores/applications'
 import { pubsStore } from '../stores/publications'
 import { mapStores } from 'pinia'
 import { userStore } from '../stores/user'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Applications',
   components: { ElTable, ElTableColumn, ElButton },
   computed: {
@@ -357,5 +358,5 @@ export default {
       this.pubForm.cost = ''
     }
   }
-}
+})
 </script>

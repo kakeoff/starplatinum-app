@@ -40,7 +40,7 @@
   </el-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import { ElButton, ElCard, ElForm, ElFormItem, ElInput } from 'element-plus'
 import { authStore } from '../stores/auth'

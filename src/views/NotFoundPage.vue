@@ -16,4 +16,3 @@
     </RouterLink>
   </main>
 </template>
-<script setup></script>

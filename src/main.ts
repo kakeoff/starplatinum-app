@@ -51,7 +51,6 @@ app.use(createPinia());
 app.use(router);
 app.use(MotionPlugin);
 app.use(ElementPlus);
-app.use(/* ... */)
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 router.isReady().then(() => {
