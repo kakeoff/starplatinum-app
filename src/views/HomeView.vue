@@ -1,5 +1,5 @@
 <template>
-  <main class="h-full">
+  <main v-motion-fade class="h-full">
     <!-- Hero -->
     <div class="h-[600px] flex justify-center items-center">
       <div

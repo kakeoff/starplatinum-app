@@ -1,5 +1,5 @@
 <template>
-  <section class="about applications-section">
+  <section v-motion-fade class="about applications-section">
     <h2 class="category-heading mx-auto">Заявки</h2>
     <div class="w-full">
       <div class="mx-auto px-[30px] w-full my-10">

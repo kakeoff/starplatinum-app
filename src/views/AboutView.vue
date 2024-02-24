@@ -2,7 +2,7 @@
   <el-dialog class="max-w-[600px] min-w-[465px]" v-model="showForm">
     <Form @close="showForm = false"></Form>
   </el-dialog>
-  <div>
+  <div v-motion-fade>
     <AboutHeaderComponent @showForm="clickShowForm(true)" />
     <TestimonialsComponent />
     <AboutFaqComponent />

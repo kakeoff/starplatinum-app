@@ -171,6 +171,26 @@
                 </el-badge>
               </div>
 
+              <div v-if="user && user?.role !== 0">
+                <el-badge :value="storeUsers.users.length || 0" class="item">
+                  <RouterLink
+                    to="/admin-users"
+                    :class="{
+                      'text-cyan-500': this.$route.name === 'adminUsers'
+                    }"
+                    title="Admin"
+                  >
+                    <span
+                      :class="{
+                        'text-gradient': this.$route.name === 'adminUsers'
+                      }"
+                      class="nav-link-extension"
+                      >Пользователи</span
+                    >
+                  </RouterLink>
+                </el-badge>
+              </div>
+
               <div
                 v-if="!user"
                 class="flex nav-link-extension cursor-pointer items-center font-medium text-gray-500 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700 dark:text-gray-400"
@@ -235,6 +255,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { authStore } from './stores/auth'
 import { userStore } from './stores/user'
+import { usersStore } from './stores/users'
 import { useRouter } from 'vue-router'
 import { ref, onMounted, computed } from 'vue'
 import { applicationsStore } from './stores/applications'
@@ -246,6 +267,7 @@ import { ElNotification } from 'element-plus'
 
 const router = useRouter()
 const storeAuth = authStore()
+const storeUsers = usersStore()
 const storeUser = userStore()
 const storeApplications = applicationsStore()
 const storePublications = pubsStore()
@@ -256,6 +278,7 @@ onMounted(async () => {
   }
   if (isAdmin.value) {
     await storeApplications.getAllApplications()
+    await storeUsers.getAllUsers()
   }
   await storePublications.getAllPublications()
 })

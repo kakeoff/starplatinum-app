@@ -1,5 +1,5 @@
 <template>
-  <section class="about applications-section">
+  <section v-motion-fade class="about applications-section">
     <h2 class="category-heading mx-auto">Издания</h2>
 
     <div class="w-full">
@@ -31,12 +31,8 @@
           :data="filteredPublications"
           style="width: 100%"
         >
-          <el-table-column
-            width="256"
-            prop="name"
-            label="Название"
-          ></el-table-column>
-          <el-table-column width="256" label="Описание">
+          <el-table-column prop="name" label="Название"></el-table-column>
+          <el-table-column label="Описание">
             <template #default="{ row }">
               <el-button
                 type="info"
@@ -46,18 +42,16 @@
               >
             </template>
           </el-table-column>
-          <el-table-column width="256" prop="cost" label="Стоимость, руб">
+          <el-table-column prop="cost" label="Стоимость, руб">
           </el-table-column>
-          <el-table-column width="256" prop="link" label="Ссылка">
-          </el-table-column>
-          <el-table-column width="256" label="Действия">
+          <el-table-column prop="link" label="Ссылка"> </el-table-column>
+          <el-table-column label="Действия">
             <template #default="{ row }">
               <div class="flex flex-row flex-wrap gap-[5px]">
                 <el-popconfirm
                   cancel-button-text="Нет"
                   confirm-button-text="Да"
                   @confirm="removePub(row.id)"
-                  width="180"
                   title="Удалить издание?"
                 >
                   <template #reference>
