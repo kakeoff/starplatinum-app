@@ -1,5 +1,5 @@
 <template>
-  <section v-motion-fade class="about applications-section">
+  <section v-motion-fade>
     <h2 class="category-heading mx-auto">Заявки</h2>
     <div class="w-full">
       <div class="mx-auto px-[30px] w-full my-10">
@@ -90,6 +90,14 @@
             prop="email"
             label="Email"
           ></el-table-column>
+          <el-table-column prop="userId" label="Пользователь">
+            <template #default="{ row }">
+              {{
+                users.find((user) => user.id === row.userId)?.login ||
+                row.userId
+              }}
+            </template>
+          </el-table-column>
           <el-table-column prop="comment" label="Инфромация">
             <template #default="{ row }">
               <el-button
@@ -188,12 +196,13 @@ import { Application, ApplicationStatus } from '../types/applicationTypes'
 import { App, defineComponent } from 'vue'
 import { changeApplicationStatus } from '../services/applications.service'
 import { userStore } from '../stores/user'
+import { usersStore } from '../stores/users'
 
 export default defineComponent({
   name: 'Applications',
   components: { ElTable, ElTableColumn, ElButton },
   computed: {
-    ...mapStores(applicationsStore, pubsStore, userStore),
+    ...mapStores(applicationsStore, pubsStore, userStore, usersStore),
     applications() {
       return this.applicationsStore.applications
     },
@@ -206,6 +215,9 @@ export default defineComponent({
     },
     user() {
       return this.userStore.user
+    },
+    users() {
+      return this.usersStore.users
     },
     filteredApplications() {
       let filteredApps = this.applications

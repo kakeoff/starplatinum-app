@@ -1,7 +1,9 @@
 export type User = {
   id: number,
   role: number,
-  login: string
+  login: string,
+  createdAt: number,
+  avatarUrl: string
 }
 
 export type UpdateUserDto = {

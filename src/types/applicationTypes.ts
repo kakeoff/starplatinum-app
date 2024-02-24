@@ -6,6 +6,7 @@ export type Application = {
   pubs: Pub[],
   cost: number,
   status: ApplicationStatus
+  userId: number
 }
 
 export type SendApplicationDto = {
