@@ -121,9 +121,9 @@ import { onMounted, reactive, ref } from 'vue'
 import { ElNotification, FormInstance, FormRules } from 'element-plus'
 import { pubsStore } from '../stores/publications.js'
 import { applicationsStore } from '../stores/applications.js'
-import { Publication } from '../types/publicationTypes'
+import { FormPublication, Publication } from '../types/publicationTypes'
 import { ApplicationStatus } from '../types/applicationTypes'
-import { isAuthenticated } from '../js/helpers'
+import { isAuthenticated } from '../plugins/helpers'
 
 const storePubs = pubsStore()
 const storeApplications = applicationsStore()
@@ -133,7 +133,7 @@ onMounted(async () => {
   pubs.value = storePubs.publications
 })
 const formSize = ref('default')
-const formPubs = ref([]) as any
+const formPubs = ref([] as FormPublication[])
 const pubs = ref([] as Publication[])
 const finalCost = ref(0)
 
@@ -240,9 +240,10 @@ const addPub = () => {
   const storePub = storePubs.publications.find(
     (pub) => pub.name === ruleForm.pub
   )
+  if (!storePub) return
   const data = {
-    id: storePub?.id,
-    name: storePub?.name,
+    id: storePub.id,
+    name: storePub.name,
     date: date
   }
   formPubs.value.push(data)
@@ -257,6 +258,7 @@ const addPub = () => {
 const deletePub = (index: number) => {
   formPubs.value.splice(index, 1)
   finalCost.value = 0
+  console.log(formPubs.value)
   formPubs.value.forEach((pub) => {
     const foundPub = pubs.value.find((publ) => publ.name === pub.name)
     if (foundPub) {

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import * as Api from '../services/publications.services';
-import { Publication } from "../types/publicationTypes";
+import { CreatePublicationDto, Publication } from "../types/publicationTypes";
 
 export const pubsStore = defineStore({
   id: 'publications',
@@ -9,15 +9,9 @@ export const pubsStore = defineStore({
     ] as Publication[]
   }),
   actions: {
-    async createPublication(pub: Publication) {
-      const data = {
-        name: pub.name,
-        description: pub.description,
-        cost: pub.cost,
-        link: pub.link
-      }
-      const res = await Api.createPublication(data)
-      this.publications.push(res.data)
+    async createPublication(pub: CreatePublicationDto) {
+      const publication = await Api.createPublication(pub)
+      this.publications.push(publication)
     },
     async updatePublication(pub: Publication) {
       const data = {
@@ -27,10 +21,10 @@ export const pubsStore = defineStore({
         cost: pub.cost,
         link: pub.link
       }
-      const res = await Api.updatePublication(data)
+      const publication = await Api.updatePublication(data)
       const index = this.publications.findIndex((pub) => pub.id === data.id)
       if (index !== -1) {
-        this.publications[index] = res.data
+        this.publications[index] = publication
       }
     },
   async deletePublication(id: number) {
@@ -41,9 +35,9 @@ export const pubsStore = defineStore({
     }
   },
     async getAllPublications() {
-      const res = await Api.getAllPublications()
-      this.publications = res.data
-      return res.data
+      const publications = await Api.getAllPublications()
+      this.publications = publications
+      return publications
     },
   }
 })

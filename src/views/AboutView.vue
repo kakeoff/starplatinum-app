@@ -16,7 +16,7 @@ import AboutHeaderComponent from '../components/AboutHeaderComponent.vue'
 import { ref } from 'vue'
 import Form from '../components/Form.vue'
 import { useRouter } from 'vue-router'
-import { isAuthenticated } from '../js/helpers'
+import { isAuthenticated } from '../plugins/helpers'
 
 const router = useRouter()
 

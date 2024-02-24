@@ -31,7 +31,7 @@
   }
 
   .nav-link-extension {
-    @apply xl:inline xl:mx-1 hover:text-gradient hover:duration-300 hover:ease-in-out;
+    @apply xl:inline xl:mx-1 hover:text-gradient hover:duration-300;
   }
 
   /***Global views layout***/

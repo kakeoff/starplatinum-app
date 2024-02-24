@@ -1,11 +1,12 @@
 import { ElNotification } from 'element-plus';
-import axios from '../js/plugins';
+import axios from '../plugins/axios';
+import { Application, SendApplicationDto } from '../types/applicationTypes';
 
 
-export async function getAllApplications() {
+export async function getAllApplications(): Promise<Application[]> {
   try {
-    const res = await axios.get(`/applications`);
-      return res
+    const res = await axios.get<Application[]>(`/applications`);
+      return res.data
   } catch (error) {
     ElNotification({
       title: "Ошибка при получении заявок",
@@ -15,15 +16,15 @@ export async function getAllApplications() {
   }
 }
 
-export async function sendApplication(data) {
+export async function sendApplication(data: SendApplicationDto): Promise<Application> {
   try {
-    const res = await axios.post(`/applications`, data);
+    const res = await axios.post<Application>(`/applications`, data);
     ElNotification({
       title: "Заявка отправлена",
       message: 'Мы свяжемся с Вами для уточнения деталей',
       type: "success",
     });
-      return res
+      return res.data
   } catch (error) {
     ElNotification({
       title: "Ошибка при отправке заявки",
@@ -33,14 +34,14 @@ export async function sendApplication(data) {
   }
 }
 
-export async function changeApplicationStatus(id: number, status: string) {
+export async function changeApplicationStatus(id: number, status: string): Promise<Application> {
   try {
-    const res = await axios.patch(`/applications/${id}/status`, {status});
+    const res = await axios.patch<Application>(`/applications/${id}/status`, {status});
     ElNotification({
       title: `Статус заявки изменен`,
       type: "success",
     });
-      return res
+      return res.data
   } catch (error) {
     ElNotification({
       title: `Ошибка при изменении статуса заявки`,

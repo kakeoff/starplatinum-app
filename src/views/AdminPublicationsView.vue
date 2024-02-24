@@ -77,16 +77,16 @@
   <el-dialog
     v-model="showDescription"
     class="w-[30%] min-w-[400px]"
-    :title="'Описание издания ' + selectedPub.name"
+    :title="'Описание издания ' + selectedPub?.name"
   >
     <div class="overflow-hidden break-words">
       <div class="top-0 break-words">
-        {{ selectedPub.description }}
+        {{ selectedPub?.description }}
       </div>
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click=";(showDescription = false), (selectedPub = {})">
+        <el-button @click=";(showDescription = false), (selectedPub = null)">
           Закрыть
         </el-button>
       </span>
@@ -215,6 +215,7 @@ import { pubsStore } from '../stores/publications'
 import { mapStores } from 'pinia'
 import { userStore } from '../stores/user'
 import { defineComponent } from 'vue'
+import { Publication } from '../types/publicationTypes'
 
 export default defineComponent({
   name: 'Applications',
@@ -263,7 +264,8 @@ export default defineComponent({
         if (val === false) {
           this.resetFields()
         } else {
-          this.pubForm.cost = this.selectedPub.cost
+          if (!this.selectedPub) return
+          this.pubForm.cost = String(this.selectedPub.cost)
           this.pubForm.name = this.selectedPub.name
           this.pubForm.description = this.selectedPub.description
           this.pubForm.link = this.selectedPub.link
@@ -276,7 +278,7 @@ export default defineComponent({
       selectedDate: null,
       showDescription: false,
       showUpdatePub: false,
-      selectedPub: {},
+      selectedPub: null as Publication | null,
       search: '',
       showAddPub: false,
       pubForm: {
@@ -310,7 +312,7 @@ export default defineComponent({
     validateCost() {
       this.pubForm.cost = this.pubForm.cost.replace(/[^0-9.]/g, '')
     },
-    async removePub(id) {
+    async removePub(id: number) {
       await this.publicationsStore.deletePublication(Number(id))
     },
     addPub() {
@@ -333,6 +335,7 @@ export default defineComponent({
     },
 
     updatePub() {
+      if (!this.selectedPub) return
       const data = {
         id: this.selectedPub.id,
         name: this.pubForm.name,

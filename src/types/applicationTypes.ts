@@ -1,4 +1,5 @@
 export type Application = {
+  id: number
   name: string,
   comment: string | null,
   email: string,
@@ -7,11 +8,25 @@ export type Application = {
   status: ApplicationStatus
 }
 
+export type SendApplicationDto = {
+  name: string,
+  comment: string | null,
+  email: string,
+  pubs: PubDto[],
+  cost: number,
+}
+
 export type Pub = {
   id: number,
   name: string,
   date: string,
   cost: number
+}
+
+export type PubDto = {
+  id: number,
+  name: string,
+  date: string,
 }
 
 export type ApplicationStatus = 'ACCEPTED' | 'PENDING' | 'CANCELED'

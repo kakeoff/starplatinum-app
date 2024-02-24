@@ -8,7 +8,7 @@ export const authStore = defineStore({
     async login(login: string, password: string) {
       const res = await Api.login(login, password)
       if (!res) return
-      localStorage.setItem('accessToken', res.data.access_token)
+      localStorage.setItem('accessToken', res.access_token)
       const storeUser = userStore()
       storeUser.getMe()
     },

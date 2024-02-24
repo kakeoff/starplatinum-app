@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { isAuthenticated } from "../js/helpers";
+import { isAuthenticated } from "../plugins/helpers";
 import HomeView from "../views/HomeView.vue";
 
 

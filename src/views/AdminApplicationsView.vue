@@ -163,7 +163,7 @@
     direction="rtl"
   >
     <div class="mb-[20px]">Издания</div>
-    <el-table class="mb-[50px]" :data="selectedApp.pubs">
+    <el-table class="mb-[50px]" :data="selectedApp?.pubs">
       <el-table-column property="name" label="Название" />
       <el-table-column property="date" label="Дата" />
     </el-table>
@@ -183,7 +183,7 @@ import { ElTable, ElTableColumn, ElButton, ElNotification } from 'element-plus'
 import { applicationsStore } from '../stores/applications'
 import { pubsStore } from '../stores/publications'
 import { mapStores } from 'pinia'
-import { localizeApplicationStatus } from '../js/helpers'
+import { localizeApplicationStatus } from '../plugins/helpers'
 import { Application, ApplicationStatus } from '../types/applicationTypes'
 import { App, defineComponent } from 'vue'
 import { changeApplicationStatus } from '../services/applications.service'
@@ -200,7 +200,7 @@ export default defineComponent({
     selectedApp() {
       return (
         this.applicationsStore.applications.find(
-          (app) => app.id === this.selectedAppId
+          (app: Application) => app.id === this.selectedAppId
         ) || null
       )
     },
@@ -234,7 +234,7 @@ export default defineComponent({
           return (
             app.name.toLowerCase().includes(keyword) ||
             app.email.toLowerCase().includes(keyword) ||
-            app.comment.toLowerCase().includes(keyword) ||
+            (app.comment && app.comment.toLowerCase().includes(keyword)) ||
             app.cost.toString().includes(keyword) ||
             app.pubs.some(
               (pub) =>
@@ -273,7 +273,7 @@ export default defineComponent({
     }
   },
   methods: {
-    localize(status) {
+    localize(status: ApplicationStatus) {
       return localizeApplicationStatus(status)
     },
     getButtonType(status: ApplicationStatus) {
@@ -284,12 +284,12 @@ export default defineComponent({
     validateIdInput() {
       this.searchId = this.searchId.replace(/[^0-9.]/g, '')
     },
-    changeStatus(id: string, status: ApplicationStatus) {
+    changeStatus(id: number, status: ApplicationStatus) {
       this.applicationsStore.changeApplicationStatus(id, status)
       this.visiblePopover = false
     },
-    async removeApplication(applicationId) {
-      await this.applicationsStore.deleteApplication(Number(applicationId))
+    async removeApplication(applicationId: number) {
+      await this.applicationsStore.deleteApplication(applicationId)
     }
   }
 })

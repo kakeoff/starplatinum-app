@@ -83,7 +83,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Form from '../components/Form.vue'
-import { isAuthenticated } from '../js/helpers'
+import { isAuthenticated } from '../plugins/helpers'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()

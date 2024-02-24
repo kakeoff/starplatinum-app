@@ -37,7 +37,7 @@
           <el-table-column label="Роль">
             <template #default="{ row }">
               {{
-                roles.find((role) => role.value === row.role).label || row.role
+                roles.find((role) => role.value === row.role)?.label || row.role
               }}
             </template>
           </el-table-column>
@@ -127,6 +127,7 @@ import { mapStores } from 'pinia'
 import { userStore } from '../stores/user'
 import { usersStore } from '../stores/users'
 import { defineComponent } from 'vue'
+import { User } from '../types/userTypes'
 
 export default defineComponent({
   name: 'Applications',
@@ -151,7 +152,7 @@ export default defineComponent({
           )
         })
       }
-      filteredUsers.sort((a, b) => b.id - a.id)
+      filteredUsers.sort((a: User, b: User) => b.id - a.id)
       return filteredUsers
     }
   },
@@ -167,6 +168,7 @@ export default defineComponent({
         if (val === false) {
           this.resetFields()
         } else {
+          if (!this.selectedUser) return
           this.userForm.login = this.selectedUser.login
           this.userForm.role = this.selectedUser.role
         }
@@ -178,21 +180,21 @@ export default defineComponent({
       selectedDate: null,
       showDescription: false,
       showUpdateUser: false,
-      selectedUser: {},
+      selectedUser: null as User | null,
       search: '',
       roles: [
         {
-          label: 'Админ',
-          value: 1
-        },
-        {
           label: 'Пользователь',
           value: 0
+        },
+        {
+          label: 'Админ',
+          value: 1
         }
       ],
       userForm: {
         login: '',
-        role: ''
+        role: 0
       },
       userRules: {
         login: [
@@ -213,11 +215,12 @@ export default defineComponent({
     }
   },
   methods: {
-    async removeUser(id) {
+    async removeUser(id: number) {
       await this.publicationsStore.deletePublication(Number(id))
     },
 
     updateUser() {
+      if (!this.selectedUser) return
       const data = {
         id: this.selectedUser.id,
         login: this.userForm.login,
@@ -236,7 +239,7 @@ export default defineComponent({
     },
     resetFields() {
       this.userForm.login = ''
-      this.userForm.role = ''
+      this.userForm.role = 0
     }
   }
 })

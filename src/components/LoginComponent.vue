@@ -42,7 +42,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { ElButton, ElCard, ElForm, ElFormItem, ElInput } from 'element-plus'
+import {
+  ElButton,
+  ElCard,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  FormInstance,
+  ElNotification
+} from 'element-plus'
 import { authStore } from '../stores/auth'
 import { mapStores } from 'pinia'
 
@@ -90,18 +98,21 @@ export default defineComponent({
   },
   methods: {
     login() {
-      this.$refs.loginForm.validate(async (valid) => {
-        if (valid) {
-          this.$emit('auth', this.loginForm.username, this.loginForm.password)
-        } else {
-          ElNotification({
-            title: 'Ошибка',
-            message: 'Проверьте правильность введенных данных',
-            type: 'error'
-          })
-          return false
-        }
-      })
+      const loginFormRef = this.$refs.loginForm as FormInstance | undefined
+      if (loginFormRef) {
+        loginFormRef.validate(async (valid) => {
+          if (valid) {
+            this.$emit('auth', this.loginForm.username, this.loginForm.password)
+          } else {
+            ElNotification({
+              title: 'Ошибка',
+              message: 'Проверьте правильность введенных данных',
+              type: 'error'
+            })
+            return false
+          }
+        })
+      }
     },
     close() {
       this.$emit('close')

@@ -1,5 +1,11 @@
 export type User = {
   id: number,
   role: number,
-  name: String
-} | null
+  login: string
+}
+
+export type UpdateUserDto = {
+  id: number,
+  role: number,
+  login: string
+}

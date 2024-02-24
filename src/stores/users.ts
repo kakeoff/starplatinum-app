@@ -10,7 +10,7 @@ export const usersStore = defineStore({
   actions: {
     async getAllUsers(): Promise<User[]> {
       const users = await Api.getAllUsers()
-      if (!users) return
+      if (!users) return []
       this.users = users
       return users
     },
@@ -21,7 +21,8 @@ export const usersStore = defineStore({
         role: user.role,
       }
       const userRes = await Api.updateUser(data)
-      const index = this.users.findIndex((user) => user.id === data.id)
+      if (!user) return
+      const index = this.users.findIndex((user) => user?.id === data.id)
       if (index !== -1) {
         this.users[index] = userRes
       }

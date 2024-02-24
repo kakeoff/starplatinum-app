@@ -1,11 +1,12 @@
 import { ElNotification } from 'element-plus';
-import axios from '../js/plugins/index';
+import axios from '../plugins/axios';
+import { CreatePublicationDto, Publication } from '../types/publicationTypes';
 
 
-export async function getAllPublications() {
+export async function getAllPublications(): Promise<Publication[]> {
   try {
-    const res = await axios.get(`/publications`);
-      return res
+    const res = await axios.get<Publication[]>(`/publications`);
+      return res.data
   } catch (error) {
     ElNotification({
       title: "Ошибка при получении изданий",
@@ -15,14 +16,14 @@ export async function getAllPublications() {
   }
 }
 
-export async function createPublication(data) {
+export async function createPublication(data: CreatePublicationDto): Promise<Publication> {
   try {
-    const res = await axios.post(`/publications`, data);
+    const res = await axios.post<Publication>(`/publications`, data);
     ElNotification({
       title: "Издание успешно добавлено",
       type: "success",
     });
-      return res
+      return res.data
   } catch (error) {
     ElNotification({
       title: "Ошибка при добавлении издания",
@@ -32,14 +33,14 @@ export async function createPublication(data) {
   }
 }
 
-export async function updatePublication(data) {
+export async function updatePublication(data: Publication): Promise<Publication> {
   try {
-    const res = await axios.patch(`/publications/${data.id}`, data);
+    const res = await axios.patch<Publication>(`/publications/${data.id}`, data);
     ElNotification({
       title: "Издание успешно изменено",
       type: "success",
     });
-      return res
+      return res.data
   } catch (error) {
     ElNotification({
       title: "Ошибка при изменении издания",

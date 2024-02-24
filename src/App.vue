@@ -74,77 +74,52 @@
             class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow lg:block"
           >
             <div
-              class="flex font-[700] flex-col gap-y-4 gap-x-0 mt-5 lg:flex-row lg:items-center lg:justify-end lg:gap-y-0 lg:gap-x-7 lg:mt-0 lg:pl-7"
+              class="flex text-[16px] font-[700] flex-col gap-y-4 gap-x-0 mt-5 lg:flex-row lg:items-center lg:justify-end lg:gap-y-0 lg:gap-x-7 lg:mt-0 lg:pl-7"
             >
-              <RouterLink
+              <router-link
                 to="/"
+                class="nav-link-extension"
                 :class="{
-                  'text-cyan-500': this.$route.name === 'home'
+                  'text-gradient': $route.name === 'home'
                 }"
-                title="Home"
               >
-                <span
-                  :class="{
-                    'text-gradient': this.$route.name === 'home'
-                  }"
-                  class="nav-link-extension"
-                  >Главная</span
-                >
-              </RouterLink>
+                Главная
+              </router-link>
 
-              <RouterLink
+              <router-link
                 to="/review"
+                class="nav-link-extension"
                 :class="{
-                  'text-cyan-500': this.$route.name === 'review'
+                  'text-gradient': $route.name === 'review'
                 }"
-                title="review"
               >
-                <span
-                  :class="{
-                    'text-gradient': this.$route.name === 'review'
-                  }"
-                  class="nav-link-extension"
-                  >Обзор</span
-                >
-              </RouterLink>
+                Обзор
+              </router-link>
 
-              <RouterLink
+              <router-link
                 to="/about"
+                class="nav-link-extension"
                 :class="{
-                  'text-cyan-500': this.$route.name === 'about'
+                  'text-gradient': $route.name === 'about'
                 }"
-                title="About"
               >
-                <span
-                  :class="{
-                    'text-gradient': this.$route.name === 'about'
-                  }"
-                  class="nav-link-extension"
-                  >О нас</span
-                >
-              </RouterLink>
+                О нас
+              </router-link>
 
               <div v-if="user && user.role !== 0">
                 <el-badge
                   :value="storeApplications.applications.length || 0"
                   class="item"
                 >
-                  <RouterLink
+                  <router-link
                     to="/admin-applications"
+                    class="nav-link-extension"
                     :class="{
-                      'text-cyan-500': this.$route.name === 'adminApplications'
+                      'text-gradient': $route.name === 'adminApplications'
                     }"
-                    title="Admin"
                   >
-                    <span
-                      :class="{
-                        'text-gradient':
-                          this.$route.name === 'adminApplications'
-                      }"
-                      class="nav-link-extension"
-                      >Заявки</span
-                    >
-                  </RouterLink>
+                    Заявки
+                  </router-link>
                 </el-badge>
               </div>
               <div v-if="user && user?.role !== 0">
@@ -152,48 +127,35 @@
                   :value="storePublications.publications.length || 0"
                   class="item"
                 >
-                  <RouterLink
+                  <router-link
                     to="/admin-publications"
+                    class="nav-link-extension"
                     :class="{
-                      'text-cyan-500': this.$route.name === 'adminPublications'
+                      'text-gradient': $route.name === 'adminPublications'
                     }"
-                    title="Admin"
                   >
-                    <span
-                      :class="{
-                        'text-gradient':
-                          this.$route.name === 'adminPublications'
-                      }"
-                      class="nav-link-extension"
-                      >Издания</span
-                    >
-                  </RouterLink>
+                    Издания
+                  </router-link>
                 </el-badge>
               </div>
 
               <div v-if="user && user?.role !== 0">
                 <el-badge :value="storeUsers.users.length || 0" class="item">
-                  <RouterLink
+                  <router-link
                     to="/admin-users"
+                    class="nav-link-extension"
                     :class="{
-                      'text-cyan-500': this.$route.name === 'adminUsers'
+                      'text-gradient': $route.name === 'adminUsers'
                     }"
-                    title="Admin"
                   >
-                    <span
-                      :class="{
-                        'text-gradient': this.$route.name === 'adminUsers'
-                      }"
-                      class="nav-link-extension"
-                      >Пользователи</span
-                    >
-                  </RouterLink>
+                    Пользователи
+                  </router-link>
                 </el-badge>
               </div>
 
               <div
                 v-if="!user"
-                class="flex nav-link-extension cursor-pointer items-center font-medium text-gray-500 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700 dark:text-gray-400"
+                class="flex nav-link-extension cursor-pointer items-center sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700"
                 @click="openRegister()"
               >
                 Регистрация
@@ -201,18 +163,16 @@
 
               <div
                 v-if="!user"
-                class="flex nav-link-extension cursor-pointer items-center font-medium text-gray-500 sm:my-6 dark:text-gray-400"
+                class="flex nav-link-extension cursor-pointer items-center sm:my-6"
                 @click="openLogin()"
               >
                 Авторизация
               </div>
               <div
                 v-else
-                class="flex nav-link-extension cursor-pointer items-center gap-x-2 font-medium text-gray-500 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700 dark:text-gray-400"
+                class="flex nav-link-extension cursor-pointer items-center gap-x-2 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700"
                 @click="dialogVisible = true"
               >
-                <font-awesome-icon icon="fa-solid fa-right-from-bracket">
-                </font-awesome-icon>
                 Выйти
               </div>
             </div>
@@ -260,7 +220,7 @@ import { useRouter } from 'vue-router'
 import { ref, onMounted, computed } from 'vue'
 import { applicationsStore } from './stores/applications'
 import { pubsStore } from './stores/publications'
-import { isAuthenticated } from './js/helpers'
+import { isAuthenticated } from './plugins/helpers'
 
 import LoginComponent from './components/LoginComponent.vue'
 import { ElNotification } from 'element-plus'
@@ -327,7 +287,7 @@ const register = async (login: string, password: string) => {
   try {
     await storeAuth.register(login, password)
     closeModal()
-  } catch (err) {
+  } catch (err: any) {
     if (err.response.data.message === 'User already exists') {
       ElNotification({
         title: 'Ошибка',
@@ -348,3 +308,4 @@ const register = async (login: string, password: string) => {
   padding: 0;
 }
 </style>
+./js/plugins/helpers
