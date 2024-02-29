@@ -27,7 +27,7 @@
           </el-button>
         </div>
         <el-table
-          class="bg-black/[.60] rounded-b-[16px]"
+          class="bg-black/[.60]"
           :data="filteredPublications"
           style="width: 100%"
         >

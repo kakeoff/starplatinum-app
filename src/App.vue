@@ -107,10 +107,7 @@
               </router-link>
 
               <div v-if="user && user.role !== 0">
-                <el-badge
-                  :value="storeApplications.applications.length || 0"
-                  class="item"
-                >
+                <el-badge :value="storeApplications.applications.length || 0">
                   <router-link
                     to="/admin-applications"
                     class="nav-link-extension"
@@ -125,7 +122,7 @@
               <div v-if="user && user?.role !== 0">
                 <el-badge
                   :value="storePublications.publications.length || 0"
-                  class="item"
+                  type="primary"
                 >
                   <router-link
                     to="/admin-publications"
@@ -140,7 +137,7 @@
               </div>
 
               <div v-if="user && user?.role !== 0">
-                <el-badge :value="storeUsers.users.length || 0" class="item">
+                <el-badge :value="storeUsers.users.length || 0" type="warning">
                   <router-link
                     to="/admin-users"
                     class="nav-link-extension"
@@ -217,7 +214,7 @@ import { authStore } from './stores/auth'
 import { userStore } from './stores/user'
 import { usersStore } from './stores/users'
 import { useRouter } from 'vue-router'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { applicationsStore } from './stores/applications'
 import { pubsStore } from './stores/publications'
 import { isAuthenticated } from './plugins/helpers'
@@ -236,11 +233,7 @@ onMounted(async () => {
   if (isAuthenticated()) {
     await storeUser.getMe()
   }
-  if (isAdmin.value) {
-    await storeApplications.getAllApplications()
-    await storeUsers.getAllUsers()
-  }
-  await storePublications.getAllPublications()
+  await loadData()
 })
 
 const dialogVisible = ref(false)
@@ -252,6 +245,21 @@ const user = computed(() => storeUser.user)
 const isAdmin = computed(() => {
   return user.value && user.value.role === 1
 })
+
+watch(user, async (value) => {
+  console.log(value)
+  if (value) {
+    await loadData()
+  }
+})
+
+const loadData = async () => {
+  if (isAdmin.value) {
+    await storeApplications.getAllApplications()
+    await storeUsers.getAllUsers()
+  }
+  await storePublications.getAllPublications()
+}
 
 const openRegister = () => {
   router.replace({

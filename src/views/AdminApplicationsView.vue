@@ -75,7 +75,7 @@
           </div>
         </div>
         <el-table
-          class="bg-black/[.60] text-[13px] rounded-b-[16px]"
+          class="bg-black/[.60] text-[13px]"
           :data="filteredApplications"
           style="width: 100%"
         >

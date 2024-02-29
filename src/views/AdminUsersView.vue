@@ -20,7 +20,7 @@
           </el-tooltip>
         </div>
         <el-table
-          class="bg-black/[.60] rounded-b-[16px]"
+          class="bg-black/[.60]"
           :data="filteredUsers"
           style="width: auto"
         >
@@ -39,6 +39,11 @@
               {{
                 roles.find((role) => role.value === row.role)?.label || row.role
               }}
+            </template>
+          </el-table-column>
+          <el-table-column label="Создан">
+            <template #default="{ row }">
+              {{ new Date(row.createdAt).toLocaleString() }}
             </template>
           </el-table-column>
           <el-table-column label="Действия">
