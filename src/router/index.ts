@@ -45,6 +45,12 @@ const router = createRouter({
       component: () => import("../views/AdminUsersView.vue"),
     },
     {
+      meta: { requiresAuth: true },
+      path: "/profile",
+      name: "profile",
+      component: () => import("../views/ProfileView.vue"),
+    },
+    {
       path: '/:pathMatch(.*)*',
       component: () => import("../views/NotFoundPage.vue"),
     }

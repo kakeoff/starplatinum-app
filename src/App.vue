@@ -150,6 +150,16 @@
                 </el-badge>
               </div>
 
+              <router-link
+                to="/profile"
+                class="nav-link-extension"
+                :class="{
+                  'text-gradient': $route.name === 'profile'
+                }"
+              >
+                Профиль
+              </router-link>
+
               <div
                 v-if="!user"
                 class="flex nav-link-extension cursor-pointer items-center sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700"

@@ -48,7 +48,7 @@
           </el-table-column>
           <el-table-column label="Действия">
             <template #default="{ row }">
-              <div class="flex flex-row flex-wrap gap-[5px]">
+              <div class="flex flex-row items-center flex-wrap gap-[5px]">
                 <el-popconfirm
                   cancel-button-text="Нет"
                   confirm-button-text="Да"
