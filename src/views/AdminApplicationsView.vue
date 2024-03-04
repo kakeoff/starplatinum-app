@@ -92,10 +92,22 @@
           ></el-table-column>
           <el-table-column prop="userId" label="Пользователь">
             <template #default="{ row }">
-              {{
-                users.find((user) => user.id === row.userId)?.login ||
-                row.userId
-              }}
+              <div class="flex flex-row gap-[5px] items-center">
+                <img
+                  class="h-[24px] w-[24px] rounded-[100%]"
+                  :src="
+                    getUserAvatar(
+                      users.find((user) => user.id === row.userId)?.avatarUrl
+                    )
+                  "
+                  alt="avatar"
+                />
+                <span>
+                  {{
+                    users.find((user) => user.id === row.userId)?.login
+                  }}</span
+                >
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="comment" label="Инфромация">
@@ -287,6 +299,10 @@ export default defineComponent({
   methods: {
     localize(status: ApplicationStatus) {
       return localizeApplicationStatus(status)
+    },
+    getUserAvatar(url: string | undefined) {
+      if (!url) return
+      return `${import.meta.env.VITE_SERVER_URL}${url}`
     },
     getButtonType(status: ApplicationStatus) {
       if (status === 'ACCEPTED') return 'success'

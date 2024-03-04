@@ -120,45 +120,28 @@
                 </el-badge>
               </div>
               <div v-if="user && user?.role !== 0">
-                <el-badge
-                  :value="storePublications.publications.length || 0"
-                  type="primary"
+                <router-link
+                  to="/admin-publications"
+                  class="nav-link-extension"
+                  :class="{
+                    'text-gradient': $route.name === 'adminPublications'
+                  }"
                 >
-                  <router-link
-                    to="/admin-publications"
-                    class="nav-link-extension"
-                    :class="{
-                      'text-gradient': $route.name === 'adminPublications'
-                    }"
-                  >
-                    Издания
-                  </router-link>
-                </el-badge>
+                  Издания
+                </router-link>
               </div>
 
               <div v-if="user && user?.role !== 0">
-                <el-badge :value="storeUsers.users.length || 0" type="warning">
-                  <router-link
-                    to="/admin-users"
-                    class="nav-link-extension"
-                    :class="{
-                      'text-gradient': $route.name === 'adminUsers'
-                    }"
-                  >
-                    Пользователи
-                  </router-link>
-                </el-badge>
+                <router-link
+                  to="/admin-users"
+                  class="nav-link-extension"
+                  :class="{
+                    'text-gradient': $route.name === 'adminUsers'
+                  }"
+                >
+                  Пользователи
+                </router-link>
               </div>
-
-              <router-link
-                to="/profile"
-                class="nav-link-extension"
-                :class="{
-                  'text-gradient': $route.name === 'profile'
-                }"
-              >
-                Профиль
-              </router-link>
 
               <div
                 v-if="!user"
@@ -175,13 +158,23 @@
               >
                 Авторизация
               </div>
-              <div
+              <router-link
                 v-else
-                class="flex nav-link-extension cursor-pointer items-center gap-x-2 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700"
-                @click="dialogVisible = true"
+                to="/profile"
+                class="nav-link-extension sm:border-l sm:border-gray-300 sm:my-6 sm:pl-[25px] dark:border-gray-700"
+                :class="{
+                  'text-gradient': $route.name === 'profile'
+                }"
               >
-                Выйти
-              </div>
+                <div class="flex flex-row gap-[5px] items-center">
+                  <img
+                    class="h-[25px] w-[25px] rounded-[100%]"
+                    :src="getUserAvatar(user?.avatarUrl)"
+                    alt="avatar"
+                  />
+                  <span> {{ user?.login }}</span>
+                </div>
+              </router-link>
             </div>
           </div>
         </nav>
@@ -262,6 +255,11 @@ watch(user, async (value) => {
     await loadData()
   }
 })
+
+const getUserAvatar = (url: string | undefined) => {
+  if (!url) return
+  return `${import.meta.env.VITE_SERVER_URL}${url}`
+}
 
 const loadData = async () => {
   if (isAdmin.value) {

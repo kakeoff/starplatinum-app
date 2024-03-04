@@ -29,9 +29,16 @@
               {{ row.id }}
             </template>
           </el-table-column>
-          <el-table-column label="Логин">
+          <el-table-column label="Пользователь">
             <template #default="{ row }">
-              {{ row.login }}
+              <div class="flex flex-row gap-[5px] items-center">
+                <img
+                  class="h-[24px] w-[24px] rounded-[100%]"
+                  :src="getUserAvatar(row.avatarUrl)"
+                  alt="avatar"
+                />
+                <span> {{ row.login }}</span>
+              </div>
             </template>
           </el-table-column>
           <el-table-column label="Роль">
@@ -222,6 +229,10 @@ export default defineComponent({
   methods: {
     async removeUser(id: number) {
       await this.publicationsStore.deletePublication(Number(id))
+    },
+
+    getUserAvatar(url: string) {
+      return `${import.meta.env.VITE_SERVER_URL}${url}`
     },
 
     updateUser() {
