@@ -2,9 +2,9 @@
   <!-- FAQ -->
   <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
     <!-- Grid -->
-    <div class="flex flex-row justify-between gap-[40px]">
-      <div class="w-[70%]">
-        <div class="">
+    <div class="flex flex-col sm:flex-row justify-between gap-[40px]">
+      <div class="w-full flex flex-col gap-[20px]">
+        <div>
           <h2
             class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white"
           >
@@ -16,7 +16,7 @@
         </div>
         <!-- Card -->
         <a
-          class="group flex flex-col my-[10px] bg-white hover:scale-105 hover:transition duration-300 border shadow-sm rounded-xl hover:shadow-md transition dark:bg-transparent dark:border-gray-800"
+          class="group flex flex-col bg-white hover:scale-[1.01] hover:transition duration-300 border shadow-sm rounded-xl transition dark:bg-transparent dark:border-gray-800"
           href="https://github.com/kakeoff/starplatinum-app"
         >
           <div class="p-2">
@@ -35,9 +35,7 @@
               </svg>
 
               <div class="grow ml-5">
-                <h3
-                  class="group-hover:text-blue-600 font-semibold text-gray-800 dark:group-hover:text-gray-400 dark:text-gray-200"
-                >
+                <h3 class="font-semibold text-gray-800 dark:text-gray-200">
                   Напишите в наше сообщество
                 </h3>
                 <p class="text-sm text-gray-500">
@@ -51,7 +49,7 @@
 
         <!-- Card -->
         <a
-          class="group flex flex-col my-[10px] hover:scale-105 hover:transition duration-300 bg-white border shadow-sm rounded-xl hover:shadow-md transition dark:bg-transparent dark:border-gray-800"
+          class="group flex flex-col hover:scale-[1.01] hover:transition duration-300 bg-white border shadow-sm rounded-xl hover:shadow-md transition dark:bg-transparent dark:border-gray-800"
           href="https://goo.gl/maps/KV5vUc11qTc1zGN76"
         >
           <div class="p-2">
@@ -71,9 +69,7 @@
               </svg>
 
               <div class="grow ml-5">
-                <h3
-                  class="group-hover:text-blue-600 font-semibold text-gray-800 dark:group-hover:text-gray-400 dark:text-gray-200"
-                >
+                <h3 class="font-semibold text-gray-800 dark:text-gray-200">
                   Найдите нас на картах
                 </h3>
                 <p class="text-sm text-gray-500">
@@ -87,7 +83,7 @@
 
         <!-- Card -->
         <a
-          class="group flex flex-col my-[10px] hover:scale-105 hover:transition duration-300 bg-white border shadow-sm rounded-xl hover:shadow-md transition dark:bg-transparent dark:border-gray-800"
+          class="group flex flex-col hover:scale-[1.01] hover:transition duration-300 bg-white border shadow-sm rounded-xl hover:shadow-md transition dark:bg-transparent dark:border-gray-800"
           href="mailto:starplatinumapp@mail.ru"
         >
           <div class="p-2">
@@ -106,9 +102,7 @@
               </svg>
 
               <div class="grow ml-5">
-                <h3
-                  class="group-hover:text-blue-600 font-semibold text-gray-800 dark:group-hover:text-gray-400 dark:text-gray-200"
-                >
+                <h3 class="font-semibold text-gray-800 dark:text-gray-200">
                   Напишите нам на почту
                 </h3>
                 <p class="text-sm text-gray-500">
@@ -124,43 +118,51 @@
         <!-- End Card -->
       </div>
       <!-- End Col -->
-
-      <el-collapse class="w-full text-[25px]" accordion>
-        <el-collapse-item
-          title="Могу я отменить заявку в любое время?"
-          name="1"
-        >
-          <div>
+      <el-collapse class="w-full text-[30px]" accordion v-model="selected">
+        <el-collapse-item name="1">
+          <template #title>
+            <p class="text-[16px]">Могу я отменить заявку в любое время?</p>
+          </template>
+          <div class="text-[14px]">
             Да, конечно. Сообщите нам, что Вы хотите отменить заявку и наши
             сотрудники помогут Вам с этим.
           </div>
         </el-collapse-item>
-        <el-collapse-item title="Какие технологие Вы используете?" name="2">
-          <div>
+        <el-collapse-item name="2">
+          <template #title>
+            <p class="text-[16px]">Какие технологие Вы используете?</p>
+          </template>
+          <div class="text-[14px]">
             Команда наших специалистов использует все современные технологии в
             этой сфере. Вот примеры некоторых из них: социальные сети, онлайн
             реклама, отношения с общественностью, исследование рынка,
             PR-события.
           </div>
         </el-collapse-item>
-        <el-collapse-item title="Какая стоимость у ваших услуг?" name="3">
-          <div>
+        <el-collapse-item name="3">
+          <template #title>
+            <p class="text-[16px]">Какая стоимость у ваших услуг?</p>
+          </template>
+          <div class="text-[14px]">
             Стоимость размещения заявки зависит от выбранных изданий. Всю
             доступную информацию об изданиях и расценках Вы можете посмотреть в
             разделе 'Главная' внизу страницы.
           </div>
         </el-collapse-item>
-        <el-collapse-item title="Как оставить заявку?" name="4">
-          <div>
+        <el-collapse-item name="4">
+          <template #title>
+            <p class="text-[16px]">Как оставить заявку?</p>
+          </template>
+          <div class="text-[14px]">
             Форму для заполнения и отправки заявки Вы можете найти на страницах
             'Главная' или 'О нас' по нажатию на кнопку 'Отправить заявку'.
           </div>
         </el-collapse-item>
-        <el-collapse-item
-          title="Каким образом я получу обратную связь?"
-          name="5"
-        >
-          <div>
+        <el-collapse-item name="5">
+          <template #title>
+            <p class="text-[16px]">Каким образом я получу обратную связь?</p>
+          </template>
+          <div class="text-[14px]">
             При создании заявки Вам необходимо указать Email, по которому мы в
             дальнейшем с Вами свяжемся.
           </div>
@@ -172,3 +174,15 @@
   </div>
   <!-- End FAQ -->
 </template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const selected = ref('1')
+</script>
+
+<style scoped>
+.el-collapse {
+  @apply !border-none flex flex-col gap-3 justify-start min-h-[400px];
+}
+</style>
