@@ -12,22 +12,25 @@
         class="font-[700] w-full text-[35px]"
       >
         <el-form-item class="mb-[30px]" prop="username">
-          <p>Введите логин</p>
-          <el-input
-            size="large"
-            v-model="loginForm.username"
-            placeholder="Введите логин"
-          ></el-input>
+          <div class="flex flex-col gap-[10px] w-full">
+            <p>Введите логин</p>
+            <input
+              class="px-[10px] py-[5px] rounded-[6px] focus:outline-none"
+              v-model="loginForm.username"
+              placeholder="Введите логин"
+            />
+          </div>
         </el-form-item>
         <el-form-item class="mb-[30px]" prop="password">
-          <p>Введите пароль</p>
-          <el-input
-            size="large"
-            v-model="loginForm.password"
-            type="password"
-            show-password
-            placeholder="Введите пароль"
-          ></el-input>
+          <div class="flex flex-col gap-[10px] w-full">
+            <p>Введите пароль</p>
+            <input
+              class="px-[10px] py-[5px] rounded-[6px] focus:outline-none"
+              v-model="loginForm.password"
+              type="password"
+              placeholder="Введите пароль"
+            />
+          </div>
         </el-form-item>
       </el-form>
     </div>
@@ -124,8 +127,5 @@ export default defineComponent({
 <style scoped>
 .el-form-item__content {
   margin-left: 0px;
-}
-input {
-  background-color: red !important;
 }
 </style>
