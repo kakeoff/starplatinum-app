@@ -5,12 +5,10 @@
     <div class="w-full">
       <div class="container mx-auto my-10 h-full">
         <div class="w-full flex gap-[15px] justify-end mb-[20px]">
-          <el-tooltip
-            class="text-white"
-            effect="light"
-            content="Глобальный поиск изданий"
-            placement="top"
-          >
+          <el-tooltip effect="light" placement="top">
+            <template #content>
+              <span class="text-white">Глобальный поиск изданий</span>
+            </template>
             <el-input
               v-model="search"
               placeholder="Поиск"
@@ -119,12 +117,10 @@
         </el-form-item>
         <span class="text-[16px]">Стоимость размещения</span>
         <el-form-item class="mb-[10px]" prop="cost">
-          <el-tooltip
-            class="text-white"
-            effect="light"
-            content="Только числовые значения"
-            placement="top"
-          >
+          <el-tooltip effect="light" placement="top">
+            <template #content>
+              <span class="text-white">Только числовые значения</span>
+            </template>
             <el-input
               @input="validateCost"
               size="large"

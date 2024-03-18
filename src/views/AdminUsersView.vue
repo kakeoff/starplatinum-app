@@ -5,12 +5,10 @@
     <div class="w-full">
       <div class="container mx-auto my-10 h-full">
         <div class="w-full flex gap-[15px] justify-end mb-[20px]">
-          <el-tooltip
-            class="text-white"
-            effect="light"
-            content="Глобальный поиск пользователей"
-            placement="top"
-          >
+          <el-tooltip effect="light" placement="top">
+            <template #content>
+              <span class="text-white">Глобальный поиск пользователей</span>
+            </template>
             <el-input
               v-model="search"
               placeholder="Поиск"

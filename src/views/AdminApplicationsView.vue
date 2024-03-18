@@ -32,12 +32,10 @@
           </el-radio-group>
 
           <div class="flex flex-row flex-wrap gap-[15px]">
-            <el-tooltip
-              class="text-white"
-              effect="light"
-              content="Поиск заявок по id"
-              placement="top"
-            >
+            <el-tooltip effect="light" placement="top">
+              <template #content>
+                <span class="text-white">Поиск заявок по ID</span>
+              </template>
               <el-input
                 v-model="searchId"
                 placeholder="Введите Id заявки"
@@ -46,11 +44,10 @@
                 class="w-[220px]"
               />
             </el-tooltip>
-            <el-tooltip
-              effect="light"
-              content="Фильтрация заявок по дате"
-              placement="top"
-            >
+            <el-tooltip effect="light" placement="top">
+              <template #content>
+                <span class="text-white">Фильтрация заявок по дате</span>
+              </template>
               <div>
                 <el-date-picker
                   v-model="selectedDate"
@@ -60,11 +57,10 @@
                 />
               </div>
             </el-tooltip>
-            <el-tooltip
-              effect="light"
-              content="Глобальный поиск заявок"
-              placement="top"
-            >
+            <el-tooltip effect="light" placement="top">
+              <template #content>
+                <span class="text-white">Глобальный поиск заявок</span>
+              </template>
               <el-input
                 v-model="search"
                 placeholder="Поиск"
@@ -83,7 +79,7 @@
           <el-table-column
             width="300"
             prop="name"
-            label="Рекламодатель"
+            label="Организация"
           ></el-table-column>
           <el-table-column
             width="300"
