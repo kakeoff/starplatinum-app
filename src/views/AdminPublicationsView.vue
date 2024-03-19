@@ -42,7 +42,15 @@
           </el-table-column>
           <el-table-column prop="cost" label="Стоимость, руб">
           </el-table-column>
-          <el-table-column prop="link" label="Ссылка"> </el-table-column>
+          <el-table-column label="Ссылка">
+            <template #default="{ row }">
+              <a :href="row.link" target="_blank"
+                ><el-button type="success" size="small"
+                  >Перейти на сайт</el-button
+                ></a
+              >
+            </template>
+          </el-table-column>
           <el-table-column label="Действия">
             <template #default="{ row }">
               <div class="flex flex-row flex-wrap gap-[5px]">
