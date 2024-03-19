@@ -95,38 +95,46 @@
           <!-- End SVG Element -->
         </div>
 
-        <div class="mt-10 sm:mt-20 flex flex-wrap gap-[10px] justify-center">
+        <div class="mt-10 sm:mt-20 flex flex-wrap gap-[15px] justify-center">
           <button
             v-for="pub in filteredPubs"
-            class="m-1 py-6 px-8 inline-flex hover:scale-105 text-[25px] hover:transition duration-300 justify-center items-center gap-2 rounded-md border font-[700] bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+            class="m-1 flex flex-col overflow-hidden max-w-[600px] hover:animate-pulse text-[25px] hover:transition duration-300 justify-center items-center rounded-md border font-[700] bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
             @click="selectPub(pub), (showPubModal = true)"
           >
-            {{ pub.name }}
+            <img
+              src="https://www.hlp.city/wp-content/uploads/2023/10/denys-nevozhai-2vmT5_FeMck-unsplash-scaled-e1698768382637.jpg"
+              alt=""
+            />
+            <div
+              class="h-[60px] flex justify-center items-center break-words truncate"
+            >
+              {{ pub.name }}
+            </div>
           </button>
         </div>
       </div>
     </div>
-    <el-dialog
-      class="min-w-[465px]"
-      :title="selectedPub.name"
-      v-model="showPubModal"
-    >
-      <h2 class="font-[700]">Описание</h2>
-      <span>{{ selectedPub.description }}</span>
-      <div class="font-[700] mt-[20px]">Цена: {{ selectedPub.cost }} руб.</div>
-      <div class="font-[700] mt-[20px]">
-        <a
-          :href="selectedPub.link"
-          target="_blank"
-          class="font-mono nav-link mt-[10px] text-white hover:transition duration-300"
-        >
-          <font-awesome-icon icon="fa-solid fa-link"></font-awesome-icon>
-          <span class="nav-link-extension ml-[5px]">Перейти на сайт</span>
-        </a>
-      </div>
-    </el-dialog>
   </div>
   <!-- End Hero -->
+  <el-dialog
+    class="min-w-[465px] max-w-[500px]"
+    :title="selectedPub.name"
+    v-model="showPubModal"
+  >
+    <h2 class="font-[700]">Описание</h2>
+    <span>{{ selectedPub.description }}</span>
+    <div class="font-[700] mt-[20px]">Цена: {{ selectedPub.cost }} руб.</div>
+    <div class="font-[700] mt-[20px]">
+      <a
+        :href="selectedPub.link"
+        target="_blank"
+        class="font-mono nav-link mt-[10px] text-white hover:transition duration-300"
+      >
+        <font-awesome-icon icon="fa-solid fa-link"></font-awesome-icon>
+        <span class="nav-link-extension ml-[5px]">Перейти на сайт</span>
+      </a>
+    </div>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">

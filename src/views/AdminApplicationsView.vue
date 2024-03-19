@@ -254,6 +254,10 @@ export default defineComponent({
           return (
             app.name.toLowerCase().includes(keyword) ||
             app.email.toLowerCase().includes(keyword) ||
+            this.users
+              .find((user) => user.id === app.userId)
+              ?.login.toLowerCase()
+              .includes(keyword) ||
             (app.comment && app.comment.toLowerCase().includes(keyword)) ||
             app.cost.toString().includes(keyword) ||
             app.pubs.some(

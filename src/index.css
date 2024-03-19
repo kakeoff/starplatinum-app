@@ -4,7 +4,7 @@
 
 @layer components {
   .body {
-    @apply transition h-[100vh] overflow-auto ease-in-out delay-150 duration-150 font-sans text-slate-700 bg-gradient-to-tl from-slate-300 via-white to-slate-100 dark:from-black dark:to-slate-900 dark:text-slate-500;
+    @apply transition h-full !w-full overflow-auto ease-in-out delay-150 duration-150 font-sans text-slate-700 bg-gradient-to-tl from-slate-300 via-white to-slate-100 dark:from-black dark:to-slate-900 dark:text-slate-500;
   }
 
   /***Global text-gradients***/
@@ -112,6 +112,7 @@
 
 html {
   overflow: hidden;
+  height: 100%;
 }
 
 .mainHeader {
