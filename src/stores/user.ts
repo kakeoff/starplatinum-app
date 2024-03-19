@@ -25,6 +25,9 @@ export const userStore = defineStore({
       await this.updateMe({avatarUrl})
       return avatarUrl
     },
+    async resetAvatar() {
+      await this.updateMe({avatarUrl: '/uploads/default/default.png'})
+    },
     clearUserStateLocally() {
       this.user = null
     }
