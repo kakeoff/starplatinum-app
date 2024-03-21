@@ -42,21 +42,21 @@
           @change="uploadAvatar"
           type="file"
         />
-        <el-popconfirm
-          width="200"
-          @confirm="logout"
-          title="Выйти из аккаунта?"
-          confirm-button-text="Да"
-          cancel-button-text="Нет"
+        <button
+          @click="logoutVisible = true"
+          class="w-full p-[6px] font-[700] text-center hover:bg-red-900 transition duration-300 hover:translate-y-[-3px] text-white rounded-[12px] border-[2px] border-red-900"
         >
-          <template #reference>
-            <button
-              class="w-full p-[6px] font-[700] text-center hover:bg-red-900 transition duration-300 hover:translate-y-[-3px] text-white rounded-[12px] border-[2px] border-red-900"
-            >
-              Выйти
-            </button>
+          Выйти
+        </button>
+        <el-dialog v-model="logoutVisible" title="Выход" width="400">
+          <span>Вы действительно хотите выйти из аккаунта?</span>
+          <template #footer>
+            <div class="dialog-footer">
+              <el-button @click="logoutVisible = false">Нет</el-button>
+              <el-button type="primary" @click="logout"> Да </el-button>
+            </div>
           </template>
-        </el-popconfirm>
+        </el-dialog>
       </div>
       <div>
         <p class="text-[24px] text-white font-[700]">{{ user?.login }}</p>
@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { userStore } from '../stores/user'
 import { authStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
@@ -84,6 +84,9 @@ const router = useRouter()
 
 const storeUser = userStore()
 const storeAuth = authStore()
+
+const logoutVisible = ref(false)
+
 const user = computed(() => {
   return storeUser.user
 })

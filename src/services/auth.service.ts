@@ -1,5 +1,5 @@
-import { ElNotification } from 'element-plus';
 import axios from '../plugins/axios';
+import { RegisterDto } from './dto';
 
 export async function login(login: string, password: string): Promise<{access_token: string}> {
   try {
@@ -9,39 +9,16 @@ export async function login(login: string, password: string): Promise<{access_to
     });
     return res.data;
   } catch (err: any) {
-    if (err.response.data.message === 'User does not exists') {
-      ElNotification({
-        title: "Ошибка авторизации",
-        message: "Пользователя с такими данными не существует",
-        type: "error",
-      });
-    } else if (err.response.data.message === 'Incorrect password') {
-      ElNotification({
-        title: "Ошибка авторизации",
-        message: "Неправильный пароль",
-        type: "error",
-      });
-    }
     return Promise.reject(err)
   }
 
 }
 
-export async function register(login: string, password: string): Promise<{message: string}> {
+export async function register(data: RegisterDto): Promise<{message: string}> {
   try {
-    const res = await axios.post<{message: string}> (`/auth/register`, {
-      login,
-      password,
-    });
+    const res = await axios.post<{message: string}> (`/auth/register`, data);
     return res.data;
   } catch (err: any) {
-    if (err.response.data.message === 'User is already exists') {
-      ElNotification({
-        title: "Ошибка регистрации",
-        message: "Пользователь с такими данными уже существует",
-        type: "error",
-      });
-    }
     return Promise.reject(err)
   }
 

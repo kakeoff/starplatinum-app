@@ -8,30 +8,42 @@
       <el-form
         ref="loginForm"
         :model="loginForm"
-        :rules="loginRules"
         class="font-[700] w-full text-[35px]"
       >
-        <el-form-item class="mb-[30px]" prop="username">
+        <el-form-item class="mb-[10px]" prop="username">
           <div class="flex flex-col gap-[10px] w-full">
             <p>Введите логин</p>
             <input
-              class="px-[10px] py-[5px] rounded-[6px] focus:outline-none"
+              class="px-[10px] py-[5px] border-[1px] border-gray-500 rounded-[6px] focus:outline-none"
+              :class="{
+                '!border-red-500 ': errors.includes('User does not exists')
+              }"
               v-model="loginForm.username"
               placeholder="Введите логин"
             />
           </div>
         </el-form-item>
-        <el-form-item class="mb-[30px]" prop="password">
+        <el-form-item class="mb-[10px]" prop="password">
           <div class="flex flex-col gap-[10px] w-full">
             <p>Введите пароль</p>
             <input
-              class="px-[10px] py-[5px] rounded-[6px] focus:outline-none"
+              :class="{
+                '!border-red-500 ': errors.includes('Incorrect password')
+              }"
+              class="px-[10px] py-[5px] rounded-[6px] border-[1px] border-gray-500 focus:outline-none"
               v-model="loginForm.password"
               type="password"
               placeholder="Введите пароль"
             />
           </div>
         </el-form-item>
+        <div
+          class="text-[14px] text-red-500"
+          v-for="error in errors"
+          :key="error"
+        >
+          <p>{{ getErrorLabel(error) }}</p>
+        </div>
       </el-form>
     </div>
     <template #footer>
@@ -44,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { PropType, defineComponent } from 'vue'
 import {
   ElButton,
   ElCard,
@@ -67,6 +79,10 @@ export default defineComponent({
     ElInput
   },
   props: {
+    errors: {
+      type: Array as PropType<string[]>,
+      default: []
+    },
     authVisible: {
       type: Boolean,
       default: false
@@ -81,18 +97,6 @@ export default defineComponent({
       loginForm: {
         username: '',
         password: ''
-      },
-      loginRules: {
-        username: [
-          {
-            required: true,
-            message: 'Введите логин',
-            trigger: 'blur'
-          }
-        ],
-        password: [
-          { required: true, message: 'Введите пароль', trigger: 'blur' }
-        ]
       }
     }
   },
@@ -100,6 +104,13 @@ export default defineComponent({
     ...mapStores(authStore)
   },
   methods: {
+    getErrorLabel(error: string) {
+      const errors: Record<string, string> = {
+        'User does not exists': 'Пользователя не существует',
+        'Incorrect password': 'Неверный пароль'
+      }
+      return errors[error] || 'Ошибка авторизации'
+    },
     login() {
       const loginFormRef = this.$refs.loginForm as FormInstance | undefined
       if (loginFormRef) {

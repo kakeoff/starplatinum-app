@@ -98,7 +98,7 @@
         <div class="mt-10 sm:mt-20 flex flex-wrap gap-[15px] justify-center">
           <button
             v-for="pub in filteredPubs"
-            class="m-1 flex flex-col overflow-hidden max-w-[600px] hover:animate-pulse text-[25px] hover:transition duration-300 justify-center items-center rounded-md border font-[700] bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+            class="m-1 flex flex-col overflow-hidden max-w-[600px] hover:translate-y-[-10px] text-[25px] hover:transition duration-300 justify-center items-center rounded-md border font-[700] bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
             @click="selectPub(pub), (showPubModal = true)"
           >
             <img

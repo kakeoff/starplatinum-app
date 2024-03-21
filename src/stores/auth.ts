@@ -1,3 +1,4 @@
+import { RegisterDto } from "@/services/dto";
 import { defineStore } from "pinia";
 import * as Api from '../services/auth.service';
 import { userStore } from "./user";
@@ -12,8 +13,8 @@ export const authStore = defineStore({
       const storeUser = userStore()
       storeUser.getMe()
     },
-    async register(login: string, password: string) {
-      await Api.register(login, password)
+    async register(data: RegisterDto) {
+      await Api.register(data)
     },
     logout() {
       localStorage.removeItem('accessToken')

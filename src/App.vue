@@ -9,11 +9,7 @@
           aria-label="Global"
         >
           <div class="flex items-center justify-between">
-            <RouterLink
-              to="/"
-              v-if="!isAdmin"
-              class="flex flex-row items-center gap-[2px]"
-            >
+            <RouterLink to="/" class="flex flex-row items-center gap-[2px]">
               <img
                 class="hover:transition duration-300 hover:scale-105"
                 src="./assets/starplatinumicon.png"
@@ -27,14 +23,7 @@
                 >STAR PLATINUM</span
               >
             </RouterLink>
-            <RouterLink
-              v-else
-              class="flex-none text-xl font-semibold dark:text-white hover:text-gradient hover:transition duration-300"
-              to="/admin-publications"
-              aria-label="Brand"
-            >
-              ПАНЕЛЬ УПРАВЛЕНИЯ
-            </RouterLink>
+
             <div class="lg:hidden">
               <button
                 type="button"
@@ -180,17 +169,18 @@
         </nav>
       </header>
       <LoginComponent
+        :errors="authErrors"
         :authVisible="authVisible"
         title="Авторизация"
         @close="closeModal()"
         @auth="login"
         v-if="authVisible"
       />
-      <LoginComponent
+      <RegisterComponent
+        :errors="authErrors"
         :authVisible="registerVisible"
-        title="Регистрация"
         @close="closeModal()"
-        @auth="register"
+        @register="register"
         v-if="registerVisible"
       />
       <el-dialog
@@ -223,7 +213,9 @@ import { pubsStore } from './stores/publications'
 import { isAuthenticated } from './plugins/helpers'
 
 import LoginComponent from './components/LoginComponent.vue'
+import RegisterComponent from './components/RegisterComponent.vue'
 import { ElNotification } from 'element-plus'
+import { RegisterDto } from './services/dto'
 
 const router = useRouter()
 const storeAuth = authStore()
@@ -240,6 +232,7 @@ onMounted(async () => {
 })
 
 const dialogVisible = ref(false)
+const authErrors = ref([] as string[])
 const authVisible = computed(() => !!router.currentRoute.value.query.login)
 const registerVisible = computed(
   () => !!router.currentRoute.value.query.register
@@ -294,23 +287,26 @@ const logout = () => {
 }
 const closeModal = () => {
   router.replace(router.currentRoute.value.path)
+  authErrors.value = []
 }
 const login = async (login: string, password: string) => {
-  await storeAuth.login(login, password)
-  closeModal()
-}
-const register = async (login: string, password: string) => {
   try {
-    await storeAuth.register(login, password)
+    authErrors.value = []
+    await storeAuth.login(login, password)
     closeModal()
   } catch (err: any) {
-    if (err.response.data.message === 'User already exists') {
-      ElNotification({
-        title: 'Ошибка',
-        message: 'Пользователь уже существует',
-        type: 'error'
-      })
-    }
+    authErrors.value.push(err.response.data.message || 'Internal error')
+    authErrors.value = authErrors.value.flatMap((error) => error)
+  }
+}
+const register = async (data: RegisterDto) => {
+  authErrors.value = []
+  try {
+    await storeAuth.register(data)
+    closeModal()
+  } catch (err: any) {
+    authErrors.value.push(err.response.data.message || 'Internal error')
+    authErrors.value = authErrors.value.flatMap((error) => error)
   }
 }
 </script>
