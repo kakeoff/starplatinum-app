@@ -147,23 +147,43 @@
               >
                 Авторизация
               </div>
-              <router-link
+              <div
                 v-else
-                to="/profile"
-                class="nav-link-extension sm:border-l sm:border-gray-300 sm:my-6 sm:pl-[25px] dark:border-gray-700"
-                :class="{
-                  'text-gradient': $route.name === 'profile'
-                }"
+                class="sm:border-l sm:border-gray-700 sm:my-6 sm:pl-[30px]"
               >
-                <div class="flex flex-row gap-[5px] items-center">
-                  <img
-                    class="h-[25px] w-[25px] rounded-[100%]"
-                    :src="getUserAvatar(user?.avatarUrl)"
-                    alt="avatar"
-                  />
-                  <span> {{ user?.login }}</span>
-                </div>
-              </router-link>
+                <el-dropdown trigger="click">
+                  <div class="flex flex-row gap-[10px] items-center">
+                    <img
+                      class="h-[27px] w-[27px] rounded-[100%]"
+                      :src="getUserAvatar(user?.avatarUrl)"
+                      alt="avatar"
+                    />
+                    <span
+                      class="text-[16px] font-[700] nav-link-extension"
+                      :class="{
+                        'text-gradient': $route.name === 'profile'
+                      }"
+                    >
+                      {{ user?.login }}</span
+                    >
+                  </div>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item
+                        @click="gotoProfile"
+                        class="text-[16px] font-[700]"
+                      >
+                        Профиль
+                      </el-dropdown-item>
+                      <el-dropdown-item
+                        @click="dialogVisible = true"
+                        class="text-red-500 text-[16px] font-[700] px-[20px] py-[10px]"
+                        >Выйти</el-dropdown-item
+                      >
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+              </div>
             </div>
           </div>
         </nav>
@@ -253,7 +273,9 @@ const getUserAvatar = (url: string | undefined) => {
   if (!url) return
   return `${import.meta.env.VITE_SERVER_URL}${url}`
 }
-
+const gotoProfile = () => {
+  router.push('/profile')
+}
 const loadData = async () => {
   if (isAdmin.value) {
     await storeApplications.getAllApplications()

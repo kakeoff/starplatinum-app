@@ -93,14 +93,6 @@
         :rules="userRules"
         class="font-[700] w-full text-[35px]"
       >
-        <span class="text-[16px]">Логин</span>
-        <el-form-item class="mb-[10px]" prop="login">
-          <el-input
-            size="large"
-            v-model="userForm.login"
-            placeholder="Введите логин"
-          ></el-input>
-        </el-form-item>
         <span class="text-[16px]">Роль</span>
         <el-form-item class="mb-[10px]" prop="description">
           <el-select
@@ -123,7 +115,9 @@
         <el-button type="danger" @click="showUpdateUser = false">
           Отмена
         </el-button>
-        <el-button type="success" @click="updateUser()"> Сохранить </el-button>
+        <el-button type="success" @click="updateUserRole()">
+          Сохранить
+        </el-button>
       </span>
     </template>
   </el-dialog>
@@ -179,7 +173,6 @@ export default defineComponent({
           this.resetFields()
         } else {
           if (!this.selectedUser) return
-          this.userForm.login = this.selectedUser.login
           this.userForm.role = this.selectedUser.role
         }
       }
@@ -203,17 +196,9 @@ export default defineComponent({
         }
       ],
       userForm: {
-        login: '',
         role: 0
       },
       userRules: {
-        login: [
-          {
-            required: true,
-            message: 'Введите логин',
-            trigger: 'blur'
-          }
-        ],
         role: [
           {
             required: true,
@@ -233,26 +218,16 @@ export default defineComponent({
       return `${import.meta.env.VITE_SERVER_URL}${url}`
     },
 
-    updateUser() {
+    updateUserRole() {
       if (!this.selectedUser) return
       const data = {
         id: this.selectedUser.id,
-        login: this.userForm.login,
         role: Number(this.userForm.role)
       }
-      if (!data.login) {
-        ElNotification({
-          title: 'Ошибка',
-          message: 'Вы ввели не все данные',
-          type: 'error'
-        })
-        return
-      }
-      this.usersStore.updateUser(data)
+      this.usersStore.updateUserRole(data)
       this.showUpdateUser = false
     },
     resetFields() {
-      this.userForm.login = ''
       this.userForm.role = 0
     }
   }

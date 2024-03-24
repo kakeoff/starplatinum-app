@@ -1,5 +1,5 @@
 import axios from '../plugins/axios';
-import { UpdateUserDto, User } from '../types/userTypes';
+import { UpdateUserRoleDto, User } from '../types/userTypes';
 
 export async function getAllUsers(): Promise<User[]> {
   try {
@@ -10,9 +10,9 @@ export async function getAllUsers(): Promise<User[]> {
     }
   }
 
-  export async function updateUser(data: UpdateUserDto): Promise<User> {
+  export async function updateUserRole(data: UpdateUserRoleDto): Promise<User> {
     try {
-      const res = await axios.patch<User>(`/user`, data);
+      const res = await axios.patch<User>(`/user/role`, data);
       return res.data;
     } catch (err) {
       return Promise.reject(err)

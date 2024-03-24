@@ -50,15 +50,6 @@
               type="file"
               accept=".jpg, .png"
             />
-            <!-- <el-dialog v-model="logoutVisible" title="Выход" width="400">
-            <span>Вы действительно хотите выйти из аккаунта?</span>
-            <template #footer>
-              <div class="dialog-footer">
-                <el-button @click="logoutVisible = false">Нет</el-button>
-                <el-button type="primary" @click="logout"> Да </el-button>
-              </div>
-            </template>
-          </el-dialog> -->
           </div>
           <div
             class="h-[300px] text-white bg-black/50 px-[20px] py-[3px] flex w-full items-center border-gray-700 border-y-[2px] border-r-[2px] rounded-r-[12px]"

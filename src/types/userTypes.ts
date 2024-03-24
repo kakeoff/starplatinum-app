@@ -12,10 +12,9 @@ export type User = {
   createdAt: Date;
 };
 
-export type UpdateUserDto = {
-  id?: number,
-  role?: number,
-  login?: string
+export type UpdateUserRoleDto = {
+  id: number,
+  role: number,
 }
 
 export type UpdateMeDto = {

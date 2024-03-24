@@ -12,14 +12,14 @@
       >
         <el-form-item class="mb-[10px]" prop="username">
           <div class="flex flex-col gap-[10px] w-full">
-            <p>Введите логин</p>
+            <p>Введите логин или Email</p>
             <input
               class="px-[10px] py-[5px] border-[1px] border-gray-500 rounded-[6px] focus:outline-none"
               :class="{
                 '!border-red-500 ': errors.includes('User does not exists')
               }"
               v-model="loginForm.username"
-              placeholder="Введите логин"
+              placeholder="Введите логин или Email"
             />
           </div>
         </el-form-item>
