@@ -22,6 +22,7 @@
       <el-col :span="11">
         <el-form-item prop="count">
           <el-select
+            filterable
             v-model="ruleForm.pub"
             style="width: 100%"
             placeholder="Выберите издание"
