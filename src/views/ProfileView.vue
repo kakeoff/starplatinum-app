@@ -386,7 +386,7 @@
             </div>
           </div>
 
-          <div class="h-[1px] bg-gray-700 w-full" />
+          <div class="h-[1px] my-[5px] bg-gray-700 w-full" />
 
           <div class="flex flex-col gap-[3px]">
             <span class="font-[400] text-gray-400 text-[14px]">
@@ -456,7 +456,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { userStore } from '../stores/user'
 import { useRouter } from 'vue-router'
 
@@ -513,6 +513,10 @@ watch(user, async (value) => {
     await router.push('/')
     return
   }
+  initUserData()
+})
+
+onMounted(() => {
   initUserData()
 })
 
