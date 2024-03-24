@@ -1,5 +1,5 @@
 <template>
-  <div class="px-[200px]">
+  <div v-motion-fade class="px-[200px]">
     <div class="w-full flex gap-[20px]">
       <div
         class="flex w-full max-w-[650px] overflow-hidden flex-col gap-[20px]"
