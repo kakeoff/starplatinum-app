@@ -132,6 +132,7 @@
                     <el-dropdown-item
                       @click="changeStatus(row.id, 'ACCEPTED')"
                       :disabled="row.status === 'ACCEPTED'"
+                      class="text-green-500"
                     >
                       Одобрена
                     </el-dropdown-item>
@@ -144,6 +145,7 @@
                     <el-dropdown-item
                       @click="changeStatus(row.id, 'CANCELED')"
                       :disabled="row.status === 'CANCELED'"
+                      class="text-red-500"
                     >
                       Отменена
                     </el-dropdown-item>

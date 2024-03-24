@@ -4,7 +4,7 @@
       <div
         class="flex w-full max-w-[650px] overflow-hidden flex-col gap-[20px]"
       >
-        <div class="flex w-full">
+        <div class="flex w-full border-[2px] border-gray-700 rounded-[12px]">
           <div class="flex flex-col gap-[10px]">
             <div
               class="bg-black rounded-l-[12px] group relative overflow-hidden w-[300px] h-[300px] flex items-center justify-center"
@@ -52,7 +52,7 @@
             />
           </div>
           <div
-            class="h-[300px] text-white bg-black/50 px-[20px] py-[3px] flex w-full items-center border-gray-700 border-y-[2px] border-r-[2px] rounded-r-[12px]"
+            class="h-[300px] text-white bg-black/50 px-[20px] py-[3px] flex w-full items-center rounded-r-[12px]"
           >
             <div
               class="flex flex-col gap-[25px] w-full max-w-[300px] overflow-hidden"
@@ -89,12 +89,12 @@
                   class="flex flex-col items-start sm:flex-row justify-between w-full sm:items-center"
                 >
                   <span class="ym-hide-content text-[17px] font-[500] truncate">
-                    {{ user?.fullName }}
+                    {{ user?.fullName ?? 'Не установлено' }}
                   </span>
                   <button
                     class="text-[13px] font-[400] landing-[13px] hover:underline"
                     name="change-username"
-                    @click="clickChangeName"
+                    @click="clickChangeUser('Имя пользователя', 'fullName')"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +148,7 @@
                   <button
                     class="text-[13px] font-[400] landing-[13px] hover:underline"
                     name="change-email"
-                    @click="clickChangeEmail"
+                    @click="clickChangeUser('Email', 'email')"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -200,13 +200,13 @@
                     <span
                       class="ym-hide-content text-[17px] font-[500] overflow-hidden truncate"
                     >
-                      {{ user?.phone }}
+                      {{ user?.phone ?? 'Не установлено' }}
                     </span>
                   </div>
                   <button
                     class="text-[13px] font-[400] landing-[13px] hover:underline"
                     name="change-phone"
-                    @click="clickChangePhoneNumber"
+                    @click="clickChangeUser('Телефон', 'phone')"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -315,8 +315,7 @@
               </div>
               <button
                 class="text-[13px] font-[400] landing-[13px] hover:underline"
-                name="change-phone"
-                @click="clickChangeCompanyName"
+                @click="clickChangeUser('Организация', 'companyName')"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -360,7 +359,7 @@
               <button
                 class="text-[13px] font-[400] landing-[13px] hover:underline"
                 name="change-phone"
-                @click="clickChangeAddress"
+                @click="clickChangeUser('Юридический адрес', 'address')"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -409,29 +408,6 @@
               {{ user?.role === 1 ? 'Администратор' : 'Пользователь' }}</span
             >
           </div>
-          <!-- <table class="text-left">
-            <tr>
-              <th>Название организации</th>
-              <td>{{ user?.companyName ?? 'Нет данных' }}</td>
-            </tr>
-            <tr>
-              <th>Юридический адрес</th>
-              <td>{{ user?.address ?? 'Нет данных' }}</td>
-            </tr>
-            <tr class="border-t border-gray-700">
-              <th>Роль аккаунта</th>
-              <td>{{ user?.role === 0 ? 'Пользователь' : 'Администратор' }}</td>
-            </tr>
-            <tr>
-              <th>Дата создания аккаунта</th>
-              <td>
-                {{
-                  user?.createdAt &&
-                  new Date(user.createdAt).toLocaleDateString()
-                }}
-              </td>
-            </tr>
-          </table> -->
         </div>
       </div>
       <div
@@ -441,30 +417,92 @@
       </div>
     </div>
   </div>
+  <el-dialog
+    v-model="showUpdateUserModal"
+    class="px-[20px] min-w-[260px] max-w-[400px]"
+    :title="modalTitle"
+    @close="closeUpdateUserModal"
+  >
+    <div class="flex justify-center w-full min-h-full">
+      <el-form class="font-[700] w-full text-[35px]">
+        <el-form-item class="mb-[10px]">
+          <div class="flex flex-col gap-[10px] w-full">
+            <input
+              class="px-[10px] py-[5px] border-[1px] border-gray-500 rounded-[6px] focus:outline-none"
+              :class="{
+                '!border-red-500 ': errors.length
+              }"
+              v-model="userData[selectedUpdateType]"
+            />
+          </div>
+        </el-form-item>
+
+        <div
+          class="text-[14px] text-red-500"
+          v-for="error in errors"
+          :key="error"
+        >
+          <p>{{ getErrorLabel(error) }}</p>
+        </div>
+      </el-form>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="closeUpdateUserModal()">Отмена</el-button>
+        <el-button type="primary" @click="updateMe()"> Подтвердить </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { userStore } from '../stores/user'
-import { authStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+
+type UpdateType = 'fullName' | 'email' | 'phone' | 'companyName' | 'address'
+
+type UserDataType = {
+  fullName: string
+  email: string
+  phone: string
+  companyName: string
+  address: string
+}
 
 const router = useRouter()
 
 const storeUser = userStore()
-const storeAuth = authStore()
 
-const logoutVisible = ref(false)
+const errors = ref([] as string[])
 
 const user = computed(() => {
   return storeUser.user
 })
+const selectedUpdateType = ref('' as UpdateType)
+const userData: { [key in UpdateType]: string } = reactive({} as UserDataType)
+const modalTitle = ref('')
+const showUpdateUserModal = ref(false)
 
-const createdAt = computed(() => {
-  return user.value
-    ? new Date(user.value?.createdAt).toLocaleDateString()
-    : 'Неизвестно'
-})
+const closeUpdateUserModal = () => {
+  modalTitle.value = ''
+  showUpdateUserModal.value = false
+  initUserData()
+  errors.value = []
+}
+
+const getErrorLabel = (error: string) => {
+  const errors: Record<string, string> = {
+    'email must be an email': 'Некорректный email'
+  }
+  return errors[error] || 'Ошибка обновления данных'
+}
+
+const clickChangeUser = (title: string, type: UpdateType) => {
+  modalTitle.value = title
+  showUpdateUserModal.value = true
+  selectedUpdateType.value = type
+}
 
 const avatarUrl = computed(() => {
   return `${import.meta.env.VITE_SERVER_URL}${user.value?.avatarUrl}`
@@ -473,8 +511,27 @@ const avatarUrl = computed(() => {
 watch(user, async (value) => {
   if (!value) {
     await router.push('/')
+    return
   }
+  initUserData()
 })
+
+const initUserData = () => {
+  userData.fullName = user.value ? user.value.fullName || '' : ''
+  userData.address = user.value ? user.value.address || '' : ''
+  userData.companyName = user.value ? user.value.companyName || '' : ''
+  userData.email = user.value ? user.value.email || '' : ''
+  userData.phone = user.value ? user.value.phone || '' : ''
+}
+
+const updateMe = async () => {
+  try {
+    await storeUser.updateMe({ ...userData, role: 0 })
+    closeUpdateUserModal()
+  } catch (err: any) {
+    errors.value = err.response.data.message
+  }
+}
 
 const uploadAvatar = async (event: Event) => {
   const target = event.target as HTMLInputElement
@@ -489,14 +546,4 @@ const uploadAvatar = async (event: Event) => {
 const resetAvatar = () => {
   storeUser.resetAvatar()
 }
-
-const logout = () => {
-  storeAuth.logout()
-}
 </script>
-
-<style scoped>
-td {
-  @apply py-[10px];
-}
-</style>

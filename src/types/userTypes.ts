@@ -20,4 +20,9 @@ export type UpdateUserRoleDto = {
 export type UpdateMeDto = {
   login?: string,
   avatarUrl?: string
+  fullName?: string
+  email?: string
+  phone?: string
+  companyName?: string
+  address?: string
 }
