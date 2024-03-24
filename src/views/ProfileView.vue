@@ -526,7 +526,7 @@ const initUserData = () => {
 
 const updateMe = async () => {
   try {
-    await storeUser.updateMe({ ...userData, role: 0 })
+    await storeUser.updateMe(userData)
     closeUpdateUserModal()
   } catch (err: any) {
     errors.value = err.response.data.message
