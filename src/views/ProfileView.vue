@@ -7,7 +7,7 @@
         <div class="flex w-full">
           <div class="flex flex-col gap-[10px]">
             <div
-              class="bg-black rounded-l-[12px] group relative overflow-hidden w-[300px] flex items-center justify-center"
+              class="bg-black rounded-l-[12px] group relative overflow-hidden w-[300px] h-[300px] flex items-center justify-center"
             >
               <img
                 v-if="user?.avatarUrl"
