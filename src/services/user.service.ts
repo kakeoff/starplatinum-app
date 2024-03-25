@@ -20,6 +20,15 @@ export async function getMe(): Promise<User> {
       }
     }
 
+    export async function changePassword(data: {old: string, new: string}): Promise<string> {
+      try {
+        const res = await axios.patch<string>(`/user/password`, data);
+        return res.data;
+      } catch (err) {
+        return Promise.reject(err)
+        }
+      }
+
 
   export async function uploadAvatar(file: FormData): Promise<string> {
     try {

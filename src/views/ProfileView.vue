@@ -55,7 +55,7 @@
             class="h-[300px] text-white bg-black/50 px-[20px] py-[3px] flex w-full items-center rounded-r-[12px]"
           >
             <div
-              class="flex flex-col gap-[25px] w-full max-w-[300px] overflow-hidden"
+              class="flex flex-col gap-[20px] w-full max-w-[300px] overflow-hidden"
             >
               <div class="flex flex-col gap-[3px]">
                 <div class="flex flex-row gap-[3px] items-center">
@@ -97,6 +97,61 @@
                     @click="clickChangeUser('Имя пользователя', 'fullName')"
                   >
                     <svg
+                      class="opacity-[0.5]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="25px"
+                      height="25px"
+                      viewBox="0 -0.5 25 25"
+                      fill="none"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M17.265 4.16231L19.21 5.74531C19.3978 5.9283 19.5031 6.17982 19.5015 6.44201C19.5 6.70421 19.3919 6.9545 19.202 7.13531L17.724 8.93531L12.694 15.0723C12.6069 15.1749 12.4897 15.2473 12.359 15.2793L9.75102 15.8793C9.40496 15.8936 9.10654 15.6384 9.06702 15.2943L9.18902 12.7213C9.19806 12.5899 9.25006 12.4652 9.33702 12.3663L14.15 6.50131L15.845 4.43331C16.1743 3.98505 16.7938 3.86684 17.265 4.16231Z"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M5.5 18.2413C5.08579 18.2413 4.75 18.5771 4.75 18.9913C4.75 19.4056 5.08579 19.7413 5.5 19.7413V18.2413ZM19.2 19.7413C19.6142 19.7413 19.95 19.4056 19.95 18.9913C19.95 18.5771 19.6142 18.2413 19.2 18.2413V19.7413ZM14.8455 6.22062C14.6904 5.83652 14.2534 5.65082 13.8693 5.80586C13.4852 5.9609 13.2995 6.39796 13.4545 6.78206L14.8455 6.22062ZM17.8893 9.66991C18.2933 9.57863 18.5468 9.17711 18.4556 8.77308C18.3643 8.36904 17.9628 8.1155 17.5587 8.20678L17.8893 9.66991ZM5.5 19.7413H19.2V18.2413H5.5V19.7413ZM13.4545 6.78206C13.6872 7.35843 14.165 8.18012 14.8765 8.8128C15.6011 9.45718 16.633 9.95371 17.8893 9.66991L17.5587 8.20678C16.916 8.35198 16.3609 8.12551 15.8733 7.69189C15.3725 7.24656 15.0128 6.63526 14.8455 6.22062L13.4545 6.78206Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="flex flex-col gap-[3px]">
+                <div class="flex flex-row gap-[3px] items-center">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8.00033 11.3307C7.6467 11.3307 7.30757 11.1903 7.05752 10.9402C6.80747 10.6902 6.66699 10.351 6.66699 9.9974C6.66699 9.2574 7.26033 8.66406 8.00033 8.66406C8.35395 8.66406 8.69309 8.80454 8.94313 9.05459C9.19318 9.30464 9.33366 9.64377 9.33366 9.9974C9.33366 10.351 9.19318 10.6902 8.94313 10.9402C8.69309 11.1903 8.35395 11.3307 8.00033 11.3307ZM12.0003 13.3307V6.66406H4.00033V13.3307H12.0003ZM12.0003 5.33073C12.3539 5.33073 12.6931 5.47121 12.9431 5.72125C13.1932 5.9713 13.3337 6.31044 13.3337 6.66406V13.3307C13.3337 13.6844 13.1932 14.0235 12.9431 14.2735C12.6931 14.5236 12.3539 14.6641 12.0003 14.6641H4.00033C3.6467 14.6641 3.30756 14.5236 3.05752 14.2735C2.80747 14.0235 2.66699 13.6844 2.66699 13.3307V6.66406C2.66699 5.92406 3.26033 5.33073 4.00033 5.33073H4.66699V3.9974C4.66699 3.11334 5.01818 2.26549 5.6433 1.64037C6.26842 1.01525 7.11627 0.664063 8.00033 0.664062C8.43807 0.664062 8.87152 0.750282 9.27594 0.917797C9.68036 1.08531 10.0478 1.33084 10.3573 1.64037C10.6669 1.9499 10.9124 2.31737 11.0799 2.72178C11.2474 3.1262 11.3337 3.55966 11.3337 3.9974V5.33073H12.0003ZM8.00033 1.9974C7.46989 1.9974 6.96118 2.20811 6.58611 2.58318C6.21104 2.95826 6.00033 3.46696 6.00033 3.9974V5.33073H10.0003V3.9974C10.0003 3.46696 9.78961 2.95826 9.41454 2.58318C9.03947 2.20811 8.53076 1.9974 8.00033 1.9974Z"
+                      fill="currentColor"
+                      fill-opacity="0.5"
+                    />
+                  </svg>
+                  <span class="font-[400] text-gray-400 text-[14px]"
+                    >Логин</span
+                  >
+                </div>
+                <div
+                  class="flex flex-col items-start sm:flex-row justify-between w-full sm:items-center"
+                >
+                  <span class="ym-hide-content text-[17px] font-[500] truncate">
+                    {{ user?.login ?? '???' }}
+                  </span>
+                  <button
+                    class="text-[13px] font-[400] landing-[13px] hover:underline"
+                    @click="clickChangeUser('Логин', 'login')"
+                  >
+                    <svg
+                      class="opacity-[0.5]"
                       xmlns="http://www.w3.org/2000/svg"
                       width="25px"
                       height="25px"
@@ -143,7 +198,7 @@
                   class="flex flex-col items-start sm:flex-row justify-between w-full sm:items-center"
                 >
                   <span class="ym-hide-content text-[17px] font-[500] truncate">
-                    {{ user?.email }}
+                    {{ user?.email ?? '???' }}
                   </span>
                   <button
                     class="text-[13px] font-[400] landing-[13px] hover:underline"
@@ -151,6 +206,7 @@
                     @click="clickChangeUser('Email', 'email')"
                   >
                     <svg
+                      class="opacity-[0.5]"
                       xmlns="http://www.w3.org/2000/svg"
                       width="25px"
                       height="25px"
@@ -209,66 +265,7 @@
                     @click="clickChangeUser('Телефон', 'phone')"
                   >
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="25px"
-                      height="25px"
-                      viewBox="0 -0.5 25 25"
-                      fill="none"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M17.265 4.16231L19.21 5.74531C19.3978 5.9283 19.5031 6.17982 19.5015 6.44201C19.5 6.70421 19.3919 6.9545 19.202 7.13531L17.724 8.93531L12.694 15.0723C12.6069 15.1749 12.4897 15.2473 12.359 15.2793L9.75102 15.8793C9.40496 15.8936 9.10654 15.6384 9.06702 15.2943L9.18902 12.7213C9.19806 12.5899 9.25006 12.4652 9.33702 12.3663L14.15 6.50131L15.845 4.43331C16.1743 3.98505 16.7938 3.86684 17.265 4.16231Z"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M5.5 18.2413C5.08579 18.2413 4.75 18.5771 4.75 18.9913C4.75 19.4056 5.08579 19.7413 5.5 19.7413V18.2413ZM19.2 19.7413C19.6142 19.7413 19.95 19.4056 19.95 18.9913C19.95 18.5771 19.6142 18.2413 19.2 18.2413V19.7413ZM14.8455 6.22062C14.6904 5.83652 14.2534 5.65082 13.8693 5.80586C13.4852 5.9609 13.2995 6.39796 13.4545 6.78206L14.8455 6.22062ZM17.8893 9.66991C18.2933 9.57863 18.5468 9.17711 18.4556 8.77308C18.3643 8.36904 17.9628 8.1155 17.5587 8.20678L17.8893 9.66991ZM5.5 19.7413H19.2V18.2413H5.5V19.7413ZM13.4545 6.78206C13.6872 7.35843 14.165 8.18012 14.8765 8.8128C15.6011 9.45718 16.633 9.95371 17.8893 9.66991L17.5587 8.20678C16.916 8.35198 16.3609 8.12551 15.8733 7.69189C15.3725 7.24656 15.0128 6.63526 14.8455 6.22062L13.4545 6.78206Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              <div class="flex flex-col gap-[3px]">
-                <div class="flex flex-row gap-[3px] items-center">
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8.00033 11.3307C7.6467 11.3307 7.30757 11.1903 7.05752 10.9402C6.80747 10.6902 6.66699 10.351 6.66699 9.9974C6.66699 9.2574 7.26033 8.66406 8.00033 8.66406C8.35395 8.66406 8.69309 8.80454 8.94313 9.05459C9.19318 9.30464 9.33366 9.64377 9.33366 9.9974C9.33366 10.351 9.19318 10.6902 8.94313 10.9402C8.69309 11.1903 8.35395 11.3307 8.00033 11.3307ZM12.0003 13.3307V6.66406H4.00033V13.3307H12.0003ZM12.0003 5.33073C12.3539 5.33073 12.6931 5.47121 12.9431 5.72125C13.1932 5.9713 13.3337 6.31044 13.3337 6.66406V13.3307C13.3337 13.6844 13.1932 14.0235 12.9431 14.2735C12.6931 14.5236 12.3539 14.6641 12.0003 14.6641H4.00033C3.6467 14.6641 3.30756 14.5236 3.05752 14.2735C2.80747 14.0235 2.66699 13.6844 2.66699 13.3307V6.66406C2.66699 5.92406 3.26033 5.33073 4.00033 5.33073H4.66699V3.9974C4.66699 3.11334 5.01818 2.26549 5.6433 1.64037C6.26842 1.01525 7.11627 0.664063 8.00033 0.664062C8.43807 0.664062 8.87152 0.750282 9.27594 0.917797C9.68036 1.08531 10.0478 1.33084 10.3573 1.64037C10.6669 1.9499 10.9124 2.31737 11.0799 2.72178C11.2474 3.1262 11.3337 3.55966 11.3337 3.9974V5.33073H12.0003ZM8.00033 1.9974C7.46989 1.9974 6.96118 2.20811 6.58611 2.58318C6.21104 2.95826 6.00033 3.46696 6.00033 3.9974V5.33073H10.0003V3.9974C10.0003 3.46696 9.78961 2.95826 9.41454 2.58318C9.03947 2.20811 8.53076 1.9974 8.00033 1.9974Z"
-                      fill="currentColor"
-                      fill-opacity="0.5"
-                    />
-                  </svg>
-                  <span class="font-[400] text-gray-400 text-[14px]">
-                    Пароль
-                  </span>
-                </div>
-
-                <div
-                  class="flex flex-col items-start sm:flex-row justify-between w-full sm:items-center"
-                >
-                  <div class="flex flex-col sm:flex-row gap-[8px] max-w-[85%]">
-                    <span
-                      class="ym-hide-content text-[17px] font-[500] overflow-hidden truncate"
-                    >
-                      *************
-                    </span>
-                  </div>
-                  <button
-                    class="text-[13px] font-[400] landing-[13px] hover:underline"
-                    name="change-phone"
-                    @click="clickChangePassword"
-                  >
-                    <svg
+                      class="opacity-[0.5]"
                       xmlns="http://www.w3.org/2000/svg"
                       width="25px"
                       height="25px"
@@ -318,6 +315,7 @@
                 @click="clickChangeUser('Организация', 'companyName')"
               >
                 <svg
+                  class="opacity-[0.5]"
                   xmlns="http://www.w3.org/2000/svg"
                   width="25px"
                   height="25px"
@@ -362,6 +360,7 @@
                 @click="clickChangeUser('Юридический адрес', 'address')"
               >
                 <svg
+                  class="opacity-[0.5]"
                   xmlns="http://www.w3.org/2000/svg"
                   width="25px"
                   height="25px"
@@ -408,6 +407,11 @@
               {{ user?.role === 1 ? 'Администратор' : 'Пользователь' }}</span
             >
           </div>
+          <el-button
+            @click="showPasswordModal = true"
+            class="w-[25%] bottom-[10px] right-[20px] absolute"
+            >Сменить пароль</el-button
+          >
         </div>
       </div>
       <div
@@ -428,6 +432,17 @@
         <el-form-item class="mb-[10px]">
           <div class="flex flex-col gap-[10px] w-full">
             <input
+              v-if="selectedUpdateType === 'phone'"
+              v-maska
+              data-maska="+7(###)-###-##-##"
+              class="px-[10px] py-[5px] border-[1px] border-gray-500 rounded-[6px] focus:outline-none"
+              :class="{
+                '!border-red-500 ': errors.length
+              }"
+              v-model="userData[selectedUpdateType]"
+            />
+            <input
+              v-else
               class="px-[10px] py-[5px] border-[1px] border-gray-500 rounded-[6px] focus:outline-none"
               :class="{
                 '!border-red-500 ': errors.length
@@ -453,17 +468,79 @@
       </span>
     </template>
   </el-dialog>
+
+  <el-dialog
+    v-model="showPasswordModal"
+    class="px-[20px] min-w-[260px] max-w-[400px]"
+    title="Сменить пароль"
+    @close="closePasswordModal"
+  >
+    <div class="flex justify-center w-full min-h-full">
+      <el-form class="font-[700] w-full text-[35px]">
+        <el-form-item class="mb-[10px]">
+          <div class="flex flex-col gap-[15px] w-full">
+            <p>Старый пароль</p>
+            <input
+              type="password"
+              v-model="passwordData.old"
+              placeholder="Введите старый пароль"
+              class="px-[10px] py-[5px] border-[1px] border-gray-500 rounded-[6px] focus:outline-none"
+              :class="{
+                '!border-red-500 ': errors.length
+              }"
+            />
+            <p>Новый пароль</p>
+
+            <input
+              type="password"
+              v-model="passwordData.new"
+              placeholder="Введите новый пароль"
+              class="px-[10px] py-[5px] border-[1px] border-gray-500 rounded-[6px] focus:outline-none"
+              :class="{
+                '!border-red-500 ': errors.length
+              }"
+            />
+          </div>
+        </el-form-item>
+
+        <div
+          class="text-[14px] text-red-500"
+          v-for="error in errors"
+          :key="error"
+        >
+          <p>{{ getErrorLabel(error) }}</p>
+        </div>
+      </el-form>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="closePasswordModal">Отмена</el-button>
+        <el-button type="primary" @click="changePassword">
+          Подтвердить
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { userStore } from '../stores/user'
 import { useRouter } from 'vue-router'
+import { ElNotification } from 'element-plus'
+import { vMaska } from 'maska'
 
-type UpdateType = 'fullName' | 'email' | 'phone' | 'companyName' | 'address'
+type UpdateType =
+  | 'fullName'
+  | 'login'
+  | 'email'
+  | 'phone'
+  | 'companyName'
+  | 'address'
 
 type UserDataType = {
   fullName: string
+  login: string
   email: string
   phone: string
   companyName: string
@@ -476,6 +553,11 @@ const storeUser = userStore()
 
 const errors = ref([] as string[])
 
+const showPasswordModal = ref(false as Boolean)
+const passwordData = reactive({
+  old: '',
+  new: ''
+} as { old: string; new: string })
 const user = computed(() => {
   return storeUser.user
 })
@@ -491,9 +573,20 @@ const closeUpdateUserModal = () => {
   errors.value = []
 }
 
+const closePasswordModal = () => {
+  passwordData.new = ''
+  passwordData.old = ''
+  showPasswordModal.value = false
+  errors.value = []
+}
+
 const getErrorLabel = (error: string) => {
   const errors: Record<string, string> = {
-    'email must be an email': 'Некорректный email'
+    'email must be an email': 'Некорректный email',
+    'new must be longer than or equal to 6 characters':
+      'Длина пароля не менее 6 символов',
+    'Incorrect old password': 'Старый пароль введен неверно',
+    'Passwords are the same': 'Пароли совпадают'
   }
   return errors[error] || 'Ошибка обновления данных'
 }
@@ -521,19 +614,44 @@ onMounted(() => {
 })
 
 const initUserData = () => {
-  userData.fullName = user.value ? user.value.fullName || '' : ''
-  userData.address = user.value ? user.value.address || '' : ''
-  userData.companyName = user.value ? user.value.companyName || '' : ''
-  userData.email = user.value ? user.value.email || '' : ''
-  userData.phone = user.value ? user.value.phone || '' : ''
+  const fields: (keyof UserDataType)[] = [
+    'fullName',
+    'login',
+    'address',
+    'companyName',
+    'email',
+    'phone'
+  ]
+  fields.forEach((field) => {
+    userData[field] = user?.value?.[field] || ''
+  })
 }
-
 const updateMe = async () => {
   try {
     await storeUser.updateMe(userData)
     closeUpdateUserModal()
+    ElNotification({
+      title: `Данные успешно изменены`,
+      type: 'success',
+      duration: 1000
+    })
   } catch (err: any) {
-    errors.value = err.response.data.message
+    errors.value = [err.response.data.message].flat()
+  }
+}
+
+const changePassword = async () => {
+  errors.value = []
+  try {
+    await storeUser.changePassword(passwordData)
+    closePasswordModal()
+    ElNotification({
+      title: `Пароль успешно изменен`,
+      type: 'success',
+      duration: 1000
+    })
+  } catch (err: any) {
+    errors.value = [err.response.data.message].flat()
   }
 }
 

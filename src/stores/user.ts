@@ -19,6 +19,9 @@ export const userStore = defineStore({
       this.user = user
       return user
     },
+    async changePassword(data: {old: string, new: string}) {
+      await Api.changePassword(data)
+    },
     async uploadAvatar(file: FormData) {
       const fileName = await Api.uploadAvatar(file)
       const avatarUrl = `/uploads/${fileName}`
