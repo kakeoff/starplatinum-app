@@ -1,10 +1,8 @@
 <template>
-  <div v-motion-fade class="px-[50px]">
-    <div class="w-full flex gap-[20px]">
-      <div
-        class="flex w-full max-w-[650px] overflow-hidden flex-col gap-[20px]"
-      >
-        <div class="flex w-full border-[2px] border-gray-700 rounded-[12px]">
+  <div v-motion-fade class="px-[100px]">
+    <div class="w-full flex-col gap-[20px]">
+      <div class="flex w-full overflow-hidden gap-[20px] mb-[20px]">
+        <div class="flex border-[2px] border-gray-700 w-[55%] rounded-[12px]">
           <div class="flex flex-col gap-[10px]">
             <div
               class="bg-black rounded-l-[12px] group relative overflow-hidden w-[300px] h-[300px] flex items-center justify-center"
@@ -52,10 +50,10 @@
             />
           </div>
           <div
-            class="h-[300px] text-white bg-black/50 px-[20px] py-[3px] flex w-full items-center rounded-r-[12px]"
+            class="h-[300px] text-white bg-black/50 px-[20px] flex w-full items-center rounded-r-[12px]"
           >
             <div
-              class="flex flex-col gap-[20px] w-full max-w-[300px] overflow-hidden"
+              class="flex flex-col gap-[20px] w-full max-w-[320px] overflow-hidden"
             >
               <div class="flex flex-col gap-[3px]">
                 <div class="flex flex-row gap-[3px] items-center">
@@ -293,9 +291,8 @@
           </div>
         </div>
         <div
-          class="bg-black/50 rounded-[12px] text-white px-[20px] py-[10px] group relative border-[2px] border-gray-700 overflow-hidden w-full flex flex-col gap-[10px]"
+          class="bg-black/50 rounded-[12px] text-white px-[20px] w-[45%] justify-center group relative border-[2px] border-gray-700 overflow-hidden flex flex-col gap-[10px]"
         >
-          <p class="font-[700]">Дополнительная информация</p>
           <div class="flex flex-col gap-[3px]">
             <span class="font-[400] text-gray-400 text-[14px]"
               >Организация</span
@@ -398,24 +395,24 @@
               }}</span
             >
           </div>
-          <div class="flex flex-col gap-[3px]">
-            <span class="font-[400] text-gray-400 text-[14px]">
-              Роль аккаунта
-            </span>
+          <div class="flex justify-between items-end">
+            <div class="flex flex-col gap-[3px]">
+              <span class="font-[400] text-gray-400 text-[14px]">
+                Роль аккаунта
+              </span>
 
-            <span class="text-[17px] font-[500] truncate">
-              {{ user?.role === 1 ? 'Администратор' : 'Пользователь' }}</span
+              <span class="text-[17px] font-[500] truncate">
+                {{ user?.role === 1 ? 'Администратор' : 'Пользователь' }}</span
+              >
+            </div>
+            <el-button @click="showPasswordModal = true" class="w-[25%]"
+              >Сменить пароль</el-button
             >
           </div>
-          <el-button
-            @click="showPasswordModal = true"
-            class="w-[25%] bottom-[10px] right-[20px] absolute"
-            >Сменить пароль</el-button
-          >
         </div>
       </div>
       <div
-        class="text-white flex-col py-[10px] bg-black/50 flex w-full border-gray-700 border-[2px] rounded-[12px]"
+        class="text-white flex-col py-[10px] bg-black/50 mb-[20px] flex w-full border-gray-700 border-[2px] rounded-[12px]"
       >
         <div
           class="font-[700] px-[20px] pb-[10px] flex justify-between items-center"
@@ -452,7 +449,7 @@
           class="text-[13px] text-center w-full"
           :data="filteredApplications"
         >
-          <el-table-column width="70px" prop="id" label="Id"></el-table-column>
+          <el-table-column prop="id" label="Номер заявки"></el-table-column>
           <el-table-column prop="comment" label="Информация">
             <template #default="{ row }">
               <el-button
