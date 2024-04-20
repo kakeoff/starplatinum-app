@@ -1,12 +1,16 @@
-import { defineStore } from "pinia";
-import * as Api from '../services/applications.service';
-import { Application, ApplicationStatus, SendApplicationDto } from "../types/applicationTypes";
+import { defineStore } from 'pinia'
+import * as Api from '../services/applications.service'
+import {
+  Application,
+  ApplicationStatus,
+  SendApplicationDto
+} from '../types/applicationTypes'
 
 export const applicationsStore = defineStore({
   id: 'applications',
   state: () => ({
-    applications: [
-    ] as Application[]
+    applications: [] as Application[],
+    userApplications: [] as Application[]
   }),
   actions: {
     async sendApplication(app: SendApplicationDto) {
@@ -28,21 +32,36 @@ export const applicationsStore = defineStore({
       this.applications[index].status = application.status
       return application
     },
-  async deleteApplication(applicationId: number) {
-    await Api.deleteApplication(applicationId)
-    const index = this.applications.findIndex((app) => app.id === applicationId)
-    if (index !== -1) {
-      this.applications.splice(index, 1)
-    }
-  },
+    async deleteApplication(applicationId: number) {
+      await Api.deleteApplication(applicationId)
+      const index = this.applications.findIndex(
+        (app) => app.id === applicationId
+      )
+      if (index !== -1) {
+        this.applications.splice(index, 1)
+      }
+    },
     async getAllApplications() {
       const applications = await Api.getAllApplications()
-      applications.forEach((item: Application) => {
-        Array.from(item.pubs)
-      })
       this.applications = applications
 
       return applications
     },
+
+    async getUserApplications(userId: number) {
+      const applications = await Api.getUserApplications(userId)
+      this.userApplications = applications
+
+      return applications
+    },
+    async deleteMyApplication(applicationId: number) {
+      await Api.deleteMyApplication(applicationId)
+      const index = this.userApplications.findIndex(
+        (app) => app.id === applicationId
+      )
+      if (index !== -1) {
+        this.userApplications.splice(index, 1)
+      }
+    }
   }
 })

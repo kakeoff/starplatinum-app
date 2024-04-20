@@ -1,5 +1,5 @@
 <template>
-  <div v-motion-fade class="px-[200px]">
+  <div v-motion-fade class="px-[50px]">
     <div class="w-full flex gap-[20px]">
       <div
         class="flex w-full max-w-[650px] overflow-hidden flex-col gap-[20px]"
@@ -415,9 +415,83 @@
         </div>
       </div>
       <div
-        class="text-white px-[20px] py-[10px] bg-black/50 flex w-full border-gray-700 border-[2px] rounded-[12px]"
+        class="text-white flex-col py-[10px] bg-black/50 flex w-full border-gray-700 border-[2px] rounded-[12px]"
       >
-        <p class="font-[700]">Мои заявки</p>
+        <div
+          class="font-[700] px-[20px] pb-[10px] flex justify-between items-center"
+        >
+          <p>Мои заявки</p>
+          <el-radio-group v-model="statusFilter">
+            <el-radio
+              class="hover:scale-105 hover:transition duration-300"
+              label=""
+            >
+              Все
+            </el-radio>
+            <el-radio
+              class="hover:scale-105 hover:transition duration-300"
+              label="PENDING"
+            >
+              Ожидание
+            </el-radio>
+            <el-radio
+              class="hover:scale-105 hover:transition duration-300"
+              label="ACCEPTED"
+            >
+              Одобрено
+            </el-radio>
+            <el-radio
+              class="hover:scale-105 hover:transition duration-300"
+              label="CANCELED"
+            >
+              Отклонено
+            </el-radio>
+          </el-radio-group>
+        </div>
+        <el-table
+          class="text-[13px] text-center w-full"
+          :data="filteredApplications"
+        >
+          <el-table-column width="70px" prop="id" label="Id"></el-table-column>
+          <el-table-column prop="comment" label="Информация">
+            <template #default="{ row }">
+              <el-button
+                type="info"
+                size="small"
+                @click="selectedAppId = row.id"
+              >
+                Посмотреть
+              </el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="Стоимость">
+            <template #default="{ row }">
+              <el-tag type="success"> {{ row.cost }} руб. </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="Статус">
+            <template #default="{ row }">
+              <el-tag :type="getButtonType(row.status)">
+                {{ localize(row.status) }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="Действия">
+            <template #default="{ row }">
+              <el-popconfirm
+                cancel-button-text="Нет"
+                confirm-button-text="Да"
+                @confirm="removeMyApplication(row.id)"
+                width="160"
+                title="Удалить заявку?"
+              >
+                <template #reference>
+                  <el-button type="danger" size="small">Удалить</el-button>
+                </template>
+              </el-popconfirm>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
     </div>
   </div>
@@ -521,6 +595,27 @@
       </span>
     </template>
   </el-dialog>
+  <el-drawer
+    v-model="showApplicationDrawer"
+    @close="selectedAppId = null"
+    class="text-white"
+    :title="'Информация о заявке #' + selectedApp?.id"
+    direction="rtl"
+  >
+    <div class="mb-[20px]">Издания</div>
+    <el-table class="mb-[50px]" :data="selectedApp?.pubs">
+      <el-table-column property="name" label="Название" />
+      <el-table-column property="date" label="Дата" />
+    </el-table>
+    <div class="mb-[20px]">Комментарий</div>
+    <el-card class="rounded-[12px]">
+      <div class="overflow-hidden break-words">
+        <div class="top-0 break-words">
+          {{ selectedApp?.comment }}
+        </div>
+      </div>
+    </el-card>
+  </el-drawer>
 </template>
 
 <script setup lang="ts">
@@ -529,6 +624,11 @@ import { userStore } from '../stores/user'
 import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { vMaska } from 'maska'
+import { applicationsStore } from '@/stores/applications'
+import { localizeApplicationStatus } from '@/plugins/helpers'
+import { Application, ApplicationStatus } from '@/types/applicationTypes'
+
+type StatusFilter = '' | 'ACCEPTED' | 'PENDING' | 'CANCELLED'
 
 type UpdateType =
   | 'fullName'
@@ -550,21 +650,57 @@ type UserDataType = {
 const router = useRouter()
 
 const storeUser = userStore()
+const storeApplications = applicationsStore()
 
 const errors = ref([] as string[])
 
 const showPasswordModal = ref(false as Boolean)
+const selectedAppId = ref(null as number | null)
+const statusFilter = ref('' as StatusFilter)
 const passwordData = reactive({
   old: '',
   new: ''
 } as { old: string; new: string })
+
 const user = computed(() => {
   return storeUser.user
+})
+const showApplicationDrawer = computed(() => {
+  return !!selectedAppId.value
+})
+const userApplications = computed(() => {
+  return storeApplications.userApplications
+})
+const selectedApp = computed(() => {
+  return (
+    userApplications.value.find(
+      (app: Application) => app.id === selectedAppId.value
+    ) || null
+  )
+})
+
+const filteredApplications = computed(() => {
+  if (statusFilter.value.length) {
+    return userApplications.value.filter(
+      (app) => app.status === statusFilter.value
+    )
+  }
+  return userApplications.value
 })
 const selectedUpdateType = ref('' as UpdateType)
 const userData: { [key in UpdateType]: string } = reactive({} as UserDataType)
 const modalTitle = ref('')
 const showUpdateUserModal = ref(false)
+
+const localize = (status: ApplicationStatus) => {
+  return localizeApplicationStatus(status)
+}
+
+const getButtonType = (status: ApplicationStatus) => {
+  if (status === 'ACCEPTED') return 'success'
+  if (status === 'CANCELED') return 'danger'
+  if (status === 'PENDING') return 'info'
+}
 
 const closeUpdateUserModal = () => {
   modalTitle.value = ''
@@ -614,6 +750,7 @@ onMounted(() => {
 })
 
 const initUserData = () => {
+  if (!user.value?.id) return
   const fields: (keyof UserDataType)[] = [
     'fullName',
     'login',
@@ -625,6 +762,7 @@ const initUserData = () => {
   fields.forEach((field) => {
     userData[field] = user?.value?.[field] || ''
   })
+  storeApplications.getUserApplications(user.value?.id)
 }
 const updateMe = async () => {
   try {
@@ -663,6 +801,10 @@ const uploadAvatar = async (event: Event) => {
     formData.append('files', file)
     await storeUser.uploadAvatar(formData)
   }
+}
+
+const removeMyApplication = (applicationId: number) => {
+  storeApplications.deleteMyApplication(applicationId)
 }
 
 const resetAvatar = () => {

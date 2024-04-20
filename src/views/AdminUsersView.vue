@@ -83,7 +83,7 @@
 
   <el-dialog
     v-model="showUpdateUser"
-    width="20%"
+    width="25%"
     title="Редактировать пользователя"
   >
     <div class="flex justify-center w-full min-h-full">
