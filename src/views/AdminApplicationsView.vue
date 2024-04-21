@@ -112,7 +112,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="comment" label="Инфромация">
+          <el-table-column prop="comment" label="Информация">
             <template #default="{ row }">
               <el-button
                 type="info"
@@ -189,19 +189,30 @@
     :title="'Информация о заявке #' + selectedApp?.id"
     direction="rtl"
   >
-    <div class="mb-[20px]">Издания</div>
-    <el-table class="mb-[50px]" :data="selectedApp?.pubs">
-      <el-table-column property="name" label="Название" />
-      <el-table-column property="date" label="Дата" />
-    </el-table>
-    <div class="mb-[20px]">Комментарий</div>
-    <el-card class="rounded-[12px]">
-      <div class="overflow-hidden break-words">
-        <div class="top-0 break-words">
-          {{ selectedApp?.comment }}
-        </div>
+    <div class="h-full w-full flex flex-col gap-[20px]">
+      <router-link :to="`profile/${selectedApp?.userId}`">
+        <el-button class="w-full h-[50px] rounded-[6px]"
+          >Перейти в профиль пользователя</el-button
+        >
+      </router-link>
+      <div class="border border-[#414243] rounded-[6px]">
+        <el-table :data="selectedApp?.pubs" class="rounded-[6px] bg-[#141414]">
+          <el-table-column property="name" label="Издание" />
+          <el-table-column property="date" label="Дата" />
+        </el-table>
       </div>
-    </el-card>
+
+      <el-card class="rounded-[12px]">
+        <div class="overflow-hidden">
+          <p class="pb-[10px] text-gray-400">Комментарий</p>
+          <div class="break-words">
+            <span>
+              {{ selectedApp?.comment }}
+            </span>
+          </div>
+        </div>
+      </el-card>
+    </div>
   </el-drawer>
 </template>
 
