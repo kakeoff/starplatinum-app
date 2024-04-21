@@ -20,6 +20,7 @@
                 alt="user avatar"
               />
               <el-dropdown
+                v-if="isCurrentUser"
                 class="text-[16px] absolute bottom-[-30px] w-full font-[700]"
                 trigger="click"
               >
@@ -92,6 +93,7 @@
                   {{ user?.fullName ?? 'Не установлено' }}
                 </span>
                 <button
+                  v-if="isCurrentUser"
                   class="text-[13px] font-[400] landing-[13px] hover:scale-[1.2] transition duration-200"
                   name="change-username"
                   @click="clickChangeUser('Имя пользователя', 'fullName')"
@@ -143,6 +145,7 @@
                   {{ user?.login ?? '???' }}
                 </span>
                 <button
+                  v-if="isCurrentUser"
                   class="text-[13px] font-[400] landing-[13px] hover:scale-[1.2] transition duration-200"
                   @click="clickChangeUser('Логин', 'login')"
                 >
@@ -193,6 +196,7 @@
                   {{ user?.email ?? '???' }}
                 </span>
                 <button
+                  v-if="isCurrentUser"
                   class="text-[13px] font-[400] landing-[13px] hover:scale-[1.2] transition duration-200"
                   name="change-email"
                   @click="clickChangeUser('Email', 'email')"
@@ -250,6 +254,7 @@
                   </span>
                 </div>
                 <button
+                  v-if="isCurrentUser"
                   class="text-[13px] font-[400] landing-[13px] hover:scale-[1.2] transition duration-200"
                   name="change-phone"
                   @click="clickChangeUser('Телефон', 'phone')"
@@ -297,6 +302,7 @@
                 </span>
               </div>
               <button
+                v-if="isCurrentUser"
                 class="text-[13px] font-[400] landing-[13px] hover:scale-[1.2] transition duration-200"
                 @click="clickChangeUser('Организация', 'companyName')"
               >
@@ -339,6 +345,7 @@
                 </span>
               </div>
               <button
+                v-if="isCurrentUser"
                 class="text-[13px] font-[400] landing-[13px] hover:scale-[1.2] transition duration-200"
                 name="change-phone"
                 @click="clickChangeUser('Юридический адрес', 'address')"
@@ -392,7 +399,10 @@
                 {{ user?.role === 1 ? 'Администратор' : 'Пользователь' }}</span
               >
             </div>
-            <el-button @click="showPasswordModal = true" class="w-[150px]"
+            <el-button
+              v-if="isCurrentUser"
+              @click="showPasswordModal = true"
+              class="w-[150px]"
               >Сменить пароль</el-button
             >
           </div>
@@ -404,7 +414,9 @@
         <div
           class="font-[700] px-[20px] pb-[10px] flex flex-col md:flex-row justify-between gap-[10px] items-center"
         >
-          <p class="flex-none">Мои заявки</p>
+          <p class="flex-none">
+            {{ isCurrentUser ? 'Мои заявки' : 'Заявки пользователя' }}
+          </p>
           <el-radio-group class="flex justify-center" v-model="statusFilter">
             <el-radio
               class="hover:scale-105 hover:transition duration-300"
@@ -433,7 +445,8 @@
           </el-radio-group>
         </div>
         <el-table
-          class="text-[13px] text-center w-full"
+          v-if="filteredApplications.length"
+          class="text-[13px] text-center w-full min-h-[300px]"
           :data="filteredApplications"
         >
           <el-table-column
@@ -459,7 +472,41 @@
           </el-table-column>
           <el-table-column label="Статус">
             <template #default="{ row }">
-              <el-tag :type="getButtonType(row.status)">
+              <el-dropdown
+                v-if="storeUser.user?.role === UserRole.admin"
+                trigger="click"
+                placement="bottom"
+              >
+                <el-button size="small" :type="getButtonType(row.status)">
+                  {{ localize(row.status) }}
+                </el-button>
+
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item
+                      @click="changeStatus(row.id, 'ACCEPTED')"
+                      :disabled="row.status === 'ACCEPTED'"
+                      class="text-green-500"
+                    >
+                      Одобрена
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      @click="changeStatus(row.id, 'PENDING')"
+                      :disabled="row.status === 'PENDING'"
+                    >
+                      Ожидание
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      @click="changeStatus(row.id, 'CANCELED')"
+                      :disabled="row.status === 'CANCELED'"
+                      class="text-red-500"
+                    >
+                      Отменена
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+              <el-tag v-else :type="getButtonType(row.status)">
                 {{ localize(row.status) }}
               </el-tag>
             </template>
@@ -480,6 +527,12 @@
             </template>
           </el-table-column>
         </el-table>
+        <div
+          class="w-full h-[300px] flex justify-center items-center text-[16px] font-[700]"
+          v-else
+        >
+          Список заявок пуст
+        </div>
       </div>
     </div>
   </div>
@@ -609,12 +662,14 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { userStore } from '../stores/user'
+import { usersStore } from '../stores/users'
 import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { vMaska } from 'maska'
 import { applicationsStore } from '@/stores/applications'
 import { localizeApplicationStatus } from '@/plugins/helpers'
 import { Application, ApplicationStatus } from '@/types/applicationTypes'
+import { UserRole } from '@/types/userTypes'
 
 type StatusFilter = '' | 'ACCEPTED' | 'PENDING' | 'CANCELLED'
 
@@ -638,6 +693,7 @@ type UserDataType = {
 const router = useRouter()
 
 const storeUser = userStore()
+const storeUsers = usersStore()
 const storeApplications = applicationsStore()
 
 const errors = ref([] as string[])
@@ -651,13 +707,23 @@ const passwordData = reactive({
 } as { old: string; new: string })
 
 const user = computed(() => {
-  return storeUser.user
+  return isCurrentUser.value
+    ? storeUser.user
+    : storeUsers.users.find(
+        (user) => user.id === Number(router.currentRoute.value.params.id)
+      )
+})
+const isCurrentUser = computed(() => {
+  if (!router.currentRoute.value.params.id) return true
+  return Number(router.currentRoute.value.params.id) === storeUser.user?.id
 })
 const showApplicationDrawer = computed(() => {
   return !!selectedAppId.value
 })
 const userApplications = computed(() => {
-  return storeApplications.userApplications
+  return storeApplications.applications.filter(
+    (app) => app.userId === user.value?.id
+  )
 })
 const selectedApp = computed(() => {
   return (
@@ -789,6 +855,10 @@ const uploadAvatar = async (event: Event) => {
     formData.append('files', file)
     await storeUser.uploadAvatar(formData)
   }
+}
+
+const changeStatus = (id: number, status: ApplicationStatus) => {
+  storeApplications.changeApplicationStatus(id, status)
 }
 
 const removeMyApplication = (applicationId: number) => {

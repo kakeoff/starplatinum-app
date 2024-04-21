@@ -46,9 +46,29 @@
           </el-table-column>
           <el-table-column label="Роль">
             <template #default="{ row }">
-              {{
-                roles.find((role) => role.value === row.role)?.label || row.role
-              }}
+              <el-dropdown trigger="click" placement="bottom">
+                <el-button size="small" :type="getRoleButtonType(row.role)">
+                  <div class="w-[100px]">
+                    {{
+                      roles.find((role) => role.value === row.role)?.label ||
+                      row.role
+                    }}
+                  </div>
+                </el-button>
+
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item
+                      v-for="role in roles"
+                      @click="updateUserRole(row.id, role.value)"
+                      :disabled="row.role === role.value"
+                      class="text-green-500"
+                    >
+                      {{ role.label }}
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
             </template>
           </el-table-column>
           <el-table-column label="Создан">
@@ -59,6 +79,11 @@
           <el-table-column label="Действия">
             <template #default="{ row }">
               <div class="flex flex-row items-center flex-wrap gap-[5px]">
+                <router-link :to="`profile/${row.id}`">
+                  <el-button type="info" size="small">
+                    Перейти в профиль
+                  </el-button>
+                </router-link>
                 <el-popconfirm
                   cancel-button-text="Нет"
                   confirm-button-text="Да"
@@ -69,15 +94,6 @@
                     <el-button type="danger" size="small">Удалить</el-button>
                   </template>
                 </el-popconfirm>
-                <div>
-                  <el-button
-                    type="info"
-                    size="small"
-                    @click=";(showUpdateUser = true), (selectedUser = row)"
-                  >
-                    Редактировать
-                  </el-button>
-                </div>
               </div>
             </template>
           </el-table-column>
@@ -85,47 +101,6 @@
       </div>
     </div>
   </section>
-
-  <el-dialog
-    v-model="showUpdateUser"
-    width="25%"
-    title="Редактировать пользователя"
-  >
-    <div class="flex justify-center w-full min-h-full">
-      <el-form
-        ref="userForm"
-        :model="userForm"
-        :rules="userRules"
-        class="font-[700] w-full text-[35px]"
-      >
-        <span class="text-[16px]">Роль</span>
-        <el-form-item class="mb-[10px]" prop="description">
-          <el-select
-            v-model="userForm.role"
-            style="width: 100%"
-            placeholder="Выберите роль"
-          >
-            <el-option
-              v-for="item in roles"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-      </el-form>
-    </div>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="danger" @click="showUpdateUser = false">
-          Отмена
-        </el-button>
-        <el-button type="success" @click="updateUserRole()">
-          Сохранить
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -136,7 +111,7 @@ import { mapStores } from 'pinia'
 import { userStore } from '../stores/user'
 import { usersStore } from '../stores/users'
 import { defineComponent } from 'vue'
-import { User } from '../types/userTypes'
+import { User, UserRole } from '../types/userTypes'
 
 export default defineComponent({
   name: 'Applications',
@@ -170,25 +145,10 @@ export default defineComponent({
       if (user && user?.role === 0) {
         this.$router.push('/')
       }
-    },
-    showUpdateUser: {
-      immediate: true,
-      handler: function (val) {
-        if (val === false) {
-          this.resetFields()
-        } else {
-          if (!this.selectedUser) return
-          this.userForm.role = this.selectedUser.role
-        }
-      }
     }
   },
   data() {
     return {
-      selectedDate: null,
-      showDescription: false,
-      showUpdateUser: false,
-      selectedUser: null as User | null,
       search: '',
       roles: [
         {
@@ -200,9 +160,6 @@ export default defineComponent({
           value: 1
         }
       ],
-      userForm: {
-        role: 0
-      },
       userRules: {
         role: [
           {
@@ -215,6 +172,11 @@ export default defineComponent({
     }
   },
   methods: {
+    getRoleButtonType(role: UserRole) {
+      if (role === UserRole.admin) return 'success'
+      if (role === UserRole.user) return 'info'
+      return 'danger'
+    },
     async removeUser(id: number) {
       await this.publicationsStore.deletePublication(Number(id))
     },
@@ -223,17 +185,21 @@ export default defineComponent({
       return `${import.meta.env.VITE_SERVER_URL}${url}`
     },
 
-    updateUserRole() {
-      if (!this.selectedUser) return
-      const data = {
-        id: this.selectedUser.id,
-        role: Number(this.userForm.role)
+    async updateUserRole(id: number, role: UserRole) {
+      try {
+        await this.usersStore.updateUserRole({ id, role })
+        ElNotification({
+          title: 'Роль пользователя изменена',
+          type: 'success'
+        })
+      } catch (err) {
+        console.error(err)
+        ElNotification({
+          title: 'Ошибка',
+          message: 'Не удалось изменить роль',
+          type: 'error'
+        })
       }
-      this.usersStore.updateUserRole(data)
-      this.showUpdateUser = false
-    },
-    resetFields() {
-      this.userForm.role = 0
     }
   }
 })

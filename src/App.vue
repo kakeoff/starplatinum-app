@@ -234,7 +234,6 @@ import { isAuthenticated } from './plugins/helpers'
 
 import LoginComponent from './components/LoginComponent.vue'
 import RegisterComponent from './components/RegisterComponent.vue'
-import { ElNotification } from 'element-plus'
 import { RegisterDto } from './services/dto'
 
 const router = useRouter()

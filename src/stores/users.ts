@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
-import * as Api from '../services/users.service';
-import { User } from "../types/userTypes";
+import { defineStore } from 'pinia'
+import * as Api from '../services/users.service'
+import { User, UserRole } from '../types/userTypes'
 
 export const usersStore = defineStore({
   id: 'users',
@@ -14,7 +14,7 @@ export const usersStore = defineStore({
       this.users = users
       return users
     },
-    async updateUserRole(data: {id: number, role: number}) {
+    async updateUserRole(data: { id: number; role: UserRole }) {
       const userRes = await Api.updateUserRole(data)
       if (!data) return
       const index = this.users.findIndex((user) => user?.id === data.id)

@@ -9,8 +9,7 @@ import {
 export const applicationsStore = defineStore({
   id: 'applications',
   state: () => ({
-    applications: [] as Application[],
-    userApplications: [] as Application[]
+    applications: [] as Application[]
   }),
   actions: {
     async sendApplication(app: SendApplicationDto) {
@@ -34,12 +33,21 @@ export const applicationsStore = defineStore({
     },
     async deleteApplication(applicationId: number) {
       await Api.deleteApplication(applicationId)
-      const index = this.applications.findIndex(
+      this.deleteApplicationLocally(applicationId)
+    },
+    deleteApplicationLocally(applicationId: number) {
+      const commonIndex = this.applications.findIndex(
         (app) => app.id === applicationId
       )
-      if (index !== -1) {
-        this.applications.splice(index, 1)
+      if (commonIndex !== -1) {
+        this.applications.splice(commonIndex, 1)
       }
+      // const userIndex = this.userApplications.findIndex(
+      //   (app) => app.id === applicationId
+      // )
+      // if (userIndex !== -1) {
+      //   this.userApplications.splice(userIndex, 1)
+      // }
     },
     async getAllApplications() {
       const applications = await Api.getAllApplications()
@@ -50,18 +58,13 @@ export const applicationsStore = defineStore({
 
     async getUserApplications(userId: number) {
       const applications = await Api.getUserApplications(userId)
-      this.userApplications = applications
+      this.applications = applications
 
       return applications
     },
     async deleteMyApplication(applicationId: number) {
       await Api.deleteMyApplication(applicationId)
-      const index = this.userApplications.findIndex(
-        (app) => app.id === applicationId
-      )
-      if (index !== -1) {
-        this.userApplications.splice(index, 1)
-      }
+      this.deleteApplicationLocally(applicationId)
     }
   }
 })

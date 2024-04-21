@@ -122,9 +122,7 @@
             <template #default="{ row }">
               <el-dropdown trigger="click" placement="bottom">
                 <el-button size="small" :type="getButtonType(row.status)">
-                  <div class="w-[100px]">
-                    {{ localize(row.status) }}
-                  </div>
+                  {{ localize(row.status) }}
                 </el-button>
 
                 <template #dropdown>
@@ -197,7 +195,7 @@
 </template>
 
 <script lang="ts">
-import { ElTable, ElTableColumn, ElButton, ElNotification } from 'element-plus'
+import { ElTable, ElTableColumn, ElButton } from 'element-plus'
 import { applicationsStore } from '../stores/applications'
 import { pubsStore } from '../stores/publications'
 import { mapStores } from 'pinia'
@@ -294,8 +292,7 @@ export default defineComponent({
       searchId: '',
       statusFilter: '',
       selectedAppId: null,
-      showComment: false,
-      visiblePopover: false
+      showComment: false
     }
   },
   methods: {
@@ -316,7 +313,6 @@ export default defineComponent({
     },
     changeStatus(id: number, status: ApplicationStatus) {
       this.applicationsStore.changeApplicationStatus(id, status)
-      this.visiblePopover = false
     },
     async removeApplication(applicationId: number) {
       await this.applicationsStore.deleteApplication(applicationId)
