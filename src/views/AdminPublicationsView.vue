@@ -40,7 +40,12 @@
               >
             </template>
           </el-table-column>
-          <el-table-column prop="cost" label="Стоимость, руб">
+          <el-table-column
+            sortable
+            :sort-method="sortByCost"
+            prop="cost"
+            label="Стоимость, руб"
+          >
           </el-table-column>
           <el-table-column label="Ссылка">
             <template #default="{ row }">
@@ -313,6 +318,9 @@ export default defineComponent({
     }
   },
   methods: {
+    sortByCost(a: Publication, b: Publication) {
+      return a.cost - b.cost
+    },
     validateCost() {
       this.pubForm.cost = this.pubForm.cost.replace(/[^0-9.]/g, '')
     },

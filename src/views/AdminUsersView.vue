@@ -22,7 +22,7 @@
           :data="filteredUsers"
           style="width: auto"
         >
-          <el-table-column label="ID">
+          <el-table-column label="ID" sortable :sort-method="sortById">
             <template #default="{ row }">
               {{ row.id }}
             </template>
@@ -71,18 +71,38 @@
               </el-dropdown>
             </template>
           </el-table-column>
-          <el-table-column label="Создан">
+          <el-table-column
+            label="Активность"
+            sortable
+            :sort-method="sortByLastVisitDate"
+          >
             <template #default="{ row }">
-              {{ new Date(row.createdAt).toLocaleString() }}
+              {{
+                new Date(
+                  row.lastVisitDate ? row.lastVisitDate : row.createdAt
+                ).toLocaleString()
+              }}
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="Заявки"
+            sortable
+            :sort-method="sortByApplicationsCount"
+          >
+            <template #default="{ row }">
+              <el-tag
+                class="font-[700]"
+                :type="applicationsCountByUserId[row.id] ? 'danger' : 'info'"
+              >
+                {{ applicationsCountByUserId[row.id] || 0 }}
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column label="Действия">
             <template #default="{ row }">
               <div class="flex flex-row items-center flex-wrap gap-[5px]">
                 <router-link :to="`profile/${row.id}`">
-                  <el-button type="info" size="small">
-                    Перейти в профиль
-                  </el-button>
+                  <el-button type="info" size="small"> Профиль </el-button>
                 </router-link>
                 <el-popconfirm
                   cancel-button-text="Нет"
@@ -112,6 +132,7 @@ import { userStore } from '../stores/user'
 import { usersStore } from '../stores/users'
 import { defineComponent } from 'vue'
 import { User, UserRole } from '../types/userTypes'
+import { Application } from '@/types/applicationTypes'
 
 export default defineComponent({
   name: 'Applications',
@@ -121,8 +142,12 @@ export default defineComponent({
     users() {
       return this.usersStore.users
     },
+
     user() {
       return this.userStore.user
+    },
+    applicationsCountByUserId() {
+      return this.applicationsStore.applicationsCountByUserId
     },
     filteredUsers() {
       let filteredUsers = this.users
@@ -132,12 +157,12 @@ export default defineComponent({
         filteredUsers = filteredUsers.filter((user) => {
           return (
             user.login.toLowerCase().includes(keyword) ||
-            user.id === Number(keyword)
+            user.id === Number(keyword) ||
+            user.email.toLowerCase().includes(keyword)
           )
         })
       }
-      filteredUsers.sort((a: User, b: User) => b.id - a.id)
-      return filteredUsers
+      return filteredUsers.sort((a, b) => a.id - b.id)
     }
   },
   watch: {
@@ -172,6 +197,26 @@ export default defineComponent({
     }
   },
   methods: {
+    sortByApplicationsCount(a: User, b: User) {
+      const aCount = this.applicationsCountByUserId[a.id] || 0
+      const bCount = this.applicationsCountByUserId[b.id] || 0
+
+      return aCount - bCount
+    },
+
+    sortById(a: User, b: User) {
+      return a.id - b.id
+    },
+
+    sortByLastVisitDate(a: User, b: User) {
+      const aDate = new Date(
+        a.lastVisitDate ? a.lastVisitDate : a.createdAt
+      ).getTime()
+      const bDate = new Date(
+        b.lastVisitDate ? b.lastVisitDate : b.createdAt
+      ).getTime()
+      return aDate - bDate
+    },
     getRoleButtonType(role: UserRole) {
       if (role === UserRole.admin) return 'success'
       if (role === UserRole.user) return 'info'

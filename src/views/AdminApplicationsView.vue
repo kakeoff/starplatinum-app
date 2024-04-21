@@ -75,7 +75,13 @@
           :data="filteredApplications"
           style="width: 100%"
         >
-          <el-table-column width="50px" prop="id" label="Id"></el-table-column>
+          <el-table-column
+            width="80px"
+            prop="id"
+            label="ID"
+            sortable
+            :sort-method="sortById"
+          ></el-table-column>
           <el-table-column
             width="300"
             prop="name"
@@ -117,7 +123,12 @@
               </el-button>
             </template>
           </el-table-column>
-          <el-table-column prop="cost" label="Стоимость, руб"></el-table-column>
+          <el-table-column
+            prop="cost"
+            label="Стоимость, руб"
+            sortable
+            :sort-method="sortByCost"
+          ></el-table-column>
           <el-table-column label="Статус">
             <template #default="{ row }">
               <el-dropdown trigger="click" placement="bottom">
@@ -296,6 +307,12 @@ export default defineComponent({
     }
   },
   methods: {
+    sortById(a: Application, b: Application) {
+      return a.id - b.id
+    },
+    sortByCost(a: Application, b: Application) {
+      return a.cost - b.cost
+    },
     localize(status: ApplicationStatus) {
       return localizeApplicationStatus(status)
     },

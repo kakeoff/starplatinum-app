@@ -12,6 +12,19 @@ export const applicationsStore = defineStore({
     applications: [] as Application[],
     userApplications: [] as Application[]
   }),
+  getters: {
+    applicationsCountByUserId(state) {
+      if (!state.applications) return {}
+
+      return state.applications.reduce<{ [key: number]: number }>(
+        (acc, application) => {
+          acc[application.userId] = (acc[application.userId] || 0) + 1
+          return acc
+        },
+        {}
+      )
+    }
+  },
   actions: {
     async sendApplication(app: SendApplicationDto) {
       const data = {
