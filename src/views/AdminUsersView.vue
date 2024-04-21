@@ -31,11 +31,16 @@
             <template #default="{ row }">
               <div class="flex flex-row gap-[5px] items-center">
                 <img
-                  class="h-[24px] w-[24px] rounded-[100%]"
+                  class="h-[40px] w-[40px] rounded-[100%]"
                   :src="getUserAvatar(row.avatarUrl)"
                   alt="avatar"
                 />
-                <span> {{ row.login }}</span>
+                <div class="flex flex-col">
+                  <span> {{ row.login }}</span>
+                  <span class="text-[11px] mt-[-7px] text-gray-500">{{
+                    row.email
+                  }}</span>
+                </div>
               </div>
             </template>
           </el-table-column>
