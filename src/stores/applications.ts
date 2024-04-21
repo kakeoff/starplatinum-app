@@ -9,7 +9,8 @@ import {
 export const applicationsStore = defineStore({
   id: 'applications',
   state: () => ({
-    applications: [] as Application[]
+    applications: [] as Application[],
+    userApplications: [] as Application[]
   }),
   actions: {
     async sendApplication(app: SendApplicationDto) {
@@ -26,10 +27,17 @@ export const applicationsStore = defineStore({
     },
     async changeApplicationStatus(id: number, status: ApplicationStatus) {
       const application = await Api.changeApplicationStatus(id, status)
-      const index = this.applications.findIndex((app) => app.id === id)
-      if (index === -1) return
-      this.applications[index].status = application.status
+      this.changeApplicationStatusLocally(application.id, application.status)
       return application
+    },
+    changeApplicationStatusLocally(id: number, status: ApplicationStatus) {
+      const commonIndex = this.applications.findIndex((app) => app.id === id)
+      if (commonIndex === -1) return
+      this.applications[commonIndex].status = status
+
+      const userIndex = this.userApplications.findIndex((app) => app.id === id)
+      if (userIndex === -1) return
+      this.userApplications[userIndex].status = status
     },
     async deleteApplication(applicationId: number) {
       await Api.deleteApplication(applicationId)
@@ -42,12 +50,12 @@ export const applicationsStore = defineStore({
       if (commonIndex !== -1) {
         this.applications.splice(commonIndex, 1)
       }
-      // const userIndex = this.userApplications.findIndex(
-      //   (app) => app.id === applicationId
-      // )
-      // if (userIndex !== -1) {
-      //   this.userApplications.splice(userIndex, 1)
-      // }
+      const userIndex = this.userApplications.findIndex(
+        (app) => app.id === applicationId
+      )
+      if (userIndex !== -1) {
+        this.userApplications.splice(userIndex, 1)
+      }
     },
     async getAllApplications() {
       const applications = await Api.getAllApplications()
@@ -58,7 +66,7 @@ export const applicationsStore = defineStore({
 
     async getUserApplications(userId: number) {
       const applications = await Api.getUserApplications(userId)
-      this.applications = applications
+      this.userApplications = applications
 
       return applications
     },

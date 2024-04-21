@@ -721,9 +721,7 @@ const showApplicationDrawer = computed(() => {
   return !!selectedAppId.value
 })
 const userApplications = computed(() => {
-  return storeApplications.applications.filter(
-    (app) => app.userId === user.value?.id
-  )
+  return storeApplications.userApplications
 })
 const selectedApp = computed(() => {
   return (
