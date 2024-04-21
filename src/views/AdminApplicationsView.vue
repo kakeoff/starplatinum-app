@@ -176,7 +176,7 @@
   <el-drawer
     v-model="showComment"
     @close="showComment = false"
-    class="text-white"
+    class="text-white min-w-[350px]"
     :title="'Информация о заявке #' + selectedApp?.id"
     direction="rtl"
   >
