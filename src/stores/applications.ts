@@ -28,8 +28,6 @@ export const applicationsStore = defineStore({
   actions: {
     async sendApplication(app: SendApplicationDto) {
       const data = {
-        name: app.name,
-        email: app.email,
         comment: app.comment,
         pubs: app.pubs,
         cost: app.cost

@@ -3,7 +3,8 @@ export type Publication = {
   name: string,
   description: string,
   link: string,
-  cost: number
+  cost: number,
+  imageUrl: string
 }
 
 export type CreatePublicationDto = {

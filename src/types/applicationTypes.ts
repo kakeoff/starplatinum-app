@@ -1,8 +1,6 @@
 export type Application = {
   id: number
-  name: string,
   comment: string | null,
-  email: string,
   pubs: Pub[],
   cost: number,
   status: ApplicationStatus
@@ -10,9 +8,7 @@ export type Application = {
 }
 
 export type SendApplicationDto = {
-  name: string,
   comment: string | null,
-  email: string,
   pubs: PubDto[],
   cost: number,
 }

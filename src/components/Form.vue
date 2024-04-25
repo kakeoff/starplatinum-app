@@ -11,13 +11,6 @@
     :size="formSize"
     status-icon
   >
-    <el-form-item prop="name">
-      <el-input
-        placeholder="Введите название организации. Например: ООО 'Зеленоглазое такси'"
-        v-model="ruleForm.name"
-      />
-    </el-form-item>
-
     <el-form-item required>
       <el-col :span="11">
         <el-form-item prop="count">
@@ -32,7 +25,15 @@
               :key="item.name"
               :label="item.name"
               :value="item.name"
-            />
+            >
+              <div class="flex gap-[5px] items-center">
+                <img
+                  :src="item.imageUrl"
+                  class="w-[20px] h-[20px] object-cover"
+                />
+                <span>{{ item.name }}</span>
+              </div>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -91,13 +92,6 @@
         </el-table>
       </div>
     </el-form-item>
-    <el-form-item prop="email">
-      <el-input
-        v-model="ruleForm.email"
-        placeholder="Введите ваш Email"
-        type="input"
-      />
-    </el-form-item>
     <el-form-item prop="desc">
       <el-input
         v-model="ruleForm.desc"
@@ -118,7 +112,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { ElNotification, FormInstance, FormRules } from 'element-plus'
 import { pubsStore } from '../stores/publications.js'
 import { applicationsStore } from '../stores/applications.js'
@@ -130,20 +124,15 @@ const storePubs = pubsStore()
 const storeApplications = applicationsStore()
 const emit = defineEmits(['close'])
 
-onMounted(async () => {
-  pubs.value = storePubs.publications
-})
 const formSize = ref('default')
 const formPubs = ref([] as FormPublication[])
-const pubs = ref([] as Publication[])
+const pubs = computed(() => storePubs.publications)
 const finalCost = ref(0)
 
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  name: '',
   date: '',
   pub: '',
-  email: '',
   desc: ''
 })
 
@@ -188,14 +177,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   formEl.validate(async (valid) => {
     if (valid) {
       const data = {
-        name: ruleForm.name,
         pubs: formPubs.value,
-        email: ruleForm.email,
         comment: ruleForm.desc,
-        cost: finalCost.value,
-        status: 'PENDING' as ApplicationStatus
+        cost: finalCost.value
       }
-      if (data.name && data.pubs.length && data.email.length) {
+      if (data.pubs.length) {
         await storeApplications.sendApplication(data)
         resetForm(ruleFormRef.value)
         emit('close')

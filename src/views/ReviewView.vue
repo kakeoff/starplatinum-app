@@ -130,7 +130,6 @@
         target="_blank"
         class="font-mono nav-link mt-[10px] text-white hover:transition duration-300"
       >
-        <font-awesome-icon icon="fa-solid fa-link"></font-awesome-icon>
         <span class="nav-link-extension ml-[5px]">Перейти на сайт</span>
       </a>
     </div>

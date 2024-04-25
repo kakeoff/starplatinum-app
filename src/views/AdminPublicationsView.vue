@@ -17,10 +17,6 @@
             />
           </el-tooltip>
           <el-button type="success" size="large" @click="showAddPub = true">
-            <font-awesome-icon
-              icon="fa-solid fa-plus"
-              class="mr-[8px]"
-            ></font-awesome-icon>
             Добавить издание
           </el-button>
         </div>

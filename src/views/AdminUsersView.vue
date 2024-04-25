@@ -37,9 +37,7 @@
                 />
                 <div class="flex flex-col">
                   <span> {{ row.login }}</span>
-                  <span class="text-[11px] mt-[-7px] text-gray-500">{{
-                    row.email
-                  }}</span>
+                  <span class="text-[12px] text-gray-400">{{ row.email }}</span>
                 </div>
               </div>
             </template>

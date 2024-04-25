@@ -6,6 +6,7 @@ import { CreatePublicationDto, Publication } from '../types/publicationTypes';
 export async function getAllPublications(): Promise<Publication[]> {
   try {
     const res = await axios.get<Publication[]>(`/publications`);
+      res.data.map((i) => i.imageUrl = 'https://www.hlp.city/wp-content/uploads/2023/10/denys-nevozhai-2vmT5_FeMck-unsplash-scaled-e1698768382637.jpg')
       return res.data
   } catch (error) {
     ElNotification({

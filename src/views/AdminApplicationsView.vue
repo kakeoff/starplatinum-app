@@ -82,16 +82,6 @@
             sortable
             :sort-method="sortById"
           ></el-table-column>
-          <el-table-column
-            width="300"
-            prop="name"
-            label="Организация"
-          ></el-table-column>
-          <el-table-column
-            width="300"
-            prop="email"
-            label="Email"
-          ></el-table-column>
           <el-table-column prop="userId" label="Пользователь">
             <template #default="{ row }">
               <div class="flex flex-row gap-[5px] items-center">
@@ -274,8 +264,6 @@ export default defineComponent({
         const keyword = this.search.toLowerCase().trim()
         filteredApps = filteredApps.filter((app) => {
           return (
-            app.name.toLowerCase().includes(keyword) ||
-            app.email.toLowerCase().includes(keyword) ||
             this.users
               .find((user) => user.id === app.userId)
               ?.login.toLowerCase()
