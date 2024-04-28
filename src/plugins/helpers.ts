@@ -13,3 +13,5 @@ const applicationStatus = {
 export const localizeApplicationStatus = (status: keyof typeof applicationStatus) => {
   return applicationStatus[status];
 };
+
+export const mapFileUrl = ((val: string) => `${import.meta.env.VITE_SERVER_URL}${val}`)

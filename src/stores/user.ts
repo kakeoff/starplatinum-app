@@ -1,3 +1,4 @@
+import { uploadFile } from "@/services/file.service";
 import { defineStore } from "pinia";
 import * as Api from '../services/user.service';
 import { UpdateMeDto, User } from "../types/userTypes";
@@ -23,10 +24,9 @@ export const userStore = defineStore({
       await Api.changePassword(data)
     },
     async uploadAvatar(file: FormData) {
-      const fileName = await Api.uploadAvatar(file)
-      const avatarUrl = `/uploads/${fileName}`
-      await this.updateMe({avatarUrl})
-      return avatarUrl
+      const fileName = await uploadFile(file)
+      await this.updateMe({avatarUrl: `/uploads/${fileName}`})
+      return fileName
     },
     async resetAvatar() {
       await this.updateMe({avatarUrl: '/uploads/default/default.png'})

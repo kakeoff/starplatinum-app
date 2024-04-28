@@ -82,16 +82,22 @@
             sortable
             :sort-method="sortById"
           ></el-table-column>
+          <el-table-column
+            sortable
+            :sort-method="sortByDate"
+            prop="createdAt"
+            label="Дата создания"
+          >
+            <template #default="{ row }">
+              {{ new Date(row.createdAt).toLocaleString() }}
+            </template>
+          </el-table-column>
           <el-table-column prop="userId" label="Пользователь">
             <template #default="{ row }">
               <div class="flex flex-row gap-[5px] items-center">
                 <img
                   class="h-[24px] w-[24px] rounded-[100%]"
-                  :src="
-                    getUserAvatar(
-                      users.find((user) => user.id === row.userId)?.avatarUrl
-                    )
-                  "
+                  :src="users.find((user) => user.id === row.userId)?.avatarUrl"
                   alt="avatar"
                 />
                 <span>
@@ -213,8 +219,7 @@ import { pubsStore } from '../stores/publications'
 import { mapStores } from 'pinia'
 import { localizeApplicationStatus } from '../plugins/helpers'
 import { Application, ApplicationStatus } from '../types/applicationTypes'
-import { App, defineComponent } from 'vue'
-import { changeApplicationStatus } from '../services/applications.service'
+import { defineComponent } from 'vue'
 import { userStore } from '../stores/user'
 import { usersStore } from '../stores/users'
 
@@ -315,14 +320,15 @@ export default defineComponent({
     localize(status: ApplicationStatus) {
       return localizeApplicationStatus(status)
     },
-    getUserAvatar(url: string | undefined) {
-      if (!url) return
-      return `${import.meta.env.VITE_SERVER_URL}${url}`
-    },
     getButtonType(status: ApplicationStatus) {
       if (status === 'ACCEPTED') return 'success'
       if (status === 'CANCELED') return 'danger'
       if (status === 'PENDING') return 'info'
+    },
+    sortByDate(a: Application, b: Application) {
+      const aDate = new Date(a.createdAt).getTime()
+      const bDate = new Date(b.createdAt).getTime()
+      return aDate - bDate
     },
     validateIdInput() {
       this.searchId = this.searchId.replace(/[^0-9.]/g, '')

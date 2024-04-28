@@ -4,7 +4,7 @@ export type Publication = {
   description: string,
   link: string,
   cost: number,
-  imageUrl: string
+  imageUrl: string | undefined
 }
 
 export type CreatePublicationDto = {
@@ -12,7 +12,18 @@ export type CreatePublicationDto = {
   description: string,
   link: string,
   cost: number
+  imageUrl?: string
 }
+
+export type UpdatePublicationDto = {
+  id: number
+  name?: string,
+  description?: string,
+  link?: string,
+  cost?: number
+  imageUrl?: string
+}
+
 
 export type FormPublication = {
   id: number

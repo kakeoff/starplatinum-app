@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import * as Api from '../services/publications.services';
-import { CreatePublicationDto, Publication } from "../types/publicationTypes";
+import { CreatePublicationDto, Publication, UpdatePublicationDto } from "../types/publicationTypes";
 
 export const pubsStore = defineStore({
   id: 'publications',
@@ -13,16 +13,9 @@ export const pubsStore = defineStore({
       const publication = await Api.createPublication(pub)
       this.publications.push(publication)
     },
-    async updatePublication(pub: Publication) {
-      const data = {
-        id: pub.id,
-        name: pub.name,
-        description: pub.description,
-        cost: pub.cost,
-        link: pub.link
-      }
-      const publication = await Api.updatePublication(data)
-      const index = this.publications.findIndex((pub) => pub.id === data.id)
+    async updatePublication(pub: UpdatePublicationDto) {
+      const publication = await Api.updatePublication(pub)
+      const index = this.publications.findIndex((_pub) => _pub.id === pub.id)
       if (index !== -1) {
         this.publications[index] = publication
       }

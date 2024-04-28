@@ -25,12 +25,24 @@
           :data="filteredPublications"
           style="width: 100%"
         >
-          <el-table-column prop="name" label="Название"></el-table-column>
-          <el-table-column label="Описание">
+          <el-table-column sortable prop="id" label="ID" width="80px" />
+          <el-table-column prop="name" label="Название">
+            <template #default="{ row }">
+              <div class="flex gap-[15px] items-center">
+                <img
+                  class="w-[70px] h-[70px] flex-none border-[2px] border-gray-700 rounded-[3px] object-cover"
+                  :src="row.imageUrl"
+                  alt=""
+                />
+                <span>{{ row.name }}</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column width="150px" label="Описание">
             <template #default="{ row }">
               <el-button
                 type="info"
-                size="small"
+                size="large"
                 @click=";(selectedPub = row), (showDescription = true)"
                 >Посмотреть</el-button
               >
@@ -46,7 +58,7 @@
           <el-table-column label="Ссылка">
             <template #default="{ row }">
               <a :href="row.link" target="_blank"
-                ><el-button type="success" size="small"
+                ><el-button type="success" size="large"
                   >Перейти на сайт</el-button
                 ></a
               >
@@ -62,13 +74,13 @@
                   title="Удалить издание?"
                 >
                   <template #reference>
-                    <el-button type="danger" size="small">Удалить</el-button>
+                    <el-button type="danger" size="large">Удалить</el-button>
                   </template>
                 </el-popconfirm>
                 <div>
                   <el-button
                     type="info"
-                    size="small"
+                    size="large"
                     @click=";(showUpdatePub = true), (selectedPub = row)"
                   >
                     Редактировать
@@ -146,6 +158,16 @@
             placeholder="Введите cсылку"
           ></el-input>
         </el-form-item>
+        <span class="text-[16px]">Изображение</span>
+        <el-form-item class="mb-[10px]" prop="img">
+          <input
+            class="text-[16px]"
+            id="imageInput"
+            @change="addFileLocally"
+            type="file"
+            accept=".jpg, .png"
+          />
+        </el-form-item>
       </el-form>
     </div>
     <template #footer>
@@ -159,7 +181,7 @@
   </el-dialog>
 
   <el-dialog v-model="showUpdatePub" width="50%" title="Редактировать издание">
-    <div class="flex justify-center w-full min-h-full">
+    <div class="flex flex-col relative group justify-center w-full min-h-full">
       <el-form
         ref="pubForm"
         :model="pubForm"
@@ -200,6 +222,16 @@
             placeholder="Введите cсылку"
           ></el-input>
         </el-form-item>
+        <span class="text-[16px]">Изображение</span>
+        <el-form-item class="mb-[10px]" prop="img">
+          <input
+            class="text-[16px]"
+            id="imageInput"
+            @change="addFileLocally"
+            type="file"
+            accept=".jpg, .png"
+          />
+        </el-form-item>
       </el-form>
     </div>
     <template #footer>
@@ -221,6 +253,7 @@ import { mapStores } from 'pinia'
 import { userStore } from '../stores/user'
 import { defineComponent } from 'vue'
 import { Publication } from '../types/publicationTypes'
+import { uploadFile } from '@/services/file.service'
 
 export default defineComponent({
   name: 'Applications',
@@ -286,6 +319,7 @@ export default defineComponent({
       selectedPub: null as Publication | null,
       search: '',
       showAddPub: false,
+      localFile: null as File | null,
       pubForm: {
         name: '',
         description: '',
@@ -314,6 +348,13 @@ export default defineComponent({
     }
   },
   methods: {
+    addFileLocally(event: Event) {
+      const target = event.target as HTMLInputElement
+      if (target && target.files) {
+        const file = target.files[0]
+        this.localFile = file
+      }
+    },
     sortByCost(a: Publication, b: Publication) {
       return a.cost - b.cost
     },
@@ -323,12 +364,13 @@ export default defineComponent({
     async removePub(id: number) {
       await this.publicationsStore.deletePublication(Number(id))
     },
-    addPub() {
+    async addPub() {
       const data = {
         name: this.pubForm.name,
         description: this.pubForm.description,
         cost: Number(this.pubForm.cost),
-        link: this.pubForm.link
+        link: this.pubForm.link,
+        imageUrl: undefined as string | undefined
       }
       if (!data.name || !data.cost || !data.description) {
         ElNotification({
@@ -338,18 +380,35 @@ export default defineComponent({
         })
         return
       }
-      this.publicationsStore.createPublication(data)
+      if (this.localFile) {
+        const formData = new FormData()
+        formData.append('files', this.localFile)
+        const fileName = await uploadFile(formData)
+        data.imageUrl = `/uploads/${fileName}`
+        this.localFile = null
+      }
+      try {
+        await this.publicationsStore.createPublication(data)
+      } catch (error) {
+        ElNotification({
+          title: 'Ошибка при добавлении издания',
+          type: 'error'
+        })
+        console.error(error)
+      }
+
       this.showAddPub = false
     },
 
-    updatePub() {
+    async updatePub() {
       if (!this.selectedPub) return
       const data = {
         id: this.selectedPub.id,
         name: this.pubForm.name,
         description: this.pubForm.description,
         cost: Number(this.pubForm.cost),
-        link: this.pubForm.link
+        link: this.pubForm.link,
+        imageUrl: undefined as string | undefined
       }
       if (!data.name || !data.cost || !data.description) {
         ElNotification({
@@ -359,7 +418,27 @@ export default defineComponent({
         })
         return
       }
-      this.publicationsStore.updatePublication(data)
+      if (this.localFile) {
+        const formData = new FormData()
+        formData.append('files', this.localFile)
+        const fileName = await uploadFile(formData)
+        data.imageUrl = `/uploads/${fileName}`
+        this.localFile = null
+      }
+      try {
+        await this.publicationsStore.updatePublication(data)
+
+        ElNotification({
+          title: 'Издание успешно изменено',
+          type: 'success'
+        })
+      } catch (error) {
+        ElNotification({
+          title: 'Ошибка при изменении издания',
+          type: 'error'
+        })
+        console.error(error)
+      }
       this.showUpdatePub = false
     },
     resetFields() {

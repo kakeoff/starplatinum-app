@@ -155,7 +155,7 @@
                   <div class="flex flex-row gap-[10px] items-center">
                     <img
                       class="h-[27px] w-[27px] rounded-[100%]"
-                      :src="getUserAvatar(user?.avatarUrl)"
+                      :src="user?.avatarUrl"
                       alt="avatar"
                     />
                     <span
@@ -268,10 +268,6 @@ watch(user, async (value) => {
   }
 })
 
-const getUserAvatar = (url: string | undefined) => {
-  if (!url) return
-  return `${import.meta.env.VITE_SERVER_URL}${url}`
-}
 const gotoProfile = () => {
   router.push('/profile')
 }

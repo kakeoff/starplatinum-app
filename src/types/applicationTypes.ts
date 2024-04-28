@@ -5,6 +5,7 @@ export type Application = {
   cost: number,
   status: ApplicationStatus
   userId: number
+  createdAt: string
 }
 
 export type SendApplicationDto = {

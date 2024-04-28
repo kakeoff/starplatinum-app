@@ -792,7 +792,7 @@ const clickChangeUser = (title: string, type: UpdateType) => {
 }
 
 const avatarUrl = computed(() => {
-  return `${import.meta.env.VITE_SERVER_URL}${user.value?.avatarUrl}`
+  return user.value?.avatarUrl
 })
 
 watch(user, async (value) => {

@@ -17,7 +17,7 @@
           <!-- Form -->
           <form>
             <div
-              class="relative flex hover:scale-105 hover:transition duration-300 space-x-3 p-3 bg-white border rounded-lg shadow-lg shadow-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:shadow-gray-900/[.2]"
+              class="relative flex space-x-3 p-3 bg-white border rounded-lg shadow-lg shadow-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:shadow-gray-900/[.2]"
             >
               <div class="flex-[1_0_0%]">
                 <label
@@ -74,7 +74,7 @@
 
           <!-- SVG Element -->
           <div
-            class="hidden md:block absolute bottom-0 left-0 translate-y-10 -translate-x-32"
+            class="hidden md:block absolute bottom-[-20px] left-0 translate-y-10 -translate-x-32"
           >
             <svg
               class="w-40 h-auto text-cyan-500"
@@ -96,21 +96,41 @@
         </div>
 
         <div class="mt-10 sm:mt-20 flex flex-wrap gap-[15px] justify-center">
-          <button
-            v-for="pub in filteredPubs"
-            class="m-1 flex flex-col overflow-hidden max-w-[600px] hover:translate-y-[-10px] text-[25px] hover:transition duration-300 justify-center items-center rounded-md border font-[700] bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-            @click="selectPub(pub), (showPubModal = true)"
-          >
+          <el-card class="w-[350px] text-[19px]" v-for="pub in filteredPubs">
+            <template #header>
+              <p class="truncate">
+                {{ pub.name }}
+              </p>
+            </template>
             <img
-              src="https://www.hlp.city/wp-content/uploads/2023/10/denys-nevozhai-2vmT5_FeMck-unsplash-scaled-e1698768382637.jpg"
-              alt=""
+              v-if="pub.imageUrl"
+              :src="pub.imageUrl"
+              alt="publication image"
+              class="h-[300px] rounded-[4px] border border-gray-700 w-full"
             />
             <div
-              class="h-[60px] flex justify-center items-center break-words truncate"
+              v-else
+              class="h-[300px] border rounded-[4px] border-gray-500 w-full flex justify-center items-center"
             >
-              {{ pub.name }}
+              Нет изображения
             </div>
-          </button>
+            <div class="w-full flex flex-col items-center pt-[10px] gap-[10px]">
+              <div class="flex w-full gap-[5px]">
+                <a class="w-[50%]" :href="pub.link"
+                  ><el-button class="w-full">Сайт</el-button></a
+                >
+
+                <el-button
+                  @click="selectPub(pub), (showPubModal = true)"
+                  class="w-[50%]"
+                  >Описание</el-button
+                >
+              </div>
+              <el-tag size="large" type="success" class="font-[700] text-[16px]"
+                >{{ pub.cost }} рублей</el-tag
+              >
+            </div>
+          </el-card>
         </div>
       </div>
     </div>
@@ -123,16 +143,6 @@
   >
     <h2 class="font-[700]">Описание</h2>
     <span>{{ selectedPub.description }}</span>
-    <div class="font-[700] mt-[20px]">Цена: {{ selectedPub.cost }} руб.</div>
-    <div class="font-[700] mt-[20px]">
-      <a
-        :href="selectedPub.link"
-        target="_blank"
-        class="font-mono nav-link mt-[10px] text-white hover:transition duration-300"
-      >
-        <span class="nav-link-extension ml-[5px]">Перейти на сайт</span>
-      </a>
-    </div>
   </el-dialog>
 </template>
 

@@ -32,7 +32,7 @@
               <div class="flex flex-row gap-[5px] items-center">
                 <img
                   class="h-[40px] w-[40px] rounded-[100%]"
-                  :src="getUserAvatar(row.avatarUrl)"
+                  :src="row.avatarUrl"
                   alt="avatar"
                 />
                 <div class="flex flex-col">
@@ -222,10 +222,6 @@ export default defineComponent({
     },
     async removeUser(id: number) {
       await this.publicationsStore.deletePublication(Number(id))
-    },
-
-    getUserAvatar(url: string) {
-      return `${import.meta.env.VITE_SERVER_URL}${url}`
     },
 
     async updateUserRole(id: number, role: UserRole) {
