@@ -96,12 +96,10 @@
         </div>
 
         <div class="mt-10 sm:mt-20 flex flex-wrap gap-[15px] justify-center">
-          <el-card class="w-[350px] text-[19px]" v-for="pub in filteredPubs">
-            <template #header>
-              <p class="truncate">
-                {{ pub.name }}
-              </p>
-            </template>
+          <el-card
+            class="w-[350px] text-[19px] dark:bg-slate-900 border-0 hover:bg-slate-800"
+            v-for="pub in filteredPubs"
+          >
             <img
               v-if="pub.imageUrl"
               :src="pub.imageUrl"
@@ -114,7 +112,16 @@
             >
               Нет изображения
             </div>
-            <div class="w-full flex flex-col items-center pt-[10px] gap-[10px]">
+            <p class="truncate py-[10px]">
+              {{ pub.name }}
+            </p>
+            <el-tag
+              size="large"
+              type="success"
+              class="font-[700] mb-[10px] text-[16px]"
+              >{{ pub.cost }} рублей</el-tag
+            >
+            <div class="w-full flex flex-col items-center gap-[10px]">
               <div class="flex w-full gap-[5px]">
                 <a class="w-[50%]" :href="pub.link"
                   ><el-button class="w-full">Сайт</el-button></a
@@ -126,9 +133,6 @@
                   >Описание</el-button
                 >
               </div>
-              <el-tag size="large" type="success" class="font-[700] text-[16px]"
-                >{{ pub.cost }} рублей</el-tag
-              >
             </div>
           </el-card>
         </div>

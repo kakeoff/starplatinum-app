@@ -30,10 +30,17 @@
             <template #default="{ row }">
               <div class="flex gap-[15px] items-center">
                 <img
+                  v-if="row.imageUrl"
                   class="w-[70px] h-[70px] flex-none border-[2px] border-gray-700 rounded-[3px] object-cover"
                   :src="row.imageUrl"
-                  alt=""
+                  alt="publication image"
                 />
+                <div
+                  v-else
+                  class="w-[70px] text-[10px] text-center flex justify-center items-center h-[70px] flex-none border-[2px] border-gray-700 rounded-[3px]"
+                >
+                  Пусто
+                </div>
                 <span>{{ row.name }}</span>
               </div>
             </template>
