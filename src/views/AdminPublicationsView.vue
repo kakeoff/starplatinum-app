@@ -387,6 +387,14 @@ export default defineComponent({
         })
         return
       }
+      if (!this.localFile) {
+        ElNotification({
+          title: 'Ошибка',
+          message: 'Выберите изображение',
+          type: 'error'
+        })
+        return
+      }
       if (this.localFile) {
         const formData = new FormData()
         formData.append('files', this.localFile)
