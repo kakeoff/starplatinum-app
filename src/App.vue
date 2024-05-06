@@ -219,6 +219,34 @@
     </section>
   </header>
   <RouterView />
+  <button
+    v-if="cartItems.length"
+    style="animation-duration: 3s"
+    class="fixed bottom-[20px] flex-none right-[20px] animatecss animatecss-infinite animatecss-tada bg-slate-900 p-[15px] rounded-[100%] text-white hover:scale-[1.1] hover:bg-slate-700 transition duration-200"
+  >
+    <div class="relative">
+      <div
+        class="bg-red-700 text-[11px] flex items-center justify-center absolute right-[-10px] top-[-10px] rounded-[100%] h-[15px] w-[15px]"
+      >
+        {{ cartItems.length }}
+      </div>
+      <svg
+        width="24px"
+        height="24px"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </div>
+  </button>
 </template>
 
 <script setup lang="ts">
@@ -227,7 +255,7 @@ import { authStore } from './stores/auth'
 import { userStore } from './stores/user'
 import { usersStore } from './stores/users'
 import { useRouter } from 'vue-router'
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, computed, watch, reactive } from 'vue'
 import { applicationsStore } from './stores/applications'
 import { pubsStore } from './stores/publications'
 import { isAuthenticated } from './plugins/helpers'
@@ -268,6 +296,7 @@ watch(user, async (value) => {
   }
 })
 
+const cartItems = computed(() => storeUser.cartItems)
 const gotoProfile = () => {
   router.push('/profile')
 }

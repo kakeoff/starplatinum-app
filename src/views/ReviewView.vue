@@ -133,6 +133,40 @@
                   >Описание</el-button
                 >
               </div>
+
+              <el-popover width="300px" trigger="click">
+                <template #reference>
+                  <el-button type="success" class="w-full">
+                    <svg
+                      class="mr-[5px]"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20px"
+                      height="20px"
+                    >
+                      <path
+                        d="M4 12H20M12 4V20"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                    <span>Добавить в заявку</span>
+                  </el-button>
+                </template>
+                <el-date-picker
+                  @change="addToCart($event, pub.id)"
+                  type="date"
+                  :editable="false"
+                  v-model="publicationCartDate"
+                  placeholder="Выберите дату"
+                  :disabledDate="disabledDate"
+                  style="width: 100%"
+                >
+                </el-date-picker>
+              </el-popover>
             </div>
           </el-card>
         </div>
@@ -154,8 +188,11 @@
 import { computed, ref } from 'vue'
 import { pubsStore } from '../stores/publications'
 import { Publication } from '../types/publicationTypes'
+import { userStore } from '@/stores/user'
+import { ItemType } from '@/types/userTypes'
 
 const storePubs = pubsStore()
+const storeUser = userStore()
 const pubs = computed(() => {
   return storePubs.publications
 })
@@ -184,4 +221,18 @@ const filteredPubs = computed(() => {
 })
 
 const searchPub = ref('')
+const publicationCartDate = ref('')
+
+const addToCart = async (date: string, publicationId: number) => {
+  const data = {
+    itemId: publicationId,
+    date: new Date(date).toLocaleDateString(),
+    type: ItemType.publication
+  }
+  await storeUser.addToCart(data)
+  publicationCartDate.value = ''
+}
+const disabledDate = (time: Date) => {
+  return time.getTime() < Date.now()
+}
 </script>

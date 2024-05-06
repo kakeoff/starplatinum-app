@@ -31,3 +31,14 @@ export enum UserRole {
   admin = 1,
   user = 0
 }
+
+export enum ItemType {
+  publication = 0
+}
+
+export type CartItem = {
+  id: number
+  type: ItemType
+  itemId: number
+  itemDate?: string
+}

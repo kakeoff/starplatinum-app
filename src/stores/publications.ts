@@ -1,12 +1,15 @@
-import { defineStore } from "pinia";
-import * as Api from '../services/publications.services';
-import { CreatePublicationDto, Publication, UpdatePublicationDto } from "../types/publicationTypes";
+import { defineStore } from 'pinia'
+import * as Api from '../services/publications.services'
+import {
+  CreatePublicationDto,
+  Publication,
+  UpdatePublicationDto
+} from '../types/publicationTypes'
 
 export const pubsStore = defineStore({
   id: 'publications',
   state: () => ({
-    publications: [
-    ] as Publication[]
+    publications: [] as Publication[]
   }),
   actions: {
     async createPublication(pub: CreatePublicationDto) {
@@ -20,17 +23,17 @@ export const pubsStore = defineStore({
         this.publications[index] = publication
       }
     },
-  async deletePublication(id: number) {
-    await Api.deletePublication(id)
-    const index = this.publications.findIndex((pub) => pub.id === id)
-    if (index !== -1) {
-      this.publications.splice(index, 1)
-    }
-  },
+    async deletePublication(id: number) {
+      await Api.deletePublication(id)
+      const index = this.publications.findIndex((pub) => pub.id === id)
+      if (index !== -1) {
+        this.publications.splice(index, 1)
+      }
+    },
     async getAllPublications() {
       const publications = await Api.getAllPublications()
       this.publications = publications
       return publications
-    },
+    }
   }
 })
