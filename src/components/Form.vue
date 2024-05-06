@@ -28,8 +28,13 @@
             >
               <div class="flex gap-[5px] items-center">
                 <img
+                  v-if="item.imageUrl"
                   :src="item.imageUrl"
-                  class="w-[20px] h-[20px] object-cover"
+                  class="w-[20px] h-[20px] object-cover border-[2px] border-gray-700 rounded-[4px]"
+                />
+                <div
+                  v-else
+                  class="w-[20px] h-[20px] border-[2px] border-gray-700 rounded-[4px]"
                 />
                 <span>{{ item.name }}</span>
               </div>

@@ -543,7 +543,7 @@
     @close="closeUpdateUserModal"
   >
     <div class="flex justify-center w-full min-h-full">
-      <el-form class="font-[700] w-full text-[35px]">
+      <el-form @submit.prevent="updateMe" class="font-[700] w-full text-[35px]">
         <el-form-item class="mb-[10px]">
           <div class="flex flex-col gap-[10px] w-full">
             <input
@@ -578,8 +578,8 @@
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="closeUpdateUserModal()">Отмена</el-button>
-        <el-button type="primary" @click="updateMe()"> Подтвердить </el-button>
+        <el-button @click="closeUpdateUserModal">Отмена</el-button>
+        <el-button type="primary" @click="updateMe"> Подтвердить </el-button>
       </span>
     </template>
   </el-dialog>

@@ -49,7 +49,6 @@
             <template #default="{ row }">
               <el-button
                 type="info"
-                size="large"
                 @click=";(selectedPub = row), (showDescription = true)"
                 >Посмотреть</el-button
               >
@@ -65,9 +64,7 @@
           <el-table-column label="Ссылка">
             <template #default="{ row }">
               <a :href="row.link" target="_blank"
-                ><el-button type="success" size="large"
-                  >Перейти на сайт</el-button
-                ></a
+                ><el-button type="success">Перейти на сайт</el-button></a
               >
             </template>
           </el-table-column>
@@ -81,13 +78,12 @@
                   title="Удалить издание?"
                 >
                   <template #reference>
-                    <el-button type="danger" size="large">Удалить</el-button>
+                    <el-button type="danger">Удалить</el-button>
                   </template>
                 </el-popconfirm>
                 <div>
                   <el-button
                     type="info"
-                    size="large"
                     @click=";(showUpdatePub = true), (selectedPub = row)"
                   >
                     Редактировать

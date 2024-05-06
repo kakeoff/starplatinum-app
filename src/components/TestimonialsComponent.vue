@@ -32,7 +32,7 @@
                 <div class="flex-shrink-0">
                   <img
                     class="h-8 w-8 rounded-full sm:h-[2.875rem] sm:w-[2.875rem]"
-                    src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
+                    src="../assets//about-img.jpeg"
                     alt="Image Description"
                   />
                 </div>
