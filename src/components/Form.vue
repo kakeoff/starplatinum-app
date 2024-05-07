@@ -22,6 +22,7 @@
           >
             <el-option
               v-for="item in pubs"
+              :disabled="checkIsPubAdded(item.id)"
               :key="item.name"
               :label="item.name"
               :value="item.name"
@@ -109,7 +110,7 @@ import { computed, reactive, ref } from 'vue'
 import { ElNotification, FormInstance, FormRules } from 'element-plus'
 import { pubsStore } from '../stores/publications.js'
 import { applicationsStore } from '../stores/applications.js'
-import { FormPublication, Publication } from '../types/publicationTypes'
+import { FormPublication } from '../types/publicationTypes'
 import { getHoursDifference, isAuthenticated } from '../plugins/helpers'
 
 const storePubs = pubsStore()
@@ -244,5 +245,9 @@ const deletePub = (id: number) => {
   if (idx !== -1) {
     formPubs.splice(idx, 1)
   }
+}
+
+const checkIsPubAdded = (pubId: number) => {
+  return formPubs.some((i) => i.id === pubId)
 }
 </script>
