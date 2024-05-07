@@ -4,7 +4,6 @@
     class="px-[20px] mt-[30px] min-w-[350px] max-w-[550px]"
     title="Регистрация"
   >
-    {{ errors }}
     <div class="flex justify-center w-full min-h-full">
       <el-form
         ref="loginForm"

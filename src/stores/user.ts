@@ -9,6 +9,14 @@ export const userStore = defineStore({
     user: null as User | null,
     cartItems: [] as CartItem[]
   }),
+
+  getters: {
+    userCartPublications(state) {
+      return state.cartItems.filter(
+        (item) => item.type === ItemType.publication
+      )
+    }
+  },
   actions: {
     async getMe() {
       const user = await Api.getMe()
@@ -39,6 +47,13 @@ export const userStore = defineStore({
     }) {
       // await Api.addToCart(data)
       this.cartItems.push({ id: 123, ...data })
+    },
+    async removeFromCart(itemId: number) {
+      // await Api.removeFromCart(itemId)
+      const idx = this.cartItems.findIndex((item) => item.itemId === itemId)
+      if (idx !== -1) {
+        this.cartItems.splice(idx, 1)
+      }
     },
     clearUserStateLocally() {
       this.user = null

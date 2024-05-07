@@ -97,7 +97,10 @@
 
         <div class="mt-10 sm:mt-20 flex flex-wrap gap-[15px] justify-center">
           <el-card
-            class="w-[350px] text-[19px] dark:bg-slate-900 border-0 hover:bg-slate-800"
+            class="w-[350px] text-[19px] dark:bg-slate-900 border-[1px] hover:bg-slate-800"
+            :class="
+              checkIsPubInCart(pub.id) ? 'border-green-700' : 'border-gray-700'
+            "
             v-for="pub in filteredPubs"
           >
             <img
@@ -108,7 +111,7 @@
             />
             <div
               v-else
-              class="h-[300px] border rounded-[4px] border-gray-500 w-full flex justify-center items-center"
+              class="h-[300px] border rounded-[4px] border-gray-700 w-full flex justify-center items-center"
             >
               Нет изображения
             </div>
@@ -124,50 +127,109 @@
             <div class="w-full flex flex-col items-center gap-[10px]">
               <div class="flex w-full gap-[5px]">
                 <a class="w-[50%]" :href="pub.link"
-                  ><el-button class="w-full">Сайт</el-button></a
-                >
-
-                <el-button
-                  @click="selectPub(pub), (showPubModal = true)"
-                  class="w-[50%]"
-                  >Описание</el-button
-                >
-              </div>
-
-              <el-popover width="300px" trigger="click">
-                <template #reference>
-                  <el-button type="success" class="w-full">
+                  ><el-button class="w-full">
                     <svg
                       class="mr-[5px]"
                       viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
                       width="20px"
                       height="20px"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M4 12H20M12 4V20"
+                        d="M14 12C14 14.7614 11.7614 17 9 17H7C4.23858 17 2 14.7614 2 12C2 9.23858 4.23858 7 7 7H7.5M10 12C10 9.23858 12.2386 7 15 7H17C19.7614 7 22 9.23858 22 12C22 14.7614 19.7614 17 17 17H16.5"
                         stroke="currentColor"
                         stroke-width="2"
                         stroke-linecap="round"
-                        stroke-linejoin="round"
                       ></path>
                     </svg>
-                    <span>Добавить в корзину</span>
-                  </el-button>
-                </template>
-                <p class="mb-[10px]">Выберите дату для добавления издания</p>
-                <el-date-picker
-                  @change="addToCart($event, pub.id)"
-                  type="date"
-                  :editable="false"
-                  v-model="publicationCartDate"
-                  placeholder="Выбрать дату"
-                  :disabledDate="disabledDate"
-                  style="width: 100%"
+                    <span>Сайт</span>
+                  </el-button></a
                 >
-                </el-date-picker>
-              </el-popover>
+
+                <el-button
+                  @click=";(selectedPubId = pub.id), (showPubModal = true)"
+                  class="w-[50%]"
+                >
+                  <svg
+                    class="mr-[5px]"
+                    fill="currentColor"
+                    width="20px"
+                    height="20px"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M21,2H3A1,1,0,0,0,2,3V21a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM4,4H20V6H4ZM20,20H4V8H20ZM6,12a1,1,0,0,1,1-1H17a1,1,0,0,1,0,2H7A1,1,0,0,1,6,12Zm0,4a1,1,0,0,1,1-1h5a1,1,0,0,1,0,2H7A1,1,0,0,1,6,16Z"
+                    ></path>
+                  </svg>
+                  <span>Описание</span>
+                </el-button>
+              </div>
+              <el-button
+                v-if="!checkIsPubInCart(pub.id)"
+                @click=";(selectedPubId = pub.id), (showCartPubModal = true)"
+                type="success"
+                class="w-full"
+              >
+                <svg
+                  class="mr-[5px]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20px"
+                  height="20px"
+                >
+                  <path
+                    d="M4 12H20M12 4V20"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+                <span>Добавить в корзину</span>
+              </el-button>
+              <el-button
+                @click="removeFromCart(pub.id)"
+                class="w-full group"
+                type="danger"
+                v-else
+              >
+                <svg
+                  class="group-hover:hidden mr-[5px]"
+                  viewBox="0 0 24 24"
+                  width="20px"
+                  height="20px"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 12.6111L8.92308 17.5L20 6.5"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+                <svg
+                  class="hidden group-hover:block mr-[5px] rotate-45"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20px"
+                  height="20px"
+                >
+                  <path
+                    d="M4 12H20M12 4V20"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+                <span>Добавлено</span>
+              </el-button>
             </div>
           </el-card>
         </div>
@@ -177,32 +239,86 @@
   <!-- End Hero -->
   <el-dialog
     class="min-w-[465px] max-w-[500px]"
-    :title="selectedPub.name"
+    :title="selectedPub?.name || '???'"
     v-model="showPubModal"
   >
     <h2 class="font-[700]">Описание</h2>
-    <span>{{ selectedPub.description }}</span>
+    <span>{{ selectedPub?.description || '???' }}</span>
+  </el-dialog>
+  <el-dialog
+    class="min-w-[465px] max-w-[500px]"
+    title="Добавить в корзину"
+    @close="closeCartModal"
+    v-model="showCartPubModal"
+  >
+    <h2 class="font-[700] mb-[10px]">Выберите срок размещения</h2>
+    <el-date-picker
+      type="date"
+      value-format="YYYY-MM-DD"
+      :editable="false"
+      v-model="publicationCartDate"
+      placeholder="Выбрать дату"
+      :disabledDate="disabledDate"
+      style="width: 100%"
+    />
+    <div>
+      <div class="flex gap-[10px] mt-[10px]">
+        <el-tag size="large" class="text-[13px]">
+          Количество часов:
+          {{ dataForCart.hoursCount }}
+        </el-tag>
+        <el-tag size="large" type="success" class="text-[13px]"
+          >Итого: {{ dataForCart.totalPrice }} руб</el-tag
+        >
+      </div>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="closeCartModal">Отмена</el-button>
+        <el-button type="primary" @click="addToCart(publicationCartDate)">
+          Добавить
+        </el-button>
+      </span>
+    </template>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { pubsStore } from '../stores/publications'
-import { Publication } from '../types/publicationTypes'
 import { userStore } from '@/stores/user'
 import { ItemType } from '@/types/userTypes'
 import { ElNotification } from 'element-plus'
+import { getHoursDifference } from '@/plugins/helpers'
 
 const storePubs = pubsStore()
 const storeUser = userStore()
 const pubs = computed(() => {
   return storePubs.publications
 })
-const selectedPub = ref({} as Publication)
+
+const dataForCart = computed(() => {
+  const hoursCount = publicationCartDate.value.length
+    ? getHoursDifference(new Date(), new Date(publicationCartDate.value))
+    : 0
+  console.log(typeof publicationCartDate.value)
+
+  const totalPrice = selectedPub.value
+    ? hoursCount * selectedPub.value?.cost
+    : 0
+  return {
+    hoursCount,
+    totalPrice
+  }
+})
+const selectedPubId = ref<number | null>(null)
 const showPubModal = ref(false)
-const selectPub = (pub: Publication) => {
-  selectedPub.value = pub
-}
+const showCartPubModal = ref(false)
+const selectedPub = computed(() => {
+  return pubs.value.find((pub) => pub.id === selectedPubId.value)
+})
+
+const userCartPublications = computed(() => storeUser.userCartPublications)
 
 const filteredPubs = computed(() => {
   let filtered = pubs.value
@@ -225,18 +341,35 @@ const filteredPubs = computed(() => {
 const searchPub = ref('')
 const publicationCartDate = ref('')
 
-const addToCart = async (date: string, publicationId: number) => {
+const closeCartModal = () => {
+  showCartPubModal.value = false
+  selectedPubId.value = null
+  publicationCartDate.value = ''
+}
+
+const checkIsPubInCart = (pubId: number) => {
+  return userCartPublications.value.some((item) => item.itemId === pubId)
+}
+
+const addToCart = async (date: string) => {
+  if (!selectedPubId.value) return
   const data = {
-    itemId: publicationId,
-    date: new Date(date).toLocaleDateString(),
+    itemId: selectedPubId.value,
+    date: date,
     type: ItemType.publication
   }
   await storeUser.addToCart(data)
+  showCartPubModal.value = false
+  selectedPubId.value = null
   ElNotification({
     title: 'Издание добавлено в корзину',
     type: 'success'
   })
-  publicationCartDate.value = ''
+  closeCartModal()
+}
+
+const removeFromCart = (pubId: number) => {
+  storeUser.removeFromCart(pubId)
 }
 const disabledDate = (time: Date) => {
   return time.getTime() < Date.now()
