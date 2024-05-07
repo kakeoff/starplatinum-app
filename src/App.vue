@@ -222,11 +222,11 @@
   <button
     v-if="cartItems.length"
     style="animation-duration: 3s"
-    class="fixed bottom-[20px] flex-none right-[20px] animatecss animatecss-infinite animatecss-tada bg-slate-900 p-[15px] rounded-[100%] text-white hover:scale-[1.1] hover:bg-slate-700 transition duration-200"
+    class="fixed bottom-[20px] flex-none right-[20px] animatecss animatecss-infinite animatecss-tada hover:animate-none bg-slate-900 p-[15px] rounded-[100%] text-white hover:scale-[1.1] hover:bg-slate-700 transition duration-200"
   >
     <div class="relative">
       <div
-        class="bg-red-700 text-[11px] flex items-center justify-center absolute right-[-10px] top-[-10px] rounded-[100%] h-[15px] w-[15px]"
+        class="bg-[#f56c6c] text-[11px] font-[700] flex items-center justify-center absolute right-[-10px] top-[-10px] rounded-[100%] h-[15px] w-[15px]"
       >
         {{ cartItems.length }}
       </div>

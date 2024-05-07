@@ -119,7 +119,7 @@
               size="large"
               type="success"
               class="font-[700] mb-[10px] text-[16px]"
-              >{{ pub.cost }} рублей</el-tag
+              >{{ pub.cost }} руб/час</el-tag
             >
             <div class="w-full flex flex-col items-center gap-[10px]">
               <div class="flex w-full gap-[5px]">
@@ -153,15 +153,16 @@
                         stroke-linejoin="round"
                       ></path>
                     </svg>
-                    <span>Добавить в заявку</span>
+                    <span>Добавить в корзину</span>
                   </el-button>
                 </template>
+                <p class="mb-[10px]">Выберите дату для добавления издания</p>
                 <el-date-picker
                   @change="addToCart($event, pub.id)"
                   type="date"
                   :editable="false"
                   v-model="publicationCartDate"
-                  placeholder="Выберите дату"
+                  placeholder="Выбрать дату"
                   :disabledDate="disabledDate"
                   style="width: 100%"
                 >
@@ -190,6 +191,7 @@ import { pubsStore } from '../stores/publications'
 import { Publication } from '../types/publicationTypes'
 import { userStore } from '@/stores/user'
 import { ItemType } from '@/types/userTypes'
+import { ElNotification } from 'element-plus'
 
 const storePubs = pubsStore()
 const storeUser = userStore()
@@ -230,6 +232,10 @@ const addToCart = async (date: string, publicationId: number) => {
     type: ItemType.publication
   }
   await storeUser.addToCart(data)
+  ElNotification({
+    title: 'Издание добавлено в корзину',
+    type: 'success'
+  })
   publicationCartDate.value = ''
 }
 const disabledDate = (time: Date) => {

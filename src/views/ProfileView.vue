@@ -669,6 +669,7 @@
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { userStore } from '../stores/user'
 import { usersStore } from '../stores/users'
+import { pubsStore } from '@/stores/publications'
 import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { vMaska } from 'maska'
@@ -701,6 +702,7 @@ const router = useRouter()
 const storeUser = userStore()
 const storeUsers = usersStore()
 const storeApplications = applicationsStore()
+const storePublications = pubsStore()
 
 const errors = ref([] as string[])
 
@@ -730,11 +732,19 @@ const userApplications = computed(() => {
   return storeApplications.userApplications
 })
 const selectedApp = computed(() => {
-  return (
-    userApplications.value.find(
-      (app: Application) => app.id === selectedAppId.value
-    ) || null
+  const application = userApplications.value.find(
+    (app: Application) => app.id === selectedAppId.value
   )
+  if (!application) return null
+  const pubs = application.pubs.map((pub) => {
+    return {
+      id: pub.id,
+      date: new Date(pub.date).toLocaleDateString().replaceAll('/', '.'),
+      name: storePublications.publications.find((_pub) => _pub.id === pub.id)
+        ?.name
+    }
+  })
+  return { ...application, pubs }
 })
 
 const filteredApplications = computed(() => {

@@ -232,11 +232,20 @@ export default defineComponent({
       return this.applicationsStore.applications
     },
     selectedApp() {
-      return (
-        this.applicationsStore.applications.find(
-          (app: Application) => app.id === this.selectedAppId
-        ) || null
+      const application = this.applications.find(
+        (app: Application) => app.id === this.selectedAppId
       )
+      if (!application) return null
+      const pubs = application.pubs.map((pub) => {
+        return {
+          id: pub.id,
+          date: new Date(pub.date).toLocaleDateString().replaceAll('/', '.'),
+          name: this.publicationsStore.publications.find(
+            (_pub) => _pub.id === pub.id
+          )?.name
+        }
+      })
+      return { ...application, pubs }
     },
     user() {
       return this.userStore.user
@@ -275,11 +284,7 @@ export default defineComponent({
               .includes(keyword) ||
             (app.comment && app.comment.toLowerCase().includes(keyword)) ||
             app.cost.toString().includes(keyword) ||
-            app.pubs.some(
-              (pub) =>
-                pub.name.toLowerCase().includes(keyword) ||
-                pub.date.toLowerCase().includes(keyword)
-            )
+            app.pubs.some((pub) => pub.date.toLowerCase().includes(keyword))
           )
         })
       }

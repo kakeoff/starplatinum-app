@@ -8,7 +8,7 @@
     :model="ruleForm"
     :rules="rules"
     class="demo-ruleForm font-[700]"
-    :size="formSize"
+    size="default"
     status-icon
   >
     <el-form-item required>
@@ -64,37 +64,23 @@
     </el-form-item>
     <el-form-item>
       <div
-        v-if="!formPubs.length"
-        style="background-color: rgb(32, 33, 33)"
-        class="w-full rounded-[8px] border border-[#4C4D4F] p-[10px]"
+        class="w-full bg-[#141414] rounded-[8px] border overflow-y-auto max-h-[250px] border-[#4C4D4F] p-[10px]"
       >
-        <el-alert type="info" show-icon :closable="false">
-          <p class="text-[13px]">
-            Здесь будут отображаться добавленные издания
-          </p>
-        </el-alert>
-      </div>
-      <div
-        v-if="formPubs.length"
-        class="w-full bg-[#141414] rounded-[8px] border border-[#4C4D4F] p-[10px]"
-      >
-        <el-table :data="formPubs" style="width: 100%" max-height="250">
-          <el-table-column fixed prop="date" label="Дата" />
-          <el-table-column fixed prop="name" label="Название" />
-          <el-table-column fixed="right" label="Операция">
-            <template #default="scope">
-              <el-button
-                link
-                type="primary"
-                class="mb-[3px]"
-                size="small"
-                @click.prevent="deletePub(scope.$index)"
-              >
-                Удалить
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+        <p v-if="!formPubs.length" class="text-[13px] text-center opacity-50">
+          Здесь будут отображаться добавленные издания
+        </p>
+        <div class="flex flex-wrap gap-[10px]" v-else>
+          <el-tag
+            closable
+            size="large"
+            @close="deletePub(pub.id)"
+            v-for="(pub, index) in formPubs"
+            :key="pub.id"
+            >{{ pub.name }} |
+            {{ new Date(pub.date).toLocaleDateString().replaceAll('/', '.') }} |
+            {{ pub.hoursCount }} часов | {{ pub.cost }} рублей</el-tag
+          >
+        </div>
       </div>
     </el-form-item>
     <el-form-item prop="desc">
@@ -105,7 +91,9 @@
       />
     </el-form-item>
     <el-form-item prop="desc">
-      <div class="w-full flex justify-end">{{ finalCost }} руб</div>
+      <div class="w-full flex justify-end">
+        <el-tag type="success">{{ finalCost }} руб</el-tag>
+      </div>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(ruleFormRef)">
@@ -117,23 +105,24 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { ElNotification, FormInstance, FormRules } from 'element-plus'
 import { pubsStore } from '../stores/publications.js'
 import { applicationsStore } from '../stores/applications.js'
 import { FormPublication, Publication } from '../types/publicationTypes'
-import { ApplicationStatus } from '../types/applicationTypes'
-import { isAuthenticated } from '../plugins/helpers'
+import { getHoursDifference, isAuthenticated } from '../plugins/helpers'
 
 const storePubs = pubsStore()
 const storeApplications = applicationsStore()
 const emit = defineEmits(['close'])
 
-const formSize = ref('default')
-const formPubs = ref([] as FormPublication[])
+const formPubs = reactive<FormPublication[]>([])
 const pubs = computed(() => storePubs.publications)
-const finalCost = ref(0)
-
+const finalCost = computed(() => {
+  return formPubs.reduce((total, pub) => {
+    return total + pub.cost
+  }, 0)
+})
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   date: '',
@@ -182,7 +171,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   formEl.validate(async (valid) => {
     if (valid) {
       const data = {
-        pubs: formPubs.value,
+        pubs: formPubs.map((i) => {
+          return {
+            id: i.id,
+            date: i.date
+          }
+        }),
         comment: ruleForm.desc,
         cost: finalCost.value
       }
@@ -214,8 +208,7 @@ const disabledDate = (time: Date) => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
-  formPubs.value = []
-  finalCost.value = 0
+  formPubs.length = 0
 }
 
 const addPub = () => {
@@ -227,35 +220,29 @@ const addPub = () => {
     })
     return
   }
-
-  const date = new Date(ruleForm.date).toLocaleDateString()
   const storePub = storePubs.publications.find(
     (pub) => pub.name === ruleForm.pub
   )
   if (!storePub) return
+  const date = new Date(ruleForm.date).toISOString()
+  const hoursCount = getHoursDifference(new Date(), new Date(date))
+  const costByHours = storePub.cost * hoursCount
   const data = {
     id: storePub.id,
     name: storePub.name,
-    date: date
+    date: date,
+    hoursCount: hoursCount,
+    cost: costByHours
   }
-  formPubs.value.push(data)
-  const foundPub = pubs.value.find((pub) => pub.name === data.name)
-  if (foundPub) {
-    finalCost.value += foundPub?.cost
-  }
+  formPubs.push(data)
   ruleForm.pub = ''
   ruleForm.date = ''
 }
 
-const deletePub = (index: number) => {
-  formPubs.value.splice(index, 1)
-  finalCost.value = 0
-  console.log(formPubs.value)
-  formPubs.value.forEach((pub) => {
-    const foundPub = pubs.value.find((publ) => publ.name === pub.name)
-    if (foundPub) {
-      finalCost.value += foundPub.cost
-    }
-  })
+const deletePub = (id: number) => {
+  const idx = formPubs.findIndex((i) => i.id === id)
+  if (idx !== -1) {
+    formPubs.splice(idx, 1)
+  }
 }
 </script>
