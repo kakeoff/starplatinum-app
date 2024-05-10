@@ -40,17 +40,22 @@ export const userStore = defineStore({
     async resetAvatar() {
       await this.updateMe({ avatarUrl: '/uploads/default/default.png' })
     },
+
+    async getMyCart() {
+      const items = await Api.getMyCart()
+      this.cartItems = items
+    },
     async addToCart(data: {
       type: ItemType
       itemId: number
       itemDate?: string
     }) {
-      // await Api.addToCart(data)
-      this.cartItems.push({ id: 123, ...data })
+      const cartItem = await Api.addToCart(data)
+      this.cartItems.push(cartItem)
     },
-    async removeFromCart(itemId: number) {
-      // await Api.removeFromCart(itemId)
-      const idx = this.cartItems.findIndex((item) => item.itemId === itemId)
+    async removeFromCart(id: number) {
+      await Api.removeFromCart(id)
+      const idx = this.cartItems.findIndex((item) => item.id === id)
       if (idx !== -1) {
         this.cartItems.splice(idx, 1)
       }

@@ -355,7 +355,7 @@ const addToCart = async (date: string) => {
   if (!selectedPubId.value) return
   const data = {
     itemId: selectedPubId.value,
-    date: date,
+    itemDate: new Date(date).toISOString(),
     type: ItemType.publication
   }
   await storeUser.addToCart(data)
@@ -369,7 +369,12 @@ const addToCart = async (date: string) => {
 }
 
 const removeFromCart = (pubId: number) => {
-  storeUser.removeFromCart(pubId)
+  const pubsInCart = storeUser.userCartPublications
+  const itemToDelete = pubsInCart.find(
+    (i) => i.itemId === pubId && i.type === ItemType.publication
+  )
+  if (!itemToDelete) return
+  storeUser.removeFromCart(itemToDelete.id)
 }
 const disabledDate = (time: Date) => {
   return time.getTime() < Date.now()

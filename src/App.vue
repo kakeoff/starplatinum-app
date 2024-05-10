@@ -274,6 +274,7 @@ const storePublications = pubsStore()
 onMounted(async () => {
   if (isAuthenticated()) {
     await storeUser.getMe()
+    await storeUser.getMyCart()
   }
   await loadData()
 })
