@@ -295,7 +295,11 @@
       </el-card>
     </div>
     <div class="w-full h-[50px] flex justify-center items-end">
-      <el-button>Перейти к созданию заявки</el-button>
+      <router-link to="/?startForm=1">
+        <el-button @click="showCart = false" size="large"
+          >Перейти к созданию заявки</el-button
+        >
+      </router-link>
     </div>
   </el-drawer>
 </template>

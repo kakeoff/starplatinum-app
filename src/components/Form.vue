@@ -59,9 +59,17 @@
       </el-col>
     </el-form-item>
     <el-form-item>
-      <el-button class="w-full" type="primary" @click="addPub()">
-        Добавить издание
-      </el-button>
+      <div class="flex w-full gap-[5px]">
+        <el-button class="w-full" type="primary" @click="addPub">
+          Добавить издание
+        </el-button>
+        <el-button
+          v-if="cartPubs.length"
+          @click="addPubsFromCart"
+          type="success"
+          >Добавить из корзины</el-button
+        >
+      </div>
     </el-form-item>
     <el-form-item>
       <div
@@ -112,12 +120,15 @@ import { pubsStore } from '../stores/publications.js'
 import { applicationsStore } from '../stores/applications.js'
 import { FormPublication } from '../types/publicationTypes'
 import { getHoursDifference, isAuthenticated } from '../plugins/helpers'
+import { userStore } from '@/stores/user'
 
 const storePubs = pubsStore()
+const storeUser = userStore()
 const storeApplications = applicationsStore()
 const emit = defineEmits(['close'])
 
 const formPubs = reactive<FormPublication[]>([])
+const cartPubs = computed(() => storeUser.userCartPublications)
 const pubs = computed(() => storePubs.publications)
 const finalCost = computed(() => {
   return formPubs.reduce((total, pub) => {
@@ -238,6 +249,28 @@ const addPub = () => {
   formPubs.push(data)
   ruleForm.pub = ''
   ruleForm.date = ''
+}
+
+const addPubsFromCart = async () => {
+  const data = cartPubs.value.flatMap((item) => {
+    if (!item.itemDate) return []
+    const storePub = storePubs.publications.find(
+      (pub) => pub.id === item.itemId
+    )
+    if (!storePub) return []
+    const date = new Date(item.itemDate).toISOString()
+    const hoursCount = date ? getHoursDifference(new Date(), new Date(date)) : 0
+    const costByHours = storePub.cost * hoursCount
+    return {
+      id: item.itemId,
+      name: storePub.name,
+      date: date,
+      hoursCount: hoursCount,
+      cost: costByHours
+    }
+  })
+  formPubs.push(...data)
+  await storeUser.clearMyCart()
 }
 
 const deletePub = (id: number) => {

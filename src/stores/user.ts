@@ -60,6 +60,10 @@ export const userStore = defineStore({
         this.cartItems.splice(idx, 1)
       }
     },
+    async clearMyCart() {
+      await Api.clearMyCart()
+      this.cartItems = []
+    },
     clearUserStateLocally() {
       this.user = null
       this.cartItems = []

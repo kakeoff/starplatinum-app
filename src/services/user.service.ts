@@ -65,3 +65,11 @@ export async function removeFromCart(id: number): Promise<{ id: number }> {
     return Promise.reject(err)
   }
 }
+
+export async function clearMyCart(): Promise<void> {
+  try {
+    await axios.patch<{ id: number }>(`/user/cart-clear`)
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}

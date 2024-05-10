@@ -75,13 +75,17 @@
     </div>
     <!-- End Hero -->
   </main>
-  <el-dialog class="max-w-[600px] min-w-[465px]" v-model="showForm">
+  <el-dialog
+    class="max-w-[600px] min-w-[465px]"
+    @close="closeDialog"
+    v-model="showForm"
+  >
     <Form @close="showForm = false"></Form>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import Form from '../components/Form.vue'
 import { isAuthenticated } from '../plugins/helpers'
 import { useRouter } from 'vue-router'
@@ -90,6 +94,27 @@ const router = useRouter()
 const text = 'TAR PLATINUM'
 const animatedText = ref('')
 const showForm = ref(false)
+const shouldOpenForm = computed(
+  () => !!router.currentRoute.value.query.startForm
+)
+
+onMounted(() => {
+  if (shouldOpenForm.value) {
+    showForm.value = true
+  }
+})
+
+watch(shouldOpenForm, (val) => {
+  if (val) {
+    showForm.value = true
+  }
+})
+
+const closeDialog = () => {
+  router.replace({
+    name: String(router.currentRoute.value.name)
+  })
+}
 
 const clickShowForm = () => {
   if (!isAuthenticated()) {
