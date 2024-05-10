@@ -16,7 +16,6 @@ export const usersStore = defineStore({
     },
     async updateUserRole(data: { id: number; role: UserRole }) {
       const userRes = await Api.updateUserRole(data)
-      if (!data) return
       const index = this.users.findIndex((user) => user?.id === data.id)
       if (index !== -1) {
         this.users[index] = userRes
