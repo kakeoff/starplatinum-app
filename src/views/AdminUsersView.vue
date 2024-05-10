@@ -4,7 +4,15 @@
 
     <div class="w-full">
       <div class="container mx-auto my-10 h-full">
-        <div class="w-full flex gap-[15px] justify-end mb-[20px]">
+        <div class="w-full flex justify-between items-center mb-[20px]">
+          <div>
+            <el-checkbox v-model="showAdmins" label="Админы" size="large" />
+            <el-checkbox
+              v-model="showOnlyWithApplications"
+              label="Только с заявками"
+              size="large"
+            />
+          </div>
           <el-tooltip effect="light" placement="top">
             <template #content>
               <span class="text-white">Глобальный поиск пользователей</span>
@@ -130,7 +138,6 @@ import { userStore } from '../stores/user'
 import { usersStore } from '../stores/users'
 import { defineComponent } from 'vue'
 import { User, UserRole } from '../types/userTypes'
-import { Application } from '@/types/applicationTypes'
 
 export default defineComponent({
   name: 'Applications',
@@ -160,7 +167,20 @@ export default defineComponent({
           )
         })
       }
-      return filteredUsers.sort((a, b) => a.id - b.id)
+      return filteredUsers
+        .sort((a, b) => a.id - b.id)
+        .filter((user) => {
+          if (user.role === UserRole.admin && !this.showAdmins) {
+            return false
+          }
+          if (
+            !!this.applicationsCountByUserId[user.id] === false &&
+            this.showOnlyWithApplications
+          ) {
+            return false
+          }
+          return true
+        })
     }
   },
   watch: {
@@ -173,6 +193,8 @@ export default defineComponent({
   data() {
     return {
       search: '',
+      showAdmins: false,
+      showOnlyWithApplications: false,
       roles: [
         {
           label: 'Пользователь',
