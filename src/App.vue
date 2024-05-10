@@ -220,6 +220,7 @@
   </header>
   <RouterView />
   <button
+    @click="showCart = true"
     v-if="cartItems.length"
     style="animation-duration: 3s"
     class="fixed bottom-[20px] flex-none right-[20px] animatecss animatecss-infinite animatecss-tada hover:animate-none bg-slate-900 p-[15px] rounded-[100%] text-white hover:scale-[1.1] hover:bg-slate-700 transition duration-200"
@@ -247,6 +248,56 @@
       </svg>
     </div>
   </button>
+  <el-drawer
+    v-model="showCart"
+    @close="showCart = false"
+    class="text-white min-w-[350px]"
+    title="Корзина"
+    direction="rtl"
+  >
+    <div
+      class="h-[calc(100%-50px)] pr-[10px] overflow-y-auto w-full flex flex-col gap-[20px]"
+    >
+      <p>Издания</p>
+      <el-card
+        class="rounded-[12px] flex-none"
+        v-for="item in cartPubs"
+        :key="item.id"
+      >
+        <div class="flex w-full justify-between items-center mb-[20px]">
+          <p class="truncate">{{ item.pub?.name || '???' }}</p>
+          <button
+            class="hover:scale-[1.2] opacity-70 hover:opacity-100 transition duration-200"
+            @click="deleteCartItem(item.id)"
+          >
+            <svg
+              fill="red"
+              width="15px"
+              height="15px"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              viewBox="0 0 408.483 408.483"
+            >
+              <path
+                d="M87.748,388.784c0.461,11.01,9.521,19.699,20.539,19.699h191.911c11.018,0,20.078-8.689,20.539-19.699l13.705-289.316 H74.043L87.748,388.784z M247.655,171.329c0-4.61,3.738-8.349,8.35-8.349h13.355c4.609,0,8.35,3.738,8.35,8.349v165.293 c0,4.611-3.738,8.349-8.35,8.349h-13.355c-4.61,0-8.35-3.736-8.35-8.349V171.329z M189.216,171.329 c0-4.61,3.738-8.349,8.349-8.349h13.355c4.609,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.737,8.349-8.349,8.349h-13.355 c-4.61,0-8.349-3.736-8.349-8.349V171.329L189.216,171.329z M130.775,171.329c0-4.61,3.738-8.349,8.349-8.349h13.356 c4.61,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.738,8.349-8.349,8.349h-13.356c-4.61,0-8.349-3.736-8.349-8.349V171.329z"
+              ></path>
+              <path
+                d="M343.567,21.043h-88.535V4.305c0-2.377-1.927-4.305-4.305-4.305h-92.971c-2.377,0-4.304,1.928-4.304,4.305v16.737H64.916 c-7.125,0-12.9,5.776-12.9,12.901V74.47h304.451V33.944C356.467,26.819,350.692,21.043,343.567,21.043z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div class="w-full flex justify-between">
+          <el-tag>{{ item.date }} | {{ item.hoursCount }} часов</el-tag>
+          <el-tag type="success">{{ item.totalPrice }} руб</el-tag>
+        </div>
+      </el-card>
+    </div>
+    <div class="w-full h-[50px] flex justify-center items-end">
+      <el-button>Перейти к созданию заявки</el-button>
+    </div>
+  </el-drawer>
 </template>
 
 <script setup lang="ts">
@@ -258,7 +309,7 @@ import { useRouter } from 'vue-router'
 import { ref, onMounted, computed, watch, reactive } from 'vue'
 import { applicationsStore } from './stores/applications'
 import { pubsStore } from './stores/publications'
-import { isAuthenticated } from './plugins/helpers'
+import { getHoursDifference, isAuthenticated } from './plugins/helpers'
 
 import LoginComponent from './components/LoginComponent.vue'
 import RegisterComponent from './components/RegisterComponent.vue'
@@ -280,7 +331,8 @@ onMounted(async () => {
 })
 
 const dialogVisible = ref(false)
-const authErrors = ref([] as string[])
+const showCart = ref(false)
+const authErrors = ref<string[]>([])
 const authVisible = computed(() => !!router.currentRoute.value.query.login)
 const registerVisible = computed(
   () => !!router.currentRoute.value.query.register
@@ -298,6 +350,28 @@ watch(user, async (value) => {
 })
 
 const cartItems = computed(() => storeUser.cartItems)
+
+const cartPubs = computed(() => {
+  const items = storeUser.userCartPublications
+  return items.flatMap((item) => {
+    const hoursCount = item.itemDate
+      ? getHoursDifference(new Date(), new Date(item.itemDate))
+      : 0
+    const pubFromStore = storePublications.publications.find(
+      (pub) => pub.id === item.itemId
+    )
+    if (!pubFromStore) return []
+    return {
+      id: item.id,
+      date: item.itemDate
+        ? new Date(item.itemDate).toLocaleDateString().replaceAll('/', '.')
+        : undefined,
+      pub: pubFromStore,
+      hoursCount: hoursCount,
+      totalPrice: hoursCount * pubFromStore.cost
+    }
+  })
+})
 const gotoProfile = () => {
   router.push('/profile')
 }
@@ -355,6 +429,10 @@ const register = async (data: RegisterDto) => {
     authErrors.value.push(err.response.data.message || 'Internal error')
     authErrors.value = authErrors.value.flatMap((error) => error)
   }
+}
+
+const deleteCartItem = (id: number) => {
+  storeUser.removeFromCart(id)
 }
 </script>
 
