@@ -50,6 +50,20 @@ export const applicationsStore = defineStore({
       if (userIndex === -1) return
       this.userApplications[userIndex].status = status
     },
+    async setApplicationResponsible(id: number) {
+      const data = await Api.setApplicationResponsible(id)
+      this.setApplicationResponsibleLocally(data)
+      return data
+    },
+    setApplicationResponsibleLocally(data: {id: number, responsibleId: number}) {
+      const commonIndex = this.applications.findIndex((app) => app.id === data.id)
+      if (commonIndex === -1) return
+      this.applications[commonIndex].responsibleId = data.responsibleId
+
+      const userIndex = this.userApplications.findIndex((app) => app.id === data.id)
+      if (userIndex === -1) return
+      this.userApplications[userIndex].responsibleId = data.responsibleId
+    },
     async deleteApplication(applicationId: number) {
       await Api.deleteApplication(applicationId)
       this.deleteApplicationLocally(applicationId)

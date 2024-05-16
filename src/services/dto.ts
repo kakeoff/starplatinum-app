@@ -8,3 +8,8 @@ export type RegisterDto = {
   companyName: string | null;
   password: string;
 };
+
+export type SetApplicationRepsonsibleResponse = {
+  id: number;
+  responsibleId: number;
+}

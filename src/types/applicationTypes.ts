@@ -1,6 +1,7 @@
 export type Application = {
   id: number
   comment: string | null
+  responsibleId: number | null,
   pubs: ApplicationPublication[]
   cost: number
   status: ApplicationStatus

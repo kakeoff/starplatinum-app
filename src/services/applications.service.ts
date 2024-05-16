@@ -1,6 +1,7 @@
 import { ElNotification } from 'element-plus'
 import axios from '../plugins/axios'
 import { Application, SendApplicationDto } from '../types/applicationTypes'
+import { SetApplicationRepsonsibleResponse } from './dto'
 
 export async function getAllApplications(): Promise<Application[]> {
   try {
@@ -68,6 +69,22 @@ export async function changeApplicationStatus(
       title: `Ошибка при изменении статуса заявки`,
       type: 'error'
     })
+    return Promise.reject(error)
+  }
+}
+
+export async function setApplicationResponsible(
+  id: number
+): Promise<SetApplicationRepsonsibleResponse> {
+  try {
+    const res = await axios.patch<SetApplicationRepsonsibleResponse>(
+      `/applications/responsible`,
+      {
+        id
+      }
+    )
+    return res.data
+  } catch (error) {
     return Promise.reject(error)
   }
 }
