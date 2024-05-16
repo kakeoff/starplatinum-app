@@ -168,7 +168,7 @@
               </div>
               <el-button
                 v-if="!checkIsPubInCart(pub.id)"
-                @click=";(selectedPubId = pub.id), (showCartPubModal = true)"
+                @click="clickAddToCart(pub.id)"
                 type="success"
                 class="w-full"
               >
@@ -290,7 +290,9 @@ import { userStore } from '@/stores/user'
 import { ItemType } from '@/types/userTypes'
 import { ElNotification } from 'element-plus'
 import { getHoursDifference } from '@/plugins/helpers'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const storePubs = pubsStore()
 const storeUser = userStore()
 const pubs = computed(() => {
@@ -345,6 +347,20 @@ const closeCartModal = () => {
   showCartPubModal.value = false
   selectedPubId.value = null
   publicationCartDate.value = ''
+}
+
+const clickAddToCart = (pubId: number) => {
+  if (!storeUser.user) {
+    router.push({
+      name: String(router.currentRoute.value.name),
+      query: {
+        login: 1
+      }
+    })
+    return
+  }
+  selectedPubId.value = pubId
+  showCartPubModal.value = true
 }
 
 const checkIsPubInCart = (pubId: number) => {
