@@ -348,9 +348,9 @@ const isAdmin = computed(() => {
   return user.value && user.value.role === 1
 })
 
-watch(user, async (value) => {
-  console.log(value)
-  if (value) {
+watch(user, async (newVal, oldVal) => {
+  console.log(newVal && !oldVal)
+  if (newVal && !oldVal) {
     await loadData()
   }
 })

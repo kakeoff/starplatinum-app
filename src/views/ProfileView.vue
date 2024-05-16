@@ -805,6 +805,10 @@ const avatarUrl = computed(() => {
   return user.value?.avatarUrl
 })
 
+const userId = computed(() => {
+  return user.value ? user.value.id : null
+})
+
 watch(user, async (value) => {
   if (!value) {
     await router.push('/')
@@ -813,8 +817,13 @@ watch(user, async (value) => {
   initUserData()
 })
 
+watch(userId, (id) => {
+  if (id) storeApplications.getUserApplications(id)
+})
+
 onMounted(() => {
   initUserData()
+  if (userId.value) storeApplications.getUserApplications(userId.value)
 })
 
 const initUserData = () => {
@@ -830,7 +839,6 @@ const initUserData = () => {
   fields.forEach((field) => {
     userData[field] = user?.value?.[field] || ''
   })
-  storeApplications.getUserApplications(user.value?.id)
 }
 const updateMe = async () => {
   try {
