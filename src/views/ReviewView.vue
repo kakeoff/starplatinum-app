@@ -97,7 +97,7 @@
 
         <div class="mt-10 sm:mt-20 flex flex-wrap gap-[15px] justify-center">
           <el-card
-            class="w-[350px] text-[19px] dark:bg-slate-900 border-[1px] hover:bg-slate-800"
+            class="sm:w-[350px] w-[400px] text-[19px] dark:bg-slate-900 border-[1px] hover:bg-slate-800"
             :class="
               checkIsPubInCart(pub.id) ? 'border-green-700' : 'border-gray-700'
             "

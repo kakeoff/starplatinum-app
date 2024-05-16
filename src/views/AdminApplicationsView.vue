@@ -1,6 +1,5 @@
 <template>
   <section v-motion-fade>
-    <h2 class="category-heading mx-auto">Заявки</h2>
     <div class="w-full">
       <div class="mx-auto px-[30px] w-full my-10">
         <div class="w-full flex justify-between mb-[20px]">
@@ -71,7 +70,7 @@
           </div>
         </div>
         <el-table
-          class="bg-black/[.60] text-[13px]"
+          class="bg-black/[.60] text-[13px] h-[calc(100vh-250px)]"
           :data="filteredApplications"
           style="width: 100%"
         >
@@ -84,6 +83,7 @@
           ></el-table-column>
           <el-table-column
             sortable
+            min-width="150px"
             :sort-method="sortByDate"
             prop="createdAt"
             label="Дата создания"
@@ -92,7 +92,7 @@
               {{ new Date(row.createdAt).toLocaleString() }}
             </template>
           </el-table-column>
-          <el-table-column prop="userId" label="Пользователь">
+          <el-table-column min-width="300px" prop="userId" label="Пользователь">
             <template #default="{ row }">
               <div class="flex flex-row gap-[5px] items-center">
                 <img
@@ -108,7 +108,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="comment" label="Информация">
+          <el-table-column min-width="150px" prop="comment" label="Информация">
             <template #default="{ row }">
               <el-button
                 type="info"
@@ -120,12 +120,13 @@
             </template>
           </el-table-column>
           <el-table-column
+            min-width="150px"
             prop="cost"
             label="Стоимость, руб"
             sortable
             :sort-method="sortByCost"
           ></el-table-column>
-          <el-table-column label="Статус">
+          <el-table-column label="Статус" min-width="150px">
             <template #default="{ row }">
               <el-dropdown trigger="click" placement="bottom">
                 <el-button size="small" :type="getButtonType(row.status)">
@@ -159,7 +160,7 @@
               </el-dropdown>
             </template>
           </el-table-column>
-          <el-table-column label="Действия">
+          <el-table-column min-width="150px" label="Действия">
             <template #default="{ row }">
               <el-popconfirm
                 cancel-button-text="Нет"

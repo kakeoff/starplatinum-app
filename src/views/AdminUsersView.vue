@@ -1,7 +1,5 @@
 <template>
   <section v-motion-fade>
-    <h2 class="category-heading mx-auto">Пользователи</h2>
-
     <div class="w-full">
       <div class="container mx-auto my-10 h-full">
         <div class="w-full flex justify-between items-center mb-[20px]">
@@ -26,16 +24,20 @@
           </el-tooltip>
         </div>
         <el-table
-          class="bg-black/[.60]"
+          class="bg-black/[.60] w-full h-[calc(100vh-250px)]"
           :data="filteredUsers"
-          style="width: auto"
         >
-          <el-table-column label="ID" sortable :sort-method="sortById">
+          <el-table-column
+            label="ID"
+            width="80px"
+            sortable
+            :sort-method="sortById"
+          >
             <template #default="{ row }">
               {{ row.id }}
             </template>
           </el-table-column>
-          <el-table-column label="Пользователь">
+          <el-table-column min-width="300px" label="Пользователь">
             <template #default="{ row }">
               <div class="flex flex-row gap-[5px] items-center">
                 <img
@@ -50,7 +52,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="Роль">
+          <el-table-column min-width="150px" label="Роль">
             <template #default="{ row }">
               <el-dropdown trigger="click" placement="bottom">
                 <el-button size="small" :type="getRoleButtonType(row.role)">
@@ -78,6 +80,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            min-width="300px"
             label="Активность"
             sortable
             :sort-method="sortByLastVisitDate"
@@ -91,6 +94,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="80px"
             label="Заявки"
             sortable
             :sort-method="sortByApplicationsCount"
@@ -104,7 +108,7 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="Действия">
+          <el-table-column min-width="300px" label="Действия">
             <template #default="{ row }">
               <div class="flex flex-row items-center flex-wrap gap-[5px]">
                 <router-link :to="`profile/${row.id}`">

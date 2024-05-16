@@ -1,7 +1,5 @@
 <template>
   <section v-motion-fade>
-    <h2 class="category-heading mx-auto">Издания</h2>
-
     <div class="w-full">
       <div class="container mx-auto my-10 h-full">
         <div class="w-full flex gap-[15px] justify-end mb-[20px]">
@@ -21,12 +19,11 @@
           </el-button>
         </div>
         <el-table
-          class="bg-black/[.60]"
+          class="bg-black/[.60] w-full h-[calc(100vh-250px)]"
           :data="filteredPublications"
-          style="width: 100%"
         >
           <el-table-column sortable prop="id" label="ID" width="80px" />
-          <el-table-column prop="name" label="Название">
+          <el-table-column min-width="300px" prop="name" label="Название">
             <template #default="{ row }">
               <div class="flex gap-[15px] items-center">
                 <img
@@ -45,7 +42,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column width="150px" label="Описание">
+          <el-table-column min-width="150px" label="Описание">
             <template #default="{ row }">
               <el-button
                 type="info"
@@ -57,18 +54,19 @@
           <el-table-column
             sortable
             :sort-method="sortByCost"
+            min-width="200px"
             prop="cost"
             label="Стоимость, руб"
           >
           </el-table-column>
-          <el-table-column label="Ссылка">
+          <el-table-column min-width="170px" label="Ссылка">
             <template #default="{ row }">
               <a :href="row.link" target="_blank"
                 ><el-button type="success">Перейти на сайт</el-button></a
               >
             </template>
           </el-table-column>
-          <el-table-column label="Действия">
+          <el-table-column min-width="300px" label="Действия">
             <template #default="{ row }">
               <div class="flex flex-row flex-wrap gap-[5px]">
                 <el-popconfirm

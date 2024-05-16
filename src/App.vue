@@ -1,8 +1,44 @@
 <template>
   <header class="mainHeader">
     <section class="fixed-nav">
+      <div class="lg:hidden absolute right-[15px] top-[15px] z-[11]">
+        <button
+          @click="isBurgerOpened = !isBurgerOpened"
+          type="button"
+          class="p-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+          aria-controls="navbar-collapse-with-animation"
+          aria-label="Toggle navigation"
+        >
+          <svg
+            v-if="!isBurgerOpened"
+            class="w-4 h-4"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+            />
+          </svg>
+          <svg
+            v-if="isBurgerOpened"
+            class="w-4 h-4"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+            />
+          </svg>
+        </button>
+      </div>
       <header
-        class="flex flex-wrap text-white lg:justify-start lg:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 lg:py-0 dark:bg-black/30 backdrop-blur-md dark:border-gray-700"
+        :class="isBurgerOpened ? 'block' : 'hidden'"
+        class="lg:flex flex-wrap text-white lg:justify-start justify-end lg:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 lg:py-0 dark:bg-black/30 backdrop-blur-md dark:border-gray-700"
       >
         <nav
           class="relative w-full lg:flex lg:items-center lg:justify-between"
@@ -23,44 +59,9 @@
                 >STAR PLATINUM</span
               >
             </RouterLink>
-
-            <div class="lg:hidden">
-              <button
-                type="button"
-                class="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                data-hs-collapse="#navbar-collapse-with-animation"
-                aria-controls="navbar-collapse-with-animation"
-                aria-label="Toggle navigation"
-              >
-                <svg
-                  class="hs-collapse-open:hidden w-4 h-4"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
-                  />
-                </svg>
-                <svg
-                  class="hs-collapse-open:block hidden w-4 h-4"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                  />
-                </svg>
-              </button>
-            </div>
           </div>
           <div
-            id="navbar-collapse-with-animation"
-            class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow lg:block"
+            class="overflow-hidden transition-all duration-300 basis-full grow lg:block"
           >
             <div
               class="flex text-[16px] font-[700] flex-col gap-y-4 gap-x-0 mt-5 lg:flex-row lg:items-center lg:justify-end lg:gap-y-0 lg:gap-x-7 lg:mt-0 lg:pl-7"
@@ -142,14 +143,14 @@
 
               <div
                 v-if="!user"
-                class="flex nav-link-extension cursor-pointer items-center sm:my-6"
+                class="flex nav-link-extension cursor-pointer items-center lg:my-6"
                 @click="openLogin()"
               >
                 Авторизация
               </div>
               <div
                 v-else
-                class="sm:border-l sm:border-gray-700 sm:my-6 sm:pl-[30px]"
+                class="lg:border-l sm:border-gray-700 lg:my-6 lg:pl-[30px]"
               >
                 <el-dropdown trigger="click">
                   <div class="flex flex-row gap-[10px] items-center">
@@ -335,6 +336,7 @@ onMounted(async () => {
 })
 
 const dialogVisible = ref(false)
+const isBurgerOpened = ref(false)
 const showCart = ref(false)
 const authErrors = ref<string[]>([])
 const authVisible = computed(() => !!router.currentRoute.value.query.login)
