@@ -320,14 +320,15 @@ export default defineComponent({
       let filteredApps = this.applications
 
       if (this.selectedDate) {
-        const date = new Date(this.selectedDate)
-        const day = date.getDate().toString().padStart(2, '0')
-        const month = (date.getMonth() + 1).toString().padStart(2, '0')
-        const year = date.getFullYear()
-        const formattedDate = `${day}.${month}.${year}`
-        filteredApps = filteredApps.filter((app) =>
-          app.pubs.some((pub) => pub.date === formattedDate)
-        )
+        const selectedDate = new Date(this.selectedDate)
+        filteredApps = filteredApps.filter((app) => {
+          const appDate = new Date(app.createdAt)
+          return (
+            appDate.getFullYear() === selectedDate.getFullYear() &&
+            appDate.getMonth() === selectedDate.getMonth() &&
+            appDate.getDate() === selectedDate.getDate()
+          )
+        })
       }
 
       if (this.searchId) {
