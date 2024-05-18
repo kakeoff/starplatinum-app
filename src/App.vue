@@ -385,6 +385,8 @@ const loadData = async () => {
   if (isAdmin.value) {
     await storeApplications.getAllApplications()
     await storeUsers.getAllUsers()
+  } else {
+    await storeUsers.getAllAdmins()
   }
   await storePublications.getAllPublications()
 }

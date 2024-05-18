@@ -12,6 +12,16 @@ export async function getAllUsers(): Promise<User[]> {
   }
 }
 
+export async function getAllAdmins(): Promise<User[]> {
+  try {
+    const res = await axios.get<User[]>(`/user/all-admins`)
+    res.data.map((item) => (item.avatarUrl = mapFileUrl(item.avatarUrl)))
+    return res.data
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}
+
 export async function updateUserRole(data: UpdateUserRoleDto): Promise<User> {
   try {
     const res = await axios.patch<User>(`/user/role`, data)

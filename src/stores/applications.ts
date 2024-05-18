@@ -50,8 +50,8 @@ export const applicationsStore = defineStore({
       if (userIndex === -1) return
       this.userApplications[userIndex].status = status
     },
-    async setApplicationResponsible(id: number) {
-      const data = await Api.setApplicationResponsible(id)
+    async setApplicationResponsible(id: number, responsibleId: number | null) {
+      const data = await Api.setApplicationResponsible(id, responsibleId)
       this.setApplicationResponsibleLocally(data)
       return data
     },

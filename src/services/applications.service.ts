@@ -74,13 +74,15 @@ export async function changeApplicationStatus(
 }
 
 export async function setApplicationResponsible(
-  id: number
+  id: number,
+  responsibleId: number | null
 ): Promise<SetApplicationRepsonsibleResponse> {
   try {
     const res = await axios.patch<SetApplicationRepsonsibleResponse>(
       `/applications/responsible`,
       {
-        id
+        applicationId: id,
+        responsibleId
       }
     )
     return res.data

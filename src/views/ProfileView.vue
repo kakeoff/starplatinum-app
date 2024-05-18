@@ -415,7 +415,7 @@
           class="font-[700] px-[20px] pb-[10px] flex flex-col md:flex-row justify-between gap-[10px] items-center"
         >
           <p class="flex-none">
-            {{ isCurrentUser ? 'Мои заявки' : 'Заявки пользователя' }}
+            {{ applicationsBlockTitle }}
           </p>
           <el-radio-group class="flex justify-center" v-model="statusFilter">
             <el-radio
@@ -470,6 +470,13 @@
               <el-tag type="success"> {{ row.cost }} руб. </el-tag>
             </template>
           </el-table-column>
+          <el-table-column label="Исполнитель">
+            <template #default="{ row }">
+              <el-tag>
+                {{ usersById[row.responsibleId]?.email || 'Нет' }}
+              </el-tag>
+            </template>
+          </el-table-column>
           <el-table-column label="Статус">
             <template #default="{ row }">
               <el-dropdown
@@ -511,8 +518,67 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="Действия">
+          <el-table-column
+            class="flex justify-end"
+            min-width="150px"
+            label="Действия"
+          >
             <template #default="{ row }">
+              <el-button
+                @click="deleteResponsible(row.id)"
+                class="group"
+                v-if="row.responsibleId && isUserAdmin"
+                size="small"
+                type="primary"
+              >
+                <div
+                  class="overflow-hidden justify-center items-center w-[100px] truncate flex"
+                >
+                  <svg
+                    class="group-hover:hidden mr-[3px] flex-none"
+                    viewBox="0 0 24 24"
+                    width="16px"
+                    height="16px"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4 21C4 17.4735 6.60771 14.5561 10 14.0709M19.8726 15.2038C19.8044 15.2079 19.7357 15.21 19.6667 15.21C18.6422 15.21 17.7077 14.7524 17 14C16.2923 14.7524 15.3578 15.2099 14.3333 15.2099C14.2643 15.2099 14.1956 15.2078 14.1274 15.2037C14.0442 15.5853 14 15.9855 14 16.3979C14 18.6121 15.2748 20.4725 17 21C18.7252 20.4725 20 18.6121 20 16.3979C20 15.9855 19.9558 15.5853 19.8726 15.2038ZM15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                  <svg
+                    class="hidden group-hover:block mr-[3px] flex-none"
+                    viewBox="0 0 1024 1024"
+                    width="16px"
+                    height="16px"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z"
+                    ></path>
+                  </svg>
+                  <p class="truncate">
+                    {{ usersById[row.responsibleId]?.login }}
+                  </p>
+                </div>
+              </el-button>
+
+              <el-button
+                @click="setResponsible(row.id)"
+                size="small"
+                class="w-[124px]"
+                type="success"
+                v-if="!row.responsibleId && isUserAdmin"
+              >
+                В работу
+              </el-button>
+
               <el-popconfirm
                 cancel-button-text="Нет"
                 confirm-button-text="Да"
@@ -721,18 +787,40 @@ const user = computed(() => {
         (user) => user.id === Number(router.currentRoute.value.params.id)
       )
 })
+const applicationsBlockTitle = computed(() => {
+  if (isUserAdmin.value) {
+    if (isCurrentUser.value) return 'Исполняемые зявки'
+    else return 'Заявки пользователя'
+  } else {
+    return 'Мои заявки'
+  }
+})
+const usersById = computed(() => storeUsers.usersById)
 const isCurrentUser = computed(() => {
   if (!router.currentRoute.value.params.id) return true
   return Number(router.currentRoute.value.params.id) === storeUser.user?.id
 })
+const isUserAdmin = computed(
+  () => !!storeUser.user && storeUser.user.role === UserRole.admin
+)
 const showApplicationDrawer = computed(() => {
   return !!selectedAppId.value
 })
 const userApplications = computed(() => {
   return storeApplications.userApplications
 })
+const responsibleApplications = computed(() => {
+  if (!isUserAdmin.value) return []
+  return storeApplications.applications.filter(
+    (app) => app.responsibleId === storeUser.user?.id
+  )
+})
 const selectedApp = computed(() => {
-  const application = userApplications.value.find(
+  const appsToFilter =
+    isUserAdmin.value && isCurrentUser.value
+      ? responsibleApplications
+      : userApplications
+  const application = appsToFilter.value.find(
     (app: Application) => app.id === selectedAppId.value
   )
   if (!application) return null
@@ -748,12 +836,15 @@ const selectedApp = computed(() => {
 })
 
 const filteredApplications = computed(() => {
+  const appsToFilter =
+    isUserAdmin.value && isCurrentUser.value
+      ? responsibleApplications
+      : userApplications
+
   if (statusFilter.value.length) {
-    return userApplications.value.filter(
-      (app) => app.status === statusFilter.value
-    )
+    return appsToFilter.value.filter((app) => app.status === statusFilter.value)
   }
-  return userApplications.value
+  return appsToFilter.value
 })
 const selectedUpdateType = ref('' as UpdateType)
 const userData: { [key in UpdateType]: string } = reactive({} as UserDataType)
@@ -885,6 +976,15 @@ const changeStatus = (id: number, status: ApplicationStatus) => {
 
 const removeMyApplication = (applicationId: number) => {
   storeApplications.deleteMyApplication(applicationId)
+}
+
+const setResponsible = (id: number) => {
+  if (storeUser.user && isUserAdmin.value)
+    storeApplications.setApplicationResponsible(id, storeUser.user.id)
+}
+const deleteResponsible = (id: number) => {
+  if (storeUser.user && isUserAdmin.value)
+    storeApplications.setApplicationResponsible(id, null)
 }
 
 const resetAvatar = () => {

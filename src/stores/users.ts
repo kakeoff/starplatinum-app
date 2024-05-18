@@ -7,9 +7,28 @@ export const usersStore = defineStore({
   state: () => ({
     users: [] as User[]
   }),
+  getters: {
+    usersById(state) {
+      if (!state.users) return {}
+
+      return state.users.reduce<{ [key: number]: User }>(
+        (acc, user) => {
+          acc[user.id] = user
+          return acc
+        },
+        {}
+      )
+    }
+  },
   actions: {
     async getAllUsers(): Promise<User[]> {
       const users = await Api.getAllUsers()
+      if (!users) return []
+      this.users = users
+      return users
+    },
+    async getAllAdmins(): Promise<User[]> {
+      const users = await Api.getAllAdmins()
       if (!users) return []
       this.users = users
       return users
