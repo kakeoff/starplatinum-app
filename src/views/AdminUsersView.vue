@@ -253,6 +253,7 @@ export default defineComponent({
     async updateUserRole(id: number, role: UserRole) {
       try {
         await this.usersStore.updateUserRole({ id, role })
+        await this.applicationsStore.getAllApplications() //for changing responsibleId locally
         ElNotification({
           title: 'Роль пользователя изменена',
           type: 'success'

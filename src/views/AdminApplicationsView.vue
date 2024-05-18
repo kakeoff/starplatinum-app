@@ -102,7 +102,7 @@
                 />
                 <span>
                   {{
-                    users.find((user) => user.id === row.userId)?.login
+                    users.find((user) => user.id === row.userId)?.email
                   }}</span
                 >
               </div>

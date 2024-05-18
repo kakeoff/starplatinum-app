@@ -453,4 +453,3 @@ const deleteCartItem = (id: number) => {
   padding: 0;
 }
 </style>
-./js/plugins/helpers
