@@ -1,23 +1,36 @@
-import axios from 'axios';
+import axios from 'axios'
 
-const API_URL = import.meta.env.VITE_SERVER_URL;
+const API_URL = import.meta.env.VITE_SERVER_URL
 
 const axiosInstance = axios.create({
-  baseURL: API_URL,
-});
+  baseURL: API_URL
+})
 
 axiosInstance.interceptors.request.use(
-  config => {
-    const token = localStorage.getItem('accessToken');
+  (config) => {
+    const token = localStorage.getItem('accessToken')
 
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`
     }
-    return config;
+    return config
   },
-  error => {
-    return Promise.reject(error);
+  (error) => {
+    return Promise.reject(error)
   }
-);
+)
 
-export default axiosInstance;
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      alert()
+      localStorage.removeItem('accessToken')
+    }
+    return Promise.reject(error)
+  }
+)
+
+export default axiosInstance
