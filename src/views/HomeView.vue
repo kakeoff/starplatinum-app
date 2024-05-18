@@ -1,7 +1,7 @@
 <template>
   <main v-motion-fade class="h-full">
     <!-- Hero -->
-    <div class="h-[500px] flex justify-center items-center">
+    <div class="h-[600px] flex justify-center items-center">
       <div
         class="relative overflow-hidden before:absolute before:top-0 before:left-1/2"
       >

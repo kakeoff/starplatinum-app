@@ -589,7 +589,7 @@
           </el-table-column>
         </el-table>
         <div
-          class="w-full h-[300px] flex justify-center items-center text-[16px] font-[700]"
+          class="w-full h-[350px] flex justify-center items-center text-[16px] font-[700]"
           v-else
         >
           Список заявок пуст

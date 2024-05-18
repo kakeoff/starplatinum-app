@@ -18,10 +18,7 @@
             Добавить издание
           </el-button>
         </div>
-        <el-table
-          class="bg-black/[.60] w-full h-[calc(100vh-250px)]"
-          :data="filteredPublications"
-        >
+        <el-table class="bg-black/[.60] w-full" :data="filteredPublications">
           <el-table-column sortable prop="id" label="ID" width="80px" />
           <el-table-column min-width="300px" prop="name" label="Название">
             <template #default="{ row }">

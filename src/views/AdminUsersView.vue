@@ -4,10 +4,14 @@
       <div class="container mx-auto my-10 h-full">
         <div class="w-full flex justify-between items-center mb-[20px]">
           <div>
-            <el-checkbox v-model="showAdmins" label="Админы" size="large" />
+            <el-checkbox
+              v-model="showAdmins"
+              label="Аккаунты сотрудников"
+              size="large"
+            />
             <el-checkbox
               v-model="showOnlyWithApplications"
-              label="Только с заявками"
+              label="Аккаунты только с заявками"
               size="large"
             />
           </div>
@@ -23,10 +27,7 @@
             />
           </el-tooltip>
         </div>
-        <el-table
-          class="bg-black/[.60] w-full h-[calc(100vh-250px)]"
-          :data="filteredUsers"
-        >
+        <el-table class="bg-black/[.60] w-full" :data="filteredUsers">
           <el-table-column
             label="ID"
             width="80px"

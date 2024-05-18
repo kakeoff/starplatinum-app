@@ -1,7 +1,7 @@
 <template>
   <section v-motion-fade>
     <div class="w-full">
-      <div class="mx-auto px-[30px] w-full my-10">
+      <div class="mx-auto px-[30px] w-full">
         <div class="w-full flex justify-between mb-[20px]">
           <el-radio-group v-model="statusFilter">
             <el-radio
@@ -70,7 +70,7 @@
           </div>
         </div>
         <el-table
-          class="bg-black/[.60] text-[13px] h-[calc(100vh-250px)]"
+          class="bg-black/[.60] text-[13px]"
           :data="filteredApplications"
           style="width: 100%"
         >
