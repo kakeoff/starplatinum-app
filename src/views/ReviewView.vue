@@ -13,29 +13,22 @@
           Издания, с которыми мы сотрудничаем.
         </p>
 
-        <div class="mt-7 sm:mt-12 mx-auto max-w-xl relative">
-          <!-- Form -->
-          <form>
-            <div
-              class="relative flex space-x-3 p-3 bg-white border rounded-lg shadow-lg shadow-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:shadow-gray-900/[.2]"
-            >
-              <div class="flex-[1_0_0%]">
-                <label
-                  for="hs-search-article-1"
-                  class="block text-gray-700 font-medium dark:text-white"
-                  ><span class="sr-only">Найти издание</span></label
-                >
-                <input
-                  v-model="searchPub"
-                  type="text"
-                  name="hs-search-article-1"
-                  id="hs-search-article-1"
-                  class="p-3 block w-full text-[20px] border-transparent focus:outline-none rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-400"
-                  placeholder="Найти издание"
-                />
-              </div>
+        <div v-if="pubs.length" class="mt-7 sm:mt-12 mx-auto max-w-xl relative">
+          <div
+            class="relative flex space-x-3 p-3 bg-white border rounded-lg shadow-lg shadow-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:shadow-gray-900/[.2]"
+          >
+            <div class="flex-[1_0_0%]">
+              <label class="block text-gray-700 font-medium dark:text-white"
+                ><span class="sr-only">Найти издание</span></label
+              >
+              <input
+                v-model="searchPub"
+                type="text"
+                class="p-3 block w-full text-[20px] border-transparent focus:outline-none rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-400"
+                placeholder="Найти издание"
+              />
             </div>
-          </form>
+          </div>
           <!-- End Form -->
 
           <!-- SVG Element -->
@@ -93,6 +86,12 @@
             </svg>
           </div>
           <!-- End SVG Element -->
+        </div>
+
+        <div class="h-[300px] flex items-center justify-center" v-else>
+          <p class="text-[30px] text-white">
+            На данный момент список изданий недоступен
+          </p>
         </div>
 
         <div class="mt-10 sm:mt-20 flex flex-wrap gap-[15px] justify-center">
