@@ -454,7 +454,7 @@
             width="80px"
             label="Номер"
           ></el-table-column>
-          <el-table-column prop="comment" label="Информация">
+          <el-table-column prop="comment" width="120px" label="Информация">
             <template #default="{ row }">
               <el-button
                 type="info"
@@ -465,12 +465,13 @@
               </el-button>
             </template>
           </el-table-column>
-          <el-table-column label="Стоимость">
+          <el-table-column min-width="150px" label="Стоимость">
             <template #default="{ row }">
               <el-tag type="success"> {{ row.cost }} руб. </el-tag>
             </template>
           </el-table-column>
           <el-table-column
+            min-width="300px"
             v-if="
               applicationsBlockView !== ApplicationBlockViewType.responsible
             "
@@ -491,7 +492,7 @@
               <p v-else>Нет</p>
             </template>
           </el-table-column>
-          <el-table-column v-else label="Пользователь">
+          <el-table-column min-width="300px" v-else label="Пользователь">
             <template #default="{ row }">
               <div
                 v-if="row?.userId"
@@ -507,7 +508,7 @@
               <p v-else>Нет</p>
             </template>
           </el-table-column>
-          <el-table-column label="Статус">
+          <el-table-column width="150px" label="Статус">
             <template #default="{ row }">
               <el-dropdown
                 v-if="storeUser.user?.role === UserRole.admin"
@@ -550,7 +551,7 @@
           </el-table-column>
           <el-table-column
             class="flex justify-end"
-            min-width="150px"
+            min-width="300px"
             label="Действия"
           >
             <template #default="{ row }">
@@ -582,7 +583,25 @@
                 title="Удалить заявку?"
               >
                 <template #reference>
-                  <el-button type="danger" size="small">Удалить</el-button>
+                  <el-button type="danger" size="small">
+                    <svg
+                      class="text-[#f56c6c]"
+                      fill="currentColor"
+                      width="15px"
+                      height="15px"
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      viewBox="0 0 408.483 408.483"
+                    >
+                      <path
+                        d="M87.748,388.784c0.461,11.01,9.521,19.699,20.539,19.699h191.911c11.018,0,20.078-8.689,20.539-19.699l13.705-289.316 H74.043L87.748,388.784z M247.655,171.329c0-4.61,3.738-8.349,8.35-8.349h13.355c4.609,0,8.35,3.738,8.35,8.349v165.293 c0,4.611-3.738,8.349-8.35,8.349h-13.355c-4.61,0-8.35-3.736-8.35-8.349V171.329z M189.216,171.329 c0-4.61,3.738-8.349,8.349-8.349h13.355c4.609,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.737,8.349-8.349,8.349h-13.355 c-4.61,0-8.349-3.736-8.349-8.349V171.329L189.216,171.329z M130.775,171.329c0-4.61,3.738-8.349,8.349-8.349h13.356 c4.61,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.738,8.349-8.349,8.349h-13.356c-4.61,0-8.349-3.736-8.349-8.349V171.329z"
+                      ></path>
+                      <path
+                        d="M343.567,21.043h-88.535V4.305c0-2.377-1.927-4.305-4.305-4.305h-92.971c-2.377,0-4.304,1.928-4.304,4.305v16.737H64.916 c-7.125,0-12.9,5.776-12.9,12.901V74.47h304.451V33.944C356.467,26.819,350.692,21.043,343.567,21.043z"
+                      ></path>
+                    </svg>
+                  </el-button>
                 </template>
               </el-popconfirm>
             </template>

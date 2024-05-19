@@ -348,11 +348,17 @@ const isAdmin = computed(() => {
   return user.value && user.value.role === 1
 })
 
+const routePath = computed(() => router.currentRoute.value.fullPath)
+
 watch(user, async (newVal, oldVal) => {
   console.log(newVal && !oldVal)
   if (newVal && !oldVal) {
     await loadData()
   }
+})
+
+watch(routePath, () => {
+  isBurgerOpened.value = false
 })
 
 const cartItems = computed(() => storeUser.cartItems)

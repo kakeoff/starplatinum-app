@@ -106,7 +106,7 @@
               v-if="pub.imageUrl"
               :src="pub.imageUrl"
               alt="publication image"
-              class="h-[300px] rounded-[4px] border border-gray-700 w-full"
+              class="h-[300px] w-full rounded-[4px] border border-gray-700 object-center object-cover"
             />
             <div
               v-else
