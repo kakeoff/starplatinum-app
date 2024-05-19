@@ -95,7 +95,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="80px"
+            width="100px"
             label="Заявки"
             sortable
             :sort-method="sortByApplicationsCount"
