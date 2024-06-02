@@ -147,7 +147,7 @@
                 <el-dropdown trigger="click">
                   <div class="flex flex-row gap-[10px] items-center">
                     <img
-                      class="h-[27px] w-[27px] rounded-[100%]"
+                      class="h-[27px] w-[27px] border-[1px] border-gray-700 rounded-[100%]"
                       :src="user?.avatarUrl"
                       alt="avatar"
                     />
