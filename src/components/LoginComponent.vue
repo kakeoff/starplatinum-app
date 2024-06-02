@@ -84,6 +84,12 @@
             </div>
           </div>
         </el-form-item>
+        <p class="text-[14px] text-center pt-[5px]">
+          Еще не зарегистрированы?
+          <router-link class="text-blue-500" to="?register=1"
+            >Регистрация</router-link
+          >
+        </p>
         <div
           class="text-[14px] text-red-500"
           v-for="error in errors"

@@ -38,7 +38,7 @@
       </div>
       <header
         :class="isBurgerOpened ? 'block' : 'hidden'"
-        class="lg:flex flex-wrap text-white lg:justify-start justify-end lg:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 lg:py-0 dark:bg-black/30 backdrop-blur-md dark:border-gray-700"
+        class="lg:flex flex-wrap text-white lg:justify-start justify-end h-[60px] lg:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 lg:py-0 dark:bg-black/30 backdrop-blur-md dark:border-gray-700"
       >
         <nav
           class="relative w-full lg:flex lg:items-center lg:justify-between"
@@ -133,21 +133,13 @@
                 </router-link>
               </div>
 
-              <div
-                v-if="!user"
-                class="flex nav-link-extension cursor-pointer items-center sm:border-l sm:border-gray-300 sm:my-6 sm:pl-8 dark:border-gray-700"
-                @click="openRegister()"
-              >
-                Регистрация
-              </div>
-
-              <div
-                v-if="!user"
-                class="flex nav-link-extension cursor-pointer items-center lg:my-6"
+              <button
                 @click="openLogin()"
+                v-if="!user"
+                class="inline-flex cursor-pointer font-[700] hover:scale-[0.98] justify-center hover:transition duration-300 items-center gap-x-3 text-center bg-gradient-to-tl from-blue-600 to-violet-600 border border-transparent text-white text-sm rounded-[6px] focus:outline-none py-[5px] px-[10px]"
               >
                 Авторизация
-              </div>
+              </button>
               <div
                 v-else
                 class="lg:border-l sm:border-gray-700 lg:my-6 lg:pl-[30px]"
