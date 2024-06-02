@@ -38,7 +38,7 @@
       </div>
       <header
         :class="isBurgerOpened ? 'block' : 'hidden'"
-        class="lg:flex flex-wrap text-white lg:justify-start justify-end h-[60px] lg:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 lg:py-0 dark:bg-black/30 backdrop-blur-md dark:border-gray-700"
+        class="lg:flex flex-wrap text-white lg:justify-start justify-end min-h-[60px] lg:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 lg:py-0 dark:bg-black/30 backdrop-blur-md dark:border-gray-700"
       >
         <nav
           class="relative w-full lg:flex lg:items-center lg:justify-between"
