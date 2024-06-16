@@ -265,7 +265,7 @@
       <div class="relative ml-4">
         <img
           class="w-full rounded-md"
-          src="https://adsemble.com/images/landing/new-york/new-york-digital-billboard-times-square-1540-broadway-1.jpg"
+          src="../assets//about-img.jpeg"
           alt="Image Description"
         />
         <div
