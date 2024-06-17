@@ -15,10 +15,11 @@
             <p>Введите логин</p>
             <input
               :class="{
-                '!border-red-500 ': errors.includes(
-                  'User already exists' ||
+                '!border-red-500 ':
+                  errors.includes('User already exists') ||
+                  errors.includes(
                     'login must be longer than or equal to 5 characters'
-                )
+                  )
               }"
               class="px-[10px] py-[5px] rounded-[6px] border-[1px] border-gray-500 focus:outline-none"
               v-model="form.login"
@@ -31,9 +32,9 @@
             <p>Введите Email</p>
             <input
               :class="{
-                '!border-red-500 ': errors.includes(
-                  'User already exists' || 'email must be an email'
-                )
+                '!border-red-500 ':
+                  errors.includes('User already exists') ||
+                  errors.includes('email must be an email')
               }"
               class="px-[10px] py-[5px] rounded-[6px] border-[1px] border-gray-500 focus:outline-none"
               v-model="form.email"
@@ -226,9 +227,9 @@ export default defineComponent({
         'User already exists': 'Пользователь уже существует',
         'email must be an email': 'Некорректный Email',
         'login must be longer than or equal to 5 characters':
-          'Некорректный логин(более 5 символов)',
+          'Некорректный логин (от 5 символов)',
         'password must be longer than or equal to 6 characters':
-          'Некорректный пароль(более 6 символов)'
+          'Некорректный пароль (от 6 символов)'
       }
       return errors[error] || 'Ошибка регистрации'
     },
@@ -237,7 +238,20 @@ export default defineComponent({
       if (loginFormRef) {
         loginFormRef.validate(async (valid) => {
           if (valid) {
-            this.$emit('register', this.form)
+            const data = {
+              login: this.form.login,
+              password: this.form.password,
+              fullName: this.form.fullName.length
+                ? this.form.fullName
+                : undefined,
+              email: this.form.email,
+              companyName: this.form.companyName.length
+                ? this.form.companyName
+                : undefined,
+              address: this.form.address.length ? this.form.address : undefined,
+              phone: this.form.phone.length ? this.form.phone : undefined
+            }
+            this.$emit('register', data)
           } else {
             ElNotification({
               title: 'Ошибка',

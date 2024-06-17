@@ -51,7 +51,7 @@
           <el-date-picker
             v-model="ruleForm.date"
             type="date"
-            placeholder="Выберите дату"
+            placeholder="Выберите срок размещения"
             :disabledDate="disabledDate"
             style="width: 100%"
           />

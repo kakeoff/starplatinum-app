@@ -311,6 +311,7 @@ import { getHoursDifference, isAuthenticated } from './plugins/helpers'
 import LoginComponent from './components/LoginComponent.vue'
 import RegisterComponent from './components/RegisterComponent.vue'
 import { RegisterDto } from './services/dto'
+import { ElNotification } from 'element-plus'
 
 const router = useRouter()
 const storeAuth = authStore()
@@ -431,6 +432,10 @@ const register = async (data: RegisterDto) => {
   try {
     await storeAuth.register(data)
     closeModal()
+    ElNotification({
+      title: 'Регистрация прошла успешно',
+      type: 'success'
+    })
   } catch (err: any) {
     authErrors.value.push(err.response.data.message || 'Internal error')
     authErrors.value = authErrors.value.flatMap((error) => error)

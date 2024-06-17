@@ -90,7 +90,7 @@
               </div>
               <div class="flex flex-row items-start justify-between w-full">
                 <span class="ym-hide-content text-[17px] font-[500] truncate">
-                  {{ user?.fullName ?? 'Не установлено' }}
+                  {{ user?.fullName ?? 'Нет данных' }}
                 </span>
                 <button
                   v-if="isCurrentUser"
@@ -250,7 +250,7 @@
                   <span
                     class="ym-hide-content text-[17px] font-[500] overflow-hidden truncate"
                   >
-                    {{ user?.phone ?? 'Не установлено' }}
+                    {{ user?.phone ?? 'Нет данных' }}
                   </span>
                 </div>
                 <button
