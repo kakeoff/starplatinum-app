@@ -73,8 +73,22 @@
     </el-form-item>
     <el-form-item>
       <div
-        class="w-full bg-[#141414] rounded-[8px] border overflow-y-auto max-h-[250px] border-[#4C4D4F] p-[10px]"
+        class="w-full bg-[#141414] relative rounded-[8px] border overflow-y-auto max-h-[250px] border-[#4C4D4F] p-[10px]"
       >
+        <el-tooltip trigger="click" theme="light">
+          <template #content>
+            <p class="w-[250px] break-words">
+              Время обработки заявки - 24 часа. Расчет количества часов и
+              стоимость происходит с момента одобрения заявки
+            </p>
+          </template>
+          <button
+            @click.prevent
+            class="absolute cursor-pointer z-[10] focus:scale-[1.3] transition duration-200 rounded-[100%] h-[20px] w-[20px] flex justify-center items-center right-[5px] top-[5px] bg-gray-700"
+          >
+            ?
+          </button>
+        </el-tooltip>
         <p v-if="!formPubs.length" class="text-[13px] text-center opacity-50">
           Здесь будут отображаться добавленные издания
         </p>
@@ -86,8 +100,8 @@
             v-for="(pub, index) in formPubs"
             :key="pub.id"
             >{{ pub.name }} |
-            {{ new Date(pub.date).toLocaleDateString().replaceAll('/', '.') }} |
-            {{ pub.hoursCount }} часов | {{ pub.cost }} рублей</el-tag
+            {{ new Date(pub.date).toLocaleDateString().replaceAll('/', '.') }}
+            | {{ pub.hoursCount }} часов | {{ pub.cost }} рублей</el-tag
           >
         </div>
       </div>
@@ -186,7 +200,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         pubs: formPubs.map((i) => {
           return {
             id: i.id,
-            date: i.date
+            date: new Date(i.date).toISOString()
           }
         }),
         comment: ruleForm.desc,
@@ -214,7 +228,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   })
 }
 const disabledDate = (time: Date) => {
-  return time.getTime() < Date.now()
+  const date = new Date()
+  date.setDate(date.getDate() + 1)
+  return time.getTime() < date.getTime()
 }
 
 const resetForm = (formEl: FormInstance | undefined) => {
@@ -236,13 +252,23 @@ const addPub = () => {
     (pub) => pub.name === ruleForm.pub
   )
   if (!storePub) return
-  const date = new Date(ruleForm.date).toISOString()
-  const hoursCount = getHoursDifference(new Date(), new Date(date))
+  const date = new Date(ruleForm.date)
+  date.setHours(23)
+  date.setMinutes(59)
+  date.setSeconds(59)
+  date.setMilliseconds(59)
+  const afterTomorrow = new Date()
+  afterTomorrow.setDate(afterTomorrow.getDate() + 2)
+  afterTomorrow.setHours(0)
+  afterTomorrow.setMinutes(0)
+  afterTomorrow.setSeconds(0)
+  afterTomorrow.setMilliseconds(0)
+  const hoursCount = getHoursDifference(afterTomorrow, date)
   const costByHours = storePub.cost * hoursCount
   const data = {
     id: storePub.id,
     name: storePub.name,
-    date: date,
+    date: date.toISOString(),
     hoursCount: hoursCount,
     cost: costByHours
   }
@@ -258,13 +284,23 @@ const addPubsFromCart = async () => {
       (pub) => pub.id === item.itemId
     )
     if (!storePub) return []
-    const date = new Date(item.itemDate).toISOString()
-    const hoursCount = date ? getHoursDifference(new Date(), new Date(date)) : 0
+    const date = new Date(item.itemDate)
+    date.setHours(23)
+    date.setMinutes(59)
+    date.setSeconds(59)
+    date.setMilliseconds(59)
+    const createdAt = new Date(item.createdAt)
+    createdAt.setDate(createdAt.getDate() + 2)
+    createdAt.setHours(0)
+    createdAt.setMinutes(0)
+    createdAt.setSeconds(0)
+    createdAt.setMilliseconds(0)
+    const hoursCount = date ? getHoursDifference(createdAt, date) : 0
     const costByHours = storePub.cost * hoursCount
     return {
       id: item.itemId,
       name: storePub.name,
-      date: date,
+      date: date.toISOString(),
       hoursCount: hoursCount,
       cost: costByHours
     }

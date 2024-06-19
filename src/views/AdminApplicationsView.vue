@@ -263,27 +263,40 @@
     :title="'Информация о заявке #' + selectedApp?.id"
     direction="rtl"
   >
-    <div class="h-full w-full flex flex-col gap-[20px]">
+    <div class="h-full w-full overflow-auto flex flex-col gap-[20px]">
       <router-link :to="`profile/${selectedApp?.userId}`">
         <el-button class="w-full h-[50px] rounded-[6px]"
           >Перейти в профиль пользователя</el-button
         >
       </router-link>
-      <div class="border border-[#414243] rounded-[6px]">
-        <el-table :data="selectedApp?.pubs" class="rounded-[6px] bg-[#141414]">
-          <el-table-column property="name" label="Издание" />
-          <el-table-column property="date" label="Дата" />
-        </el-table>
-      </div>
 
-      <el-card class="rounded-[12px]">
+      <el-card
+        v-if="selectedApp?.comment && selectedApp.comment.length"
+        class="rounded-[12px] flex-none"
+      >
         <div class="overflow-hidden">
           <p class="pb-[10px] text-gray-400">Комментарий</p>
           <div class="break-words">
-            <span>
-              {{ selectedApp?.comment }}
-            </span>
+            <span> {{ selectedApp?.comment }}</span>
           </div>
+        </div>
+      </el-card>
+
+      <p>Издания</p>
+      <el-card
+        class="rounded-[12px] flex-none"
+        v-for="item in selectedApplicationPubs"
+        :key="item.id"
+      >
+        <p class="truncate mb-[10px]">{{ item.pub.name || '???' }}</p>
+        <div class="w-full flex gap-[10px]">
+          <el-tag>{{ item.date }} | {{ item.hoursCount }} часов</el-tag>
+          <el-tag type="success">{{ item.totalPrice }} руб</el-tag>
+        </div>
+        <div class="mt-[10px]">
+          <a :href="item.pub.link" target="_blank"
+            ><el-button>Перейти на сайт</el-button>
+          </a>
         </div>
       </el-card>
     </div>
@@ -295,7 +308,10 @@ import { ElTable, ElTableColumn, ElButton } from 'element-plus'
 import { applicationsStore } from '../stores/applications'
 import { pubsStore } from '../stores/publications'
 import { mapStores } from 'pinia'
-import { localizeApplicationStatus } from '../plugins/helpers'
+import {
+  getHoursDifference,
+  localizeApplicationStatus
+} from '../plugins/helpers'
 import { Application, ApplicationStatus } from '../types/applicationTypes'
 import { defineComponent } from 'vue'
 import { userStore } from '../stores/user'
@@ -317,10 +333,11 @@ export default defineComponent({
       const pubs = application.pubs.map((pub) => {
         return {
           id: pub.id,
-          date: new Date(pub.date).toLocaleDateString().replaceAll('/', '.'),
+          date: pub.date,
           name: this.publicationsStore.publications.find(
             (_pub) => _pub.id === pub.id
-          )?.name
+          )?.name,
+          createdAt: pub.createdAt
         }
       })
       return { ...application, pubs }
@@ -333,6 +350,39 @@ export default defineComponent({
     },
     usersById() {
       return this.usersStore.usersById
+    },
+    selectedApplicationPubs() {
+      const items = this.selectedApp?.pubs || []
+      console.log(items)
+      return items.flatMap((item) => {
+        if (!item || !item.date) return []
+        const date = new Date(item.date)
+        console.log(item.date)
+        date.setHours(23)
+        date.setMinutes(59)
+        date.setSeconds(59)
+        date.setMilliseconds(59)
+        const createdAt = new Date(item.createdAt)
+        createdAt.setDate(createdAt.getDate() + 2)
+        createdAt.setHours(0)
+        createdAt.setMinutes(0)
+        createdAt.setSeconds(0)
+        createdAt.setMilliseconds(0)
+        const hoursCount = date ? getHoursDifference(createdAt, date) : 0
+        const pubFromStore = this.publicationsStore.publications.find(
+          (pub) => pub.id === item.id
+        )
+        if (!pubFromStore) return []
+        return {
+          id: item.id,
+          date: date
+            ? date.toLocaleDateString().replaceAll('/', '.')
+            : undefined,
+          pub: pubFromStore,
+          hoursCount: hoursCount,
+          totalPrice: hoursCount * pubFromStore.cost
+        }
+      })
     },
     filteredApplications() {
       let filteredApps = this.applications

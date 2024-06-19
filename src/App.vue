@@ -358,8 +358,20 @@ const cartItems = computed(() => storeUser.cartItems)
 const cartPubs = computed(() => {
   const items = storeUser.userCartPublications
   return items.flatMap((item) => {
+    if (!item.itemDate) return []
+    const date = new Date(item.itemDate)
+    date.setHours(23)
+    date.setMinutes(59)
+    date.setSeconds(59)
+    date.setMilliseconds(59)
+    const createdAt = new Date(item.createdAt)
+    createdAt.setDate(createdAt.getDate() + 2)
+    createdAt.setHours(0)
+    createdAt.setMinutes(0)
+    createdAt.setSeconds(0)
+    createdAt.setMilliseconds(0)
     const hoursCount = item.itemDate
-      ? getHoursDifference(new Date(), new Date(item.itemDate))
+      ? getHoursDifference(createdAt, new Date(date))
       : 0
     const pubFromStore = storePublications.publications.find(
       (pub) => pub.id === item.itemId

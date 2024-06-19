@@ -1,7 +1,7 @@
 export type Application = {
   id: number
   comment: string | null
-  responsibleId: number | null,
+  responsibleId: number | null
   pubs: ApplicationPublication[]
   cost: number
   status: ApplicationStatus
@@ -18,6 +18,7 @@ export type SendApplicationDto = {
 export type ApplicationPublication = {
   id: number
   date: string
+  createdAt: string
 }
 
 export type Pub = {

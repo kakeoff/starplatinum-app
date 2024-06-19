@@ -41,6 +41,7 @@ export type CartItem = {
   type: ItemType
   itemId: number
   itemDate?: string
+  createdAt: string
 }
 
 export type AddItemToUserCartDto = {

@@ -299,10 +299,20 @@ const pubs = computed(() => {
 })
 
 const dataForCart = computed(() => {
+  const date = new Date(publicationCartDate.value)
+  date.setHours(23)
+  date.setMinutes(59)
+  date.setSeconds(59)
+  date.setMilliseconds(59)
+  const afterTomorrow = new Date()
+  afterTomorrow.setDate(afterTomorrow.getDate() + 2)
+  afterTomorrow.setHours(0)
+  afterTomorrow.setMinutes(0)
+  afterTomorrow.setSeconds(0)
+  afterTomorrow.setMilliseconds(0)
   const hoursCount = publicationCartDate.value.length
-    ? getHoursDifference(new Date(), new Date(publicationCartDate.value))
+    ? getHoursDifference(afterTomorrow, date)
     : 0
-  console.log(typeof publicationCartDate.value)
 
   const totalPrice = selectedPub.value
     ? hoursCount * selectedPub.value?.cost
@@ -368,9 +378,14 @@ const checkIsPubInCart = (pubId: number) => {
 
 const addToCart = async (date: string) => {
   if (!selectedPubId.value) return
+  const itemDate = new Date(date)
+  itemDate.setHours(23)
+  itemDate.setMinutes(59)
+  itemDate.setSeconds(59)
+  itemDate.setMilliseconds(59)
   const data = {
     itemId: selectedPubId.value,
-    itemDate: new Date(date).toISOString(),
+    itemDate: itemDate.toISOString(),
     type: ItemType.publication
   }
   await storeUser.addToCart(data)
@@ -392,6 +407,8 @@ const removeFromCart = (pubId: number) => {
   storeUser.removeFromCart(itemToDelete.id)
 }
 const disabledDate = (time: Date) => {
-  return time.getTime() < Date.now()
+  const date = new Date()
+  date.setDate(date.getDate() + 1)
+  return time.getTime() < date.getTime()
 }
 </script>
