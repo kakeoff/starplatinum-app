@@ -344,7 +344,6 @@ const isAdmin = computed(() => {
 const routePath = computed(() => router.currentRoute.value.fullPath)
 
 watch(user, async (newVal, oldVal) => {
-  console.log(newVal && !oldVal)
   if (newVal && !oldVal) {
     await loadData()
   }
