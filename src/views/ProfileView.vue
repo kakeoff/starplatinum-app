@@ -752,7 +752,14 @@
       >
         <p class="truncate mb-[10px]">{{ item.pub.name || '???' }}</p>
         <div class="w-full flex gap-[10px]">
-          <el-tag>{{ item.date }} | {{ item.hoursCount }} часов</el-tag>
+          <el-tag
+            >{{
+              item.createdAt !== item.date
+                ? `${item.createdAt} - ${item.date}`
+                : item.date
+            }}
+            | {{ item.hoursCount }} часов</el-tag
+          >
           <el-tag type="success">{{ item.totalPrice }} руб</el-tag>
         </div>
         <div class="mt-[10px]">
@@ -872,6 +879,7 @@ const selectedApplicationPubs = computed(() => {
     if (!pubFromStore) return []
     return {
       id: item.id,
+      createdAt: createdAt.toLocaleDateString().replaceAll('/', '.'),
       date: date ? date.toLocaleDateString().replaceAll('/', '.') : undefined,
       pub: pubFromStore,
       hoursCount: hoursCount,

@@ -250,7 +250,24 @@
     @close="closeCartModal"
     v-model="showCartPubModal"
   >
-    <h2 class="font-[700] mb-[10px]">Выберите срок размещения</h2>
+    <div class="relative">
+      <h2 class="font-[700] mb-[10px]">Выберите срок размещения</h2>
+      <el-tooltip trigger="click" theme="light">
+        <template #content>
+          <p class="w-[250px] break-words">
+            Время обработки заявки - 24 часа. Расчет количества часов и
+            стоимость происходит с момента одобрения заявки
+          </p>
+        </template>
+        <button
+          @click.prevent
+          class="absolute cursor-pointer z-[10] focus:scale-[1.3] transition duration-200 rounded-[100%] h-[20px] w-[20px] flex justify-center items-center right-[5px] top-0 bg-gray-700"
+        >
+          ?
+        </button>
+      </el-tooltip>
+    </div>
+
     <el-date-picker
       type="date"
       value-format="YYYY-MM-DD"
