@@ -176,14 +176,32 @@
         </el-form-item>
         <span class="text-[16px]">Изображение</span>
         <el-form-item class="mb-[10px]" prop="img">
+          <label
+            class="border-[1px] cursor-pointer rounded-[4px] border-green-300 hover:border-green-500 px-[10px] py-[5px] transition duration-200"
+            for="imageInput"
+            >Выберите файл</label
+          >
+          <button
+            v-if="preview"
+            class="border-[1px] ml-[10px] cursor-pointer rounded-[4px] border-red-300 hover:border-red-500 px-[10px] py-[5px] transition duration-200"
+            @click=";(preview = null), (localFile = null)"
+          >
+            Cбросить
+          </button>
           <input
-            class="text-[16px]"
+            class="hidden"
             id="imageInput"
             @change="addFileLocally"
             type="file"
             accept=".jpg, .png"
           />
         </el-form-item>
+        <img
+          class="rounded-[8px] object-cover w-[300px] h-[300px]"
+          v-if="preview"
+          :src="preview"
+          alt="img preview"
+        />
       </el-form>
     </div>
     <template #footer>
@@ -240,14 +258,38 @@
         </el-form-item>
         <span class="text-[16px]">Изображение</span>
         <el-form-item class="mb-[10px]" prop="img">
+          <label
+            class="border-[1px] cursor-pointer rounded-[4px] border-green-300 hover:border-green-500 px-[10px] py-[5px] transition duration-200"
+            for="imageInput"
+            >Выберите файл</label
+          >
+          <button
+            v-if="preview"
+            class="border-[1px] ml-[10px] cursor-pointer rounded-[4px] border-red-300 hover:border-red-500 px-[10px] py-[5px] transition duration-200"
+            @click=";(preview = null), (localFile = null)"
+          >
+            Cбросить
+          </button>
           <input
-            class="text-[16px]"
+            class="hidden"
             id="imageInput"
             @change="addFileLocally"
             type="file"
             accept=".jpg, .png"
           />
         </el-form-item>
+        <img
+          class="rounded-[8px] border-[1px] border-gray-700 object-cover w-[300px] h-[300px]"
+          v-if="preview"
+          :src="preview"
+          alt="img preview"
+        />
+        <img
+          v-else
+          class="rounded-[8px] border-[1px] border-gray-700 object-cover w-[300px] h-[300px]"
+          :src="selectedPub?.imageUrl"
+          alt="img preview"
+        />
       </el-form>
     </div>
     <template #footer>
@@ -336,6 +378,7 @@ export default defineComponent({
       search: '',
       showAddPub: false,
       localFile: null as File | null,
+      preview: null as string | null,
       pubForm: {
         name: '',
         description: '',
@@ -369,6 +412,13 @@ export default defineComponent({
       if (target && target.files) {
         const file = target.files[0]
         this.localFile = file
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          if (e.target && typeof e.target.result === 'string') {
+            this.preview = e.target.result
+          }
+        }
+        reader.readAsDataURL(file)
       }
     },
     sortByCost(a: Publication, b: Publication) {
@@ -470,6 +520,8 @@ export default defineComponent({
       this.pubForm.description = ''
       this.pubForm.link = ''
       this.pubForm.cost = ''
+      this.preview = null
+      this.localFile = null
     }
   }
 })
