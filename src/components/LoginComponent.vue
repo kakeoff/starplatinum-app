@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="authVisible"
-    class="px-[20px] min-w-[260px] max-w-[400px]"
+    class="px-[20px] min-w-[360px] max-w-[400px]"
     :title="title"
   >
     <div class="flex justify-center w-full min-h-full">
