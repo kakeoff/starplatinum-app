@@ -56,7 +56,11 @@
           <el-table-column min-width="150px" label="Роль">
             <template #default="{ row }">
               <el-dropdown trigger="click" placement="bottom">
-                <el-button size="small" :type="getRoleButtonType(row.role)">
+                <el-button
+                  :disabled="row.role === 2 || user?.role !== 2"
+                  size="small"
+                  :type="getRoleButtonType(row.role)"
+                >
                   <div class="w-[100px]">
                     {{
                       roles.find((role) => role.value === row.role)?.label ||
@@ -68,7 +72,7 @@
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item
-                      v-for="role in roles"
+                      v-for="role in roles.filter((i) => !i.hide)"
                       @click="updateUserRole(row.id, role.value)"
                       :disabled="row.role === role.value"
                       class="text-green-500"
@@ -95,17 +99,17 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="100px"
-            label="Заявки"
+            width="150px"
+            :label="showAdmins ? 'Исп. заявки' : 'Заявки'"
             sortable
             :sort-method="sortByApplicationsCount"
           >
             <template #default="{ row }">
               <el-tag
                 class="font-[700]"
-                :type="applicationsCountByUserId[row.id] ? 'danger' : 'info'"
+                :type="!!getApplicationsCount(row.id) ? 'danger' : 'info'"
               >
-                {{ applicationsCountByUserId[row.id] || 0 }}
+                {{ getApplicationsCount(row.id) || 0 }}
               </el-tag>
             </template>
           </el-table-column>
@@ -116,6 +120,7 @@
                   <el-button type="info" size="small"> Профиль </el-button>
                 </router-link>
                 <el-popconfirm
+                  v-if="user?.role === 2 && row.role !== 2"
                   cancel-button-text="Нет"
                   confirm-button-text="Да"
                   @confirm="removeUser(row.id)"
@@ -193,14 +198,16 @@ export default defineComponent({
       return filteredUsers
         .sort((a, b) => a.id - b.id)
         .filter((user) => {
-          if (user.role === UserRole.admin && !this.showAdmins) {
-            return false
-          }
           if (
-            !!this.applicationsCountByUserId[user.id] === false &&
+            !!this.getApplicationsCount(user.id) === false &&
             this.showOnlyWithApplications
           ) {
             return false
+          }
+          if (this.showAdmins) {
+            return user.role !== UserRole.user
+          } else if (!this.showAdmins) {
+            return user.role === UserRole.user
           }
           return true
         })
@@ -221,11 +228,18 @@ export default defineComponent({
       roles: [
         {
           label: 'Пользователь',
-          value: 0
+          value: 0,
+          hide: false
         },
         {
-          label: 'Админ',
-          value: 1
+          label: 'Сотрудник',
+          value: 1,
+          hide: false
+        },
+        {
+          label: 'Администратор',
+          value: 2,
+          hide: true
         }
       ],
       userRules: {
@@ -246,7 +260,13 @@ export default defineComponent({
 
       return aCount - bCount
     },
-
+    getApplicationsCount(userId: number) {
+      return this.showAdmins
+        ? this.applicationsStore.applications.filter(
+            (i) => i.responsibleId === userId
+          ).length
+        : this.applicationsCountByUserId[userId]
+    },
     sortById(a: User, b: User) {
       return a.id - b.id
     },

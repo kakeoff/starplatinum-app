@@ -15,7 +15,6 @@ export const applicationsStore = defineStore({
   getters: {
     applicationsCountByUserId(state) {
       if (!state.applications) return {}
-
       return state.applications.reduce<{ [key: number]: number }>(
         (acc, application) => {
           acc[application.userId] = (acc[application.userId] || 0) + 1
@@ -55,12 +54,19 @@ export const applicationsStore = defineStore({
       this.setApplicationResponsibleLocally(data)
       return data
     },
-    setApplicationResponsibleLocally(data: {id: number, responsibleId: number}) {
-      const commonIndex = this.applications.findIndex((app) => app.id === data.id)
+    setApplicationResponsibleLocally(data: {
+      id: number
+      responsibleId: number
+    }) {
+      const commonIndex = this.applications.findIndex(
+        (app) => app.id === data.id
+      )
       if (commonIndex === -1) return
       this.applications[commonIndex].responsibleId = data.responsibleId
 
-      const userIndex = this.userApplications.findIndex((app) => app.id === data.id)
+      const userIndex = this.userApplications.findIndex(
+        (app) => app.id === data.id
+      )
       if (userIndex === -1) return
       this.userApplications[userIndex].responsibleId = data.responsibleId
     },

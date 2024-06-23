@@ -396,7 +396,7 @@
               </span>
 
               <span class="text-[17px] font-[500] truncate">
-                {{ user?.role === 1 ? 'Администратор' : 'Пользователь' }}</span
+                {{ getUserRoleLabel(user?.role) }}</span
               >
             </div>
             <el-button
@@ -511,7 +511,7 @@
           <el-table-column width="150px" label="Статус">
             <template #default="{ row }">
               <el-dropdown
-                v-if="storeUser.user?.role === UserRole.admin"
+                v-if="storeUser.user?.role !== UserRole.user"
                 trigger="click"
                 placement="bottom"
               >
@@ -838,11 +838,12 @@ const user = computed(() => {
       )
 })
 const applicationsBlockView = computed((): ApplicationBlockViewType => {
-  if (isUserAdmin.value) {
-    if (isCurrentUser.value) return ApplicationBlockViewType.responsible
-    else return ApplicationBlockViewType.user
+  if (user.value?.role !== UserRole.user) {
+    return ApplicationBlockViewType.responsible
   } else {
-    return ApplicationBlockViewType.my
+    return isCurrentUser.value
+      ? ApplicationBlockViewType.my
+      : ApplicationBlockViewType.user
   }
 })
 const applicationsBlockTitle = computed(() => {
@@ -893,7 +894,7 @@ const isCurrentUser = computed(() => {
   return Number(router.currentRoute.value.params.id) === storeUser.user?.id
 })
 const isUserAdmin = computed(
-  () => !!storeUser.user && storeUser.user.role === UserRole.admin
+  () => !!storeUser.user && storeUser.user.role !== UserRole.user
 )
 const showApplicationDrawer = computed(() => {
   return !!selectedAppId.value
@@ -904,7 +905,7 @@ const userApplications = computed(() => {
 const responsibleApplications = computed(() => {
   if (!isUserAdmin.value) return []
   return storeApplications.applications.filter(
-    (app) => app.responsibleId === storeUser.user?.id
+    (app) => app.responsibleId === user.value?.id
   )
 })
 const selectedApp = computed(() => {
@@ -930,7 +931,7 @@ const selectedApp = computed(() => {
 
 const filteredApplications = computed(() => {
   const appsToFilter =
-    isUserAdmin.value && isCurrentUser.value
+    applicationsBlockView.value === ApplicationBlockViewType.responsible
       ? responsibleApplications
       : userApplications
 
@@ -966,6 +967,12 @@ const closePasswordModal = () => {
   passwordData.old = ''
   showPasswordModal.value = false
   errors.value = []
+}
+
+const getUserRoleLabel = (role: number | undefined) => {
+  if (!role) return 'Пользователь'
+  if (role === 1) return 'Сотрудник'
+  if (role === 2) return 'Администратор'
 }
 
 const getErrorLabel = (error: string) => {

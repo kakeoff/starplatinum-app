@@ -338,7 +338,7 @@ const registerVisible = computed(
 )
 const user = computed(() => storeUser.user)
 const isAdmin = computed(() => {
-  return user.value && user.value.role === 1
+  return user.value && user.value.role !== 0
 })
 
 const routePath = computed(() => router.currentRoute.value.fullPath)

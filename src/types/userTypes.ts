@@ -29,7 +29,8 @@ export type UpdateMeDto = {
 
 export enum UserRole {
   admin = 1,
-  user = 0
+  user = 0,
+  owner = 2
 }
 
 export enum ItemType {
